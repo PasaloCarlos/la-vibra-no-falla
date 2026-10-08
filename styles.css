@@ -53,7 +53,7 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
-main, .masthead, .foot {
+main, .masthead {
   max-width: var(--ancho);
   margin-inline: auto;
 }
@@ -348,22 +348,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   font-size: 0.9rem;
 }
 .past-list .que { color: var(--tinta); }
-
-/* --- pie ---------------------------------------------------------------- */
-
-.foot {
-  margin-top: calc(var(--paso) * 6);
-  padding-top: calc(var(--paso) * 3);
-  border-top: 1px solid var(--linea);
-}
-.foot p { margin: 0; }
-.foot #foot-lema {
-  font-family: var(--display);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--verde-claro);
-}
-.foot-note { margin-top: var(--paso) !important; font-size: 0.9rem; color: var(--tinta-2); }
 
 /* --- teléfono ----------------------------------------------------------- */
 

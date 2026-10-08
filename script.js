@@ -134,7 +134,8 @@
         (conHora ? ", desde las " + hora12(fecha) : "")
       : (conHora ? hora12(fecha) : "Hora por confirmar");
     campo(nodo, "lugar").textContent = salida.lugar || "";
-    campo(nodo, "descripcion").textContent = salida.descripcion || "";
+    var desc = campo(nodo, "descripcion");
+    if (salida.descripcion) { desc.textContent = salida.descripcion; } else { desc.remove(); }
 
     if (salida.punto) {
       var punto = campo(nodo, "punto");
@@ -368,10 +369,7 @@
     if (primeraVez) {
       var grupo = cfg.grupo || {};
       if (grupo.nombre) document.getElementById("grupo-nombre").textContent = grupo.nombre;
-      if (grupo.lema) {
-        document.getElementById("grupo-lema").textContent = grupo.lema;
-        document.getElementById("foot-lema").textContent = grupo.lema;
-      }
+      if (grupo.lema) document.getElementById("grupo-lema").textContent = grupo.lema;
       if (grupo.logo) document.getElementById("logo").src = grupo.logo;
     }
   }

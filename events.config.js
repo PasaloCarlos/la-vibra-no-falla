@@ -50,7 +50,7 @@ window.vibraConfig = {
       lugar: "Por confirmar",               // ← pon el sitio
       mapa: null,                            // ← pon el pin
       punto: null,                           // ← dónde y a qué hora se encuentran
-      descripcion: "Próximo encuentro del grupo: nos vamos al festival.",
+      descripcion: "",
       llevar: [],
       costo: "Por confirmar",
       dificultad: null,
