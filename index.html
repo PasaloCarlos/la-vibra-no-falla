@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>La vibra no falla — Vibra Extrema</title>
+  <meta name="description" content="Las próximas salidas de Vibra Extrema: cuándo, dónde y quién va.">
+  <meta name="theme-color" content="#14421f">
+
+  <meta property="og:title" content="Vibra Extrema — próximas salidas">
+  <meta property="og:description" content="Cuándo es la próxima vuelta, dónde nos vemos y quién va.">
+  <meta property="og:image" content="assets/logo.jpg">
+  <meta property="og:type" content="website">
+
+  <link rel="icon" href="assets/logo.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="masthead">
+  <img class="masthead-logo" id="logo" src="assets/logo.jpg" alt="Vibra Extrema">
+  <div class="masthead-words">
+    <h1 id="grupo-nombre">Vibra Extrema</h1>
+    <p class="lema" id="grupo-lema">La vibra nunca falla</p>
+  </div>
+</header>
+
+<main>
+  <!-- La próxima salida, en grande. El script la llena. -->
+  <section class="next" id="next" aria-labelledby="next-eyebrow" hidden>
+    <p class="eyebrow" id="next-eyebrow">Próxima salida</p>
+    <div id="next-slot"></div>
+  </section>
+
+  <!-- Cuando no queda nada por delante -->
+  <section class="empty" id="empty" hidden>
+    <p class="eyebrow">Próxima salida</p>
+    <h2>Todavía no hay nada montado.</h2>
+    <p>En cuanto se cuadre la próxima vuelta aparece aquí.</p>
+  </section>
+
+  <section class="upcoming" id="upcoming" aria-labelledby="upcoming-title" hidden>
+    <h2 class="section-title" id="upcoming-title">Lo que viene</h2>
+    <div class="cards" id="upcoming-slot"></div>
+  </section>
+
+  <section class="past" id="past" aria-labelledby="past-title" hidden>
+    <h2 class="section-title" id="past-title">Ya vibramos</h2>
+    <ol class="past-list" id="past-slot"></ol>
+  </section>
+</main>
+
+<footer class="foot">
+  <p id="foot-lema">La vibra nunca falla</p>
+  <p class="foot-note">Las confirmaciones se guardan en la hoja del grupo. Si te apuntaste y ya no puedes, dale a <em>Ya no voy</em> — vale más un número real que uno bonito.</p>
+</footer>
+
+<!-- Molde de una salida. El script lo clona; nada aquí se muestra tal cual. -->
+<template id="tpl-salida">
+  <article class="card">
+    <div class="card-when">
+      <span class="dow" data-f="dow"></span>
+      <span class="day" data-f="day"></span>
+      <span class="month" data-f="month"></span>
+    </div>
+    <div class="card-body">
+      <h3 data-f="titulo"></h3>
+      <p class="meta">
+        <span data-f="hora"></span>
+        <span class="dot" aria-hidden="true">·</span>
+        <span data-f="lugar"></span>
+      </p>
+      <p class="countdown" data-f="countdown" hidden></p>
+      <p class="desc" data-f="descripcion"></p>
+      <p class="punto" data-f="punto" hidden></p>
+      <ul class="tags" data-f="tags"></ul>
+      <ul class="llevar" data-f="llevar" hidden></ul>
+      <p class="links">
+        <a class="map" data-f="mapa" target="_blank" rel="noopener" hidden>Abrir el pin</a>
+      </p>
+
+      <div class="rsvp" data-f="rsvp" hidden>
+        <div class="rsvp-head">
+          <span class="count" data-f="count">Nadie confirmado todavía</span>
+          <button class="btn" type="button" data-f="voy">Voy</button>
+          <button class="btn btn-quiet" type="button" data-f="novoy" hidden>Ya no voy</button>
+        </div>
+        <ul class="who" data-f="who"></ul>
+        <form class="rsvp-form" data-f="form" hidden>
+          <label>
+            <span>Tu nombre</span>
+            <input type="text" name="nombre" maxlength="40" autocomplete="name" required>
+          </label>
+          <label data-f="plus-label">
+            <span>¿Llevas a alguien?</span>
+            <input type="number" name="acompanantes" min="0" step="1" value="0" inputmode="numeric">
+          </label>
+          <div class="rsvp-actions">
+            <button class="btn" type="submit" data-f="submit">Confirmar</button>
+            <button class="btn btn-quiet" type="button" data-f="cancel">Dejarlo</button>
+          </div>
+          <p class="rsvp-msg" data-f="msg" role="status"></p>
+        </form>
+      </div>
+
+      <p class="rsvp-off" data-f="rsvpoff" hidden>Confirmaciones por WhatsApp.</p>
+    </div>
+  </article>
+</template>
+
+<script src="events.config.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
