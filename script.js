@@ -128,12 +128,19 @@
     if (esRango) elDia.classList.add("rango");
     campo(nodo, "month").textContent = MESES[fecha.getMonth()];
     campo(nodo, "titulo").textContent = salida.titulo || "Salida";
-    campo(nodo, "hora").textContent = fin
+
+    // Lo que no se sabe no se escribe: una línea que dice "por confirmar" dos
+    // veces ocupa el mismo espacio que un dato y no dice nada.
+    var textoHora = fin
       ? DIAS[fecha.getDay()] + " " + fecha.getDate() + " " + MESES[fecha.getMonth()] +
         " → " + DIAS[fin.getDay()] + " " + fin.getDate() + " " + MESES[fin.getMonth()] +
         (conHora ? ", desde las " + hora12(fecha) : "")
-      : (conHora ? hora12(fecha) : "Hora por confirmar");
-    campo(nodo, "lugar").textContent = salida.lugar || "";
+      : (conHora ? hora12(fecha) : "");
+    var textoLugar = String(salida.lugar || "").trim();
+    campo(nodo, "hora").textContent = textoHora;
+    campo(nodo, "lugar").textContent = textoLugar;
+    nodo.querySelector(".meta .dot").hidden = !(textoHora && textoLugar);
+    if (!textoHora && !textoLugar) nodo.querySelector(".meta").remove();
     var desc = campo(nodo, "descripcion");
     if (salida.descripcion) { desc.textContent = salida.descripcion; } else { desc.remove(); }
 
@@ -160,11 +167,15 @@
     }
     // costo: número ($25) o texto libre ("$25 por noche"), porque no todas las
     // vueltas se cobran igual.
-    var costo = document.createElement("li");
-    costo.textContent = typeof salida.costo === "number"
+    // null/"" = todavía no se sabe, y entonces no hay chip. 0 sí es un dato: gratis.
+    var textoCosto = typeof salida.costo === "number"
       ? (salida.costo > 0 ? "$" + salida.costo : "Gratis")
-      : (String(salida.costo || "").trim() || "Gratis");
-    tags.appendChild(costo);
+      : String(salida.costo || "").trim();
+    if (textoCosto) {
+      var costo = document.createElement("li");
+      costo.textContent = textoCosto;
+      tags.appendChild(costo);
+    }
     if (salida.cupo) {
       var cupo = document.createElement("li");
       cupo.textContent = "Cupo " + salida.cupo;

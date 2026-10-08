@@ -47,12 +47,12 @@ window.vibraConfig = {
       id: "tito-rojas-2026-10-11",
       titulo: "Festival de Tito Rojas",
       inicio: "2026-10-11",
-      lugar: "Por confirmar",               // ← pon el sitio
+      lugar: null,                           // ← pon el sitio
       mapa: null,                            // ← pon el pin
       punto: null,                           // ← dónde y a qué hora se encuentran
       descripcion: "",
       llevar: [],
-      costo: "Por confirmar",
+      costo: null,                           // ← ponlo cuando se sepa
       dificultad: null,
       cupo: null,
     },
