@@ -3,25 +3,31 @@
    escaneo de cada tarjeta, así que ahí va el color sólido y la tipografía
    pesada; el resto se queda callado alrededor.
 
-   La página es blanca a propósito, como el logo, y NO sigue el modo oscuro del
-   teléfono: el grupo tiene que ver todos lo mismo cuando comparten el enlace.
-   Por eso no hay bloque prefers-color-scheme y color-scheme queda en light. */
+   La página es verde bosque a propósito y NO sigue el modo claro/oscuro del
+   teléfono: el enlace se comparte en el grupo y todos tienen que ver lo mismo.
+   Por eso no hay prefers-color-scheme y color-scheme queda fijo en dark.
+
+   Jerarquía sobre verde: el bloque de fecha de la PRÓXIMA salida es azul; el
+   de las demás es hueso. Sobre un fondo verde, un bloque verde no se lee. */
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 
-  --azul: #1b7fd0;
-  --azul-hondo: #15639f;
+  --azul: #2f97e6;
+  --azul-claro: #8ccbf7;
   --verde: #2f5d34;
-  --verde-hondo: #1b4321;
-  --barro: #a8521a;          /* sólo para "fuerte" y avisos */
+  --verde-hondo: #14331c;
+  --verde-claro: #7fc28a;
+  --barro: #e0914f;          /* sólo para "fuerte" y avisos */
 
-  --fondo: #ffffff;
-  --panel: #ffffff;
-  --tinta: #14241a;
-  --tinta-2: #5b6f60;
-  --linea: rgba(20, 66, 31, 0.18);
-  --linea-suave: rgba(20, 66, 31, 0.10);
+  --fondo: #14331c;
+  --fondo-alto: #1d4a28;     /* la luz que entra por arriba */
+  --panel: #1b4225;
+  --hueso: #eef3ea;
+  --tinta: #f0f6ee;
+  --tinta-2: #b3cdb7;
+  --linea: rgba(240, 246, 238, 0.18);
+  --linea-suave: rgba(240, 246, 238, 0.10);
 
   --display: "Anton", "Arial Narrow", Impact, sans-serif;
   --texto: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -38,6 +44,8 @@ body {
   padding-block: calc(var(--paso) * 3) calc(var(--paso) * 6);
   padding-inline: 16px;
   background: var(--fondo);
+  background-image: radial-gradient(120% 70% at 50% -10%, var(--fondo-alto) 0%, var(--fondo) 60%);
+  background-attachment: fixed;
   color: var(--tinta);
   font-family: var(--texto);
   font-size: 17px;
@@ -58,7 +66,7 @@ h1, h2, h3 {
   margin: 0;
 }
 
-a { color: var(--azul-hondo); }
+a { color: var(--azul-claro); }
 a:focus-visible, button:focus-visible, input:focus-visible {
   outline: 3px solid var(--azul);
   outline-offset: 2px;
@@ -85,13 +93,13 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   font-size: clamp(1.9rem, 8vw, 2.6rem);
   line-height: 0.95;
   text-transform: uppercase;
-  color: var(--verde-hondo);
+  color: var(--hueso);
 }
 .lema {
   margin: 4px 0 0;
   font-size: 0.9rem;
   font-style: italic;
-  color: var(--azul-hondo);
+  color: var(--azul-claro);
 }
 
 /* --- secciones ---------------------------------------------------------- */
@@ -107,7 +115,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .section-title {
   font-size: 1.35rem;
   text-transform: uppercase;
-  color: var(--verde-hondo);
+  color: var(--hueso);
   margin-bottom: calc(var(--paso) * 2);
 }
 
@@ -144,8 +152,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   align-items: center;
   justify-content: center;
   gap: 2px;
-  background: var(--verde);
-  color: #fff;
+  background: var(--hueso);
+  color: var(--verde-hondo);
   text-align: center;
 }
 .card-when .dow,
@@ -176,7 +184,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   font-size: 1.3rem;
   text-transform: uppercase;
   line-height: 1.05;
-  color: var(--verde-hondo);
+  color: var(--hueso);
 }
 .meta {
   margin: 6px 0 0;
@@ -212,8 +220,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   border: 1px solid var(--linea);
   color: var(--tinta-2);
 }
-.tags .t-suave  { color: var(--verde); border-color: color-mix(in srgb, var(--verde) 45%, transparent); }
-.tags .t-media  { color: var(--azul-hondo); border-color: color-mix(in srgb, var(--azul) 45%, transparent); }
+.tags .t-suave  { color: var(--verde-claro); border-color: color-mix(in srgb, var(--verde-claro) 45%, transparent); }
+.tags .t-media  { color: var(--azul-claro); border-color: color-mix(in srgb, var(--azul) 55%, transparent); }
 .tags .t-fuerte { color: var(--barro); border-color: color-mix(in srgb, var(--barro) 50%, transparent); }
 
 .llevar {
@@ -229,10 +237,10 @@ a:focus-visible, button:focus-visible, input:focus-visible {
    fecha en azul y la cuenta regresiva. Nada de fondos oscuros.           */
 
 .next .card {
-  border: 2px solid var(--verde);
-  box-shadow: 0 10px 28px rgba(20, 66, 31, 0.08);
+  border: 2px solid var(--azul);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
 }
-.next .card-when { background: var(--azul); width: 96px; }
+.next .card-when { background: var(--azul); color: #06253d; width: 96px; }
 .next .card-when .day { font-size: 2.9rem; }
 .next .card-body h3 { font-size: clamp(1.5rem, 6vw, 2rem); }
 .next .countdown {
@@ -241,7 +249,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   font-size: 1.05rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--azul-hondo);
+  color: var(--azul-claro);
 }
 
 /* --- confirmaciones ----------------------------------------------------- */
@@ -271,17 +279,17 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   border-radius: 999px;
   border: 1px solid transparent;
   background: var(--azul);
-  color: #fff;
+  color: #06253d;
   cursor: pointer;
 }
-.btn:hover { background: var(--azul-hondo); }
+.btn:hover { background: var(--azul-claro); }
 .btn:disabled { opacity: 0.55; cursor: default; }
 .btn-quiet {
   background: transparent;
   color: var(--tinta-2);
   border-color: var(--linea);
 }
-.btn-quiet:hover { background: rgba(20, 66, 31, 0.05); }
+.btn-quiet:hover { background: rgba(240, 246, 238, 0.08); }
 .who {
   display: flex;
   flex-wrap: wrap;
@@ -294,8 +302,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   font-size: 0.85rem;
   padding: 3px 10px;
   border-radius: 999px;
-  background: rgba(47, 93, 52, 0.10);
-  color: var(--verde-hondo);
+  background: rgba(240, 246, 238, 0.12);
+  color: var(--tinta);
 }
 .who li.mas::after {
   content: attr(data-mas);
@@ -314,7 +322,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   padding: 9px 12px;
   border-radius: 10px;
   border: 1px solid var(--linea);
-  background: #fff;
+  background: rgba(240, 246, 238, 0.08);
   color: inherit;
   max-width: 320px;
 }
@@ -353,7 +361,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   font-family: var(--display);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: var(--verde);
+  color: var(--verde-claro);
 }
 .foot-note { margin-top: var(--paso) !important; font-size: 0.9rem; color: var(--tinta-2); }
 
