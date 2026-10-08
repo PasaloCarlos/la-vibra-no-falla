@@ -1,22 +1,27 @@
 /* Vibra Extrema — la vibra no falla
-   Layout: one column, phone first. The date block is the scan key on every
-   card, so it gets the solid colour and the heavy face; everything else stays
-   quiet around it. Palette and type are pulled off the logo: its blue, its
-   forest green, and a condensed poster face for the brush-caps feeling. */
+   Layout: una columna, primero teléfono. El bloque de fecha es la llave de
+   escaneo de cada tarjeta, así que ahí va el color sólido y la tipografía
+   pesada; el resto se queda callado alrededor.
+
+   La página es blanca a propósito, como el logo, y NO sigue el modo oscuro del
+   teléfono: el grupo tiene que ver todos lo mismo cuando comparten el enlace.
+   Por eso no hay bloque prefers-color-scheme y color-scheme queda en light. */
 
 :root {
+  color-scheme: light;
+
   --azul: #1b7fd0;
-  --azul-vivo: #3fa0ea;
+  --azul-hondo: #15639f;
   --verde: #2f5d34;
-  --verde-hondo: #14421f;
+  --verde-hondo: #1b4321;
   --barro: #a8521a;          /* sólo para "fuerte" y avisos */
 
-  --fondo: #f1f4ef;          /* hueso con sesgo verde, no crema */
+  --fondo: #ffffff;
   --panel: #ffffff;
-  --tinta: #16231a;
-  --tinta-2: #516455;
-  --linea: rgba(20, 66, 31, 0.16);
-  --sombra: 0 1px 2px rgba(20, 66, 31, 0.08), 0 8px 24px rgba(20, 66, 31, 0.07);
+  --tinta: #14241a;
+  --tinta-2: #5b6f60;
+  --linea: rgba(20, 66, 31, 0.18);
+  --linea-suave: rgba(20, 66, 31, 0.10);
 
   --display: "Anton", "Arial Narrow", Impact, sans-serif;
   --texto: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -24,24 +29,6 @@
   --radio: 14px;
   --paso: 8px;
   --ancho: 680px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --azul: #4aa6ea;
-    --azul-vivo: #7cc3f5;
-    --verde: #4f8f58;
-    --verde-hondo: #0d1f12;
-    --barro: #d98040;
-
-    --fondo: #0f1511;
-    --panel: #18211a;
-    --tinta: #e7efe6;
-    --tinta-2: #9db0a1;
-    --linea: rgba(231, 239, 230, 0.16);
-    --sombra: none;
-    color-scheme: dark;
-  }
 }
 
 * { box-sizing: border-box; }
@@ -63,16 +50,22 @@ main, .masthead, .foot {
   margin-inline: auto;
 }
 
-h1, h2, h3 { font-family: var(--display); font-weight: 400; letter-spacing: 0.01em; text-wrap: balance; margin: 0; }
+h1, h2, h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
+  margin: 0;
+}
 
-a { color: var(--azul); }
-a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible {
+a { color: var(--azul-hondo); }
+a:focus-visible, button:focus-visible, input:focus-visible {
   outline: 3px solid var(--azul);
   outline-offset: 2px;
   border-radius: 4px;
 }
 
-/* --- masthead ----------------------------------------------------------- */
+/* --- cabecera ----------------------------------------------------------- */
 
 .masthead {
   display: flex;
@@ -81,13 +74,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   margin-bottom: calc(var(--paso) * 4);
 }
 .masthead-logo {
-  width: 72px;
-  height: 72px;
+  width: 76px;
+  height: 76px;
   flex: none;
   object-fit: cover;
   border-radius: 50%;
-  background: #fff;                      /* el logo trae fondo blanco */
-  box-shadow: var(--sombra);
+  background: #fff;
 }
 .masthead h1 {
   font-size: clamp(1.9rem, 8vw, 2.6rem);
@@ -95,12 +87,11 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   text-transform: uppercase;
   color: var(--verde-hondo);
 }
-@media (prefers-color-scheme: dark) { .masthead h1 { color: var(--tinta); } }
 .lema {
   margin: 4px 0 0;
   font-size: 0.9rem;
   font-style: italic;
-  color: var(--azul);
+  color: var(--azul-hondo);
 }
 
 /* --- secciones ---------------------------------------------------------- */
@@ -119,7 +110,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   color: var(--verde-hondo);
   margin-bottom: calc(var(--paso) * 2);
 }
-@media (prefers-color-scheme: dark) { .section-title { color: var(--tinta); } }
 
 .next { margin-bottom: calc(var(--paso) * 5); }
 .upcoming { margin-bottom: calc(var(--paso) * 5); }
@@ -140,11 +130,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   display: flex;
   gap: calc(var(--paso) * 2);
   background: var(--panel);
+  border: 1px solid var(--linea);
   border-radius: var(--radio);
-  box-shadow: var(--sombra);
   overflow: hidden;
 }
-@media (prefers-color-scheme: dark) { .card { border: 1px solid var(--linea); } }
 
 .card-when {
   flex: none;
@@ -165,7 +154,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  opacity: 0.85;
+  opacity: 0.88;
 }
 .card-when .day {
   font-family: var(--display);
@@ -183,7 +172,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   padding: calc(var(--paso) * 2) calc(var(--paso) * 2) calc(var(--paso) * 2.5) 0;
   flex: 1;
 }
-.card-body h3 { font-size: 1.3rem; text-transform: uppercase; line-height: 1.05; }
+.card-body h3 {
+  font-size: 1.3rem;
+  text-transform: uppercase;
+  line-height: 1.05;
+  color: var(--verde-hondo);
+}
 .meta {
   margin: 6px 0 0;
   font-size: 0.95rem;
@@ -218,9 +212,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   border: 1px solid var(--linea);
   color: var(--tinta-2);
 }
-.tags .t-suave  { color: var(--verde); border-color: color-mix(in srgb, var(--verde) 40%, transparent); }
-.tags .t-media  { color: var(--azul);  border-color: color-mix(in srgb, var(--azul) 40%, transparent); }
-.tags .t-fuerte { color: var(--barro); border-color: color-mix(in srgb, var(--barro) 45%, transparent); }
+.tags .t-suave  { color: var(--verde); border-color: color-mix(in srgb, var(--verde) 45%, transparent); }
+.tags .t-media  { color: var(--azul-hondo); border-color: color-mix(in srgb, var(--azul) 45%, transparent); }
+.tags .t-fuerte { color: var(--barro); border-color: color-mix(in srgb, var(--barro) 50%, transparent); }
 
 .llevar {
   margin: calc(var(--paso) * 1.5) 0 0;
@@ -230,44 +224,32 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 }
 .llevar li { margin-bottom: 2px; }
 
-/* --- la próxima, en grande --------------------------------------------- */
+/* --- la próxima, en grande ---------------------------------------------
+   Misma tarjeta blanca; lo que la separa es el borde verde, el bloque de
+   fecha en azul y la cuenta regresiva. Nada de fondos oscuros.           */
 
-.next .card { background: var(--verde-hondo); color: #fff; }
+.next .card {
+  border: 2px solid var(--verde);
+  box-shadow: 0 10px 28px rgba(20, 66, 31, 0.08);
+}
 .next .card-when { background: var(--azul); width: 96px; }
 .next .card-when .day { font-size: 2.9rem; }
 .next .card-body h3 { font-size: clamp(1.5rem, 6vw, 2rem); }
-.next .meta,
-.next .desc,
-.next .punto,
-.next .llevar { color: rgba(255, 255, 255, 0.84); }
-.next .tags li { color: rgba(255, 255, 255, 0.9); border-color: rgba(255, 255, 255, 0.3); }
-.next .map { color: var(--azul-vivo); }
 .next .countdown {
   margin: var(--paso) 0 0;
   font-family: var(--display);
   font-size: 1.05rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--azul-vivo);
+  color: var(--azul-hondo);
 }
-.next .who li { background: rgba(255, 255, 255, 0.12); color: #fff; }
-.next .count { color: rgba(255, 255, 255, 0.84); }
-.next .rsvp { border-top-color: rgba(255, 255, 255, 0.2); }
-.next .btn-quiet { color: rgba(255, 255, 255, 0.84); border-color: rgba(255, 255, 255, 0.35); }
-.next .rsvp-form input {
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.35);
-}
-.next .rsvp-form span { color: rgba(255, 255, 255, 0.84); }
-.next .rsvp-msg { color: rgba(255, 255, 255, 0.84); }
 
 /* --- confirmaciones ----------------------------------------------------- */
 
 .rsvp {
   margin-top: calc(var(--paso) * 2.5);
   padding-top: calc(var(--paso) * 2);
-  border-top: 1px solid var(--linea);
+  border-top: 1px solid var(--linea-suave);
 }
 .rsvp-head {
   display: flex;
@@ -292,12 +274,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   color: #fff;
   cursor: pointer;
 }
-.btn:hover { filter: brightness(1.07); }
+.btn:hover { background: var(--azul-hondo); }
+.btn:disabled { opacity: 0.55; cursor: default; }
 .btn-quiet {
   background: transparent;
   color: var(--tinta-2);
   border-color: var(--linea);
 }
+.btn-quiet:hover { background: rgba(20, 66, 31, 0.05); }
 .who {
   display: flex;
   flex-wrap: wrap;
@@ -310,7 +294,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   font-size: 0.85rem;
   padding: 3px 10px;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--verde) 12%, transparent);
+  background: rgba(47, 93, 52, 0.10);
+  color: var(--verde-hondo);
 }
 .who li.mas::after {
   content: attr(data-mas);
@@ -329,7 +314,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   padding: 9px 12px;
   border-radius: 10px;
   border: 1px solid var(--linea);
-  background: var(--fondo);
+  background: #fff;
   color: inherit;
   max-width: 320px;
 }
@@ -345,7 +330,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   display: flex;
   gap: calc(var(--paso) * 2);
   padding: 10px 0;
-  border-bottom: 1px solid var(--linea);
+  border-bottom: 1px solid var(--linea-suave);
   color: var(--tinta-2);
 }
 .past-list .fecha {
@@ -387,7 +372,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   .next .card-when { width: 100%; }
   .next .card-when .day { font-size: 1.7rem; }
   .card-body { padding: calc(var(--paso) * 2); }
-  .masthead-logo { width: 58px; height: 58px; }
+  .masthead-logo { width: 60px; height: 60px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

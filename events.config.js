@@ -65,8 +65,8 @@ window.vibraConfig = {
       mapa: null,                            // ← pon el pin
       punto: null,                           // ← dónde y a qué hora se encuentran
       descripcion:
-        "Tres días de acampada. Se paga el mismo día. Cerca de la fecha se hace una compra para dividirla entre todos, así que confirma temprano para contar contigo.",
-      llevar: ["Caseta", "Saco de dormir", "Linterna", "Suficiente agua"],
+        "Se paga el mismo día. Cerca de la fecha se hace una compra para dividirla entre todos.",
+      llevar: [],
       costo: "$25 por noche",
       dificultad: null,
       cupo: null,
