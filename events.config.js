@@ -57,6 +57,19 @@ window.vibraConfig = {
       cupo: null,
     },
     {
+      id: "cumple-olga-2026-10-17",
+      titulo: "Cumpleaños 80 de Olga",
+      inicio: "2026-10-17T14:00",
+      lugar: "Naguabo",
+      mapa: null,                            // ← pon el pin
+      punto: null,
+      descripcion: "De 2 PM en adelante.",
+      llevar: ["Instrumentos"],
+      costo: null,
+      dificultad: null,
+      cupo: null,
+    },
+    {
       id: "camping-villalba-2026-10",
       titulo: "Camping en El Yerta",
       inicio: "2026-10-23",
