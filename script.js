@@ -10,8 +10,28 @@
 (function () {
   "use strict";
 
+  // GitHub Pages sirve todo con Cache-Control: max-age=600. Sin esto, una
+  // salida nueva tarda hasta DIEZ MINUTOS en aparecerle a quien ya abrió la
+  // página hoy — y el que la comparte cree que no se publicó. Por eso el
+  // archivo de salidas se pide con un sello que cambia cada minuto, en vez de
+  // ir como <script src> en el HTML.
+  var cargador = document.createElement("script");
+  cargador.src = "events.config.js?t=" + Math.floor(Date.now() / 60000);
+  cargador.onload = arrancar;
+  cargador.onerror = noCargo;
+  document.head.appendChild(cargador);
+
+  function noCargo() {
+    var vacio = document.getElementById("empty");
+    vacio.querySelector("h2").textContent = "No se pudieron cargar las salidas.";
+    vacio.querySelector("p").textContent = "Revisa la conexión y recarga la página.";
+    vacio.hidden = false;
+  }
+
+  function arrancar() {
+
   var cfg = window.vibraConfig;
-  if (!cfg) return;
+  if (!cfg) { noCargo(); return; }
 
   var RSVP_URL = (cfg.rsvp && cfg.rsvp.url ? cfg.rsvp.url : "").trim();
   var MAX_PLUS = cfg.rsvp && typeof cfg.rsvp.maxAcompanantes === "number" ? cfg.rsvp.maxAcompanantes : 3;
@@ -391,4 +411,6 @@
   cargarRsvps()
     .then(function (rsvps) { estado = rsvps; pintarTodo(false); })
     .catch(function () { /* sin lista; los botones siguen sirviendo */ });
+
+  }   // fin de arrancar()
 })();
