@@ -198,8 +198,27 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   font-size: 0.95rem;
   color: var(--tinta-2);
 }
-.links { margin: calc(var(--paso) * 1.5) 0 0; }
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: calc(var(--paso) * 2);
+  margin: calc(var(--paso) * 1.5) 0 0;
+}
 .map { font-weight: 600; }
+.share {
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--linea);
+  color: var(--tinta-2);
+}
+.share:hover { background: rgba(240, 246, 238, 0.08); color: var(--tinta); }
+
+/* la tarjeta a la que apunta un enlace compartido */
+.card.senalada { outline: 2px solid var(--azul); outline-offset: 3px; }
 
 /* chips */
 .tags {

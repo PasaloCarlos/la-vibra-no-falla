@@ -87,6 +87,39 @@
     return "Faltan " + dias + (dias === 1 ? " día" : " días");
   }
 
+  // --- compartir -----------------------------------------------------------
+
+  /** "sáb 17 oct, 2 PM" o "vie 23 → dom 25 oct": la fecha como la diría uno. */
+  function cuandoEnPalabras(fecha, fin, conHora) {
+    var dia = DIAS[fecha.getDay()] + " " + fecha.getDate() + " " + MESES[fecha.getMonth()];
+    if (fin) {
+      return DIAS[fecha.getDay()] + " " + fecha.getDate() +
+        (fin.getMonth() === fecha.getMonth() ? "" : " " + MESES[fecha.getMonth()]) +
+        " → " + DIAS[fin.getDay()] + " " + fin.getDate() + " " + MESES[fin.getMonth()] +
+        (conHora ? ", desde las " + hora12(fecha) : "");
+    }
+    return dia + (conHora ? ", " + hora12(fecha) : "");
+  }
+
+  /** Dónde vive esta página, para que el enlace sirva igual en local y en Pages. */
+  function enlacePagina(salidaId) {
+    return location.origin + location.pathname + "#" + salidaId;
+  }
+
+  /** El mensaje que WhatsApp abre escrito. wa.me sin número deja elegir el chat. */
+  function enlaceWhatsApp(salida, fecha, fin, conHora) {
+    var lineas = [salida.titulo, cuandoEnPalabras(fecha, fin, conHora)];
+    if (salida.lugar) lineas.push(salida.lugar);
+    var costo = typeof salida.costo === "number"
+      ? (salida.costo > 0 ? "$" + salida.costo : "Gratis")
+      : String(salida.costo || "").trim();
+    if (costo) lineas.push(costo);
+    if (salida.punto) lineas.push(salida.punto);
+    if (salida.mapa) lineas.push("Mapa: " + salida.mapa);
+    lineas.push(enlacePagina(salida.id));
+    return "https://wa.me/?text=" + encodeURIComponent(lineas.join("\n"));
+  }
+
   // --- confirmaciones ------------------------------------------------------
 
   function personas(lista) {
@@ -217,6 +250,9 @@
       mapa.href = salida.mapa;
       mapa.hidden = false;
     }
+
+    nodo.id = salida.id;   // para que el enlace compartido caiga en esta tarjeta
+    campo(nodo, "share").href = enlaceWhatsApp(salida, fecha, fin, conHora);
 
     if (RSVP_URL) {
       montarRsvp(nodo, salida);
@@ -406,6 +442,17 @@
   }
 
   pintarTodo(true);
+  irAlAncla();
+
+  /** Un enlace compartido termina en #<id>: lleva a esa tarjeta y la señala. */
+  function irAlAncla() {
+    var id = (location.hash || "").slice(1);
+    if (!id) return;
+    var tarjeta = document.getElementById(id);
+    if (!tarjeta) return;
+    tarjeta.scrollIntoView({ block: "center" });
+    tarjeta.classList.add("senalada");
+  }
 
   // Las confirmaciones llegan después: la página ya se ve completa sin ellas.
   cargarRsvps()
