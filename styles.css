@@ -205,7 +205,6 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   gap: calc(var(--paso) * 2);
   margin: calc(var(--paso) * 1.5) 0 0;
 }
-.map { font-weight: 600; }
 /* 44px de alto mínimo: es lo que piden Android y iOS para algo que se toca
    con el dedo. Con 34 el botón existía pero costaba acertarle. */
 .links a {

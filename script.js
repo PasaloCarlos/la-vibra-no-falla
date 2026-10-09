@@ -245,12 +245,6 @@
       ul.hidden = false;
     }
 
-    if (salida.mapa) {
-      var mapa = campo(nodo, "mapa");
-      mapa.href = salida.mapa;
-      mapa.hidden = false;
-    }
-
     nodo.id = salida.id;   // para que el enlace compartido caiga en esta tarjeta
     // El botón se crea aquí si el HTML en caché del visitante todavía no lo
     // trae, así que el JS nuevo basta para que aparezca: no hay combinación de
