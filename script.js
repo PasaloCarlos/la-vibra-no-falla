@@ -252,7 +252,19 @@
     }
 
     nodo.id = salida.id;   // para que el enlace compartido caiga en esta tarjeta
-    campo(nodo, "share").href = enlaceWhatsApp(salida, fecha, fin, conHora);
+    // El botón se crea aquí si el HTML en caché del visitante todavía no lo
+    // trae, así que el JS nuevo basta para que aparezca: no hay combinación de
+    // versiones que deje un enlace sin destino.
+    var compartir = campo(nodo, "share");
+    if (!compartir) {
+      compartir = document.createElement("a");
+      compartir.className = "share";
+      compartir.rel = "noopener";
+      compartir.textContent = "Compartir por WhatsApp";
+      nodo.querySelector(".links").appendChild(compartir);
+    }
+    compartir.href = enlaceWhatsApp(salida, fecha, fin, conHora);
+    compartir.hidden = false;
 
     if (RSVP_URL) {
       montarRsvp(nodo, salida);

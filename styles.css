@@ -206,11 +206,18 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   margin: calc(var(--paso) * 1.5) 0 0;
 }
 .map { font-weight: 600; }
+/* 44px de alto mínimo: es lo que piden Android y iOS para algo que se toca
+   con el dedo. Con 34 el botón existía pero costaba acertarle. */
+.links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
 .share {
   font-weight: 600;
   font-size: 0.9rem;
   text-decoration: none;
-  padding: 5px 14px;
+  padding: 8px 16px;
   border-radius: 999px;
   border: 1px solid var(--linea);
   color: var(--tinta-2);
@@ -294,6 +301,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   font-family: var(--texto);
   font-size: 0.95rem;
   font-weight: 600;
+  min-height: 44px;
   padding: 8px 18px;
   border-radius: 999px;
   border: 1px solid transparent;

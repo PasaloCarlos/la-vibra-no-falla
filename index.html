@@ -88,7 +88,12 @@
       <ul class="llevar" data-f="llevar" hidden></ul>
       <p class="links">
         <a class="map" data-f="mapa" target="_blank" rel="noopener" hidden>Abrir el pin</a>
-        <a class="share" data-f="share" target="_blank" rel="noopener">Compartir por WhatsApp</a>
+        <!-- Nace escondido: el enlace lo pone script.js. Si el navegador tiene
+             el JS viejo en caché, mejor que no haya botón a que haya uno muerto.
+             Sin target="_blank": dentro del navegador de WhatsApp una pestaña
+             nueva no abre, y navegar en la misma deja que el teléfono mande el
+             enlace a la app. -->
+        <a class="share" data-f="share" rel="noopener" hidden>Compartir por WhatsApp</a>
       </p>
 
       <div class="rsvp" data-f="rsvp" hidden>
