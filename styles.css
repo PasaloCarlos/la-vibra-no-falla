@@ -368,7 +368,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .orden { margin-bottom: calc(var(--paso) * 5); }
 .orden-card {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 260px 1fr;   /* el flyer completo, legible */
   gap: calc(var(--paso) * 2);
   background: var(--panel);
   border: 1px solid var(--linea);
@@ -388,7 +388,9 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   min-width: 0;
   padding: calc(var(--paso) * 2) calc(var(--paso) * 2) calc(var(--paso) * 2.5) 0;
 }
+.orden-estimado { margin-bottom: 2px; color: var(--azul-claro); }
 .orden-precio { margin: 0; color: var(--tinta-2); }
+.orden-nota { margin: 4px 0 0; font-size: 0.85rem; color: var(--tinta-2); }
 .orden-precio strong {
   font-family: var(--display);
   font-weight: 400;
@@ -569,9 +571,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   .next .card-when .day { font-size: 1.7rem; }
   .card-body { padding: calc(var(--paso) * 2); }
   .orden-card { grid-template-columns: 1fr; gap: 0; }
-  /* el flyer entero mide 1.5 veces el ancho del teléfono: se enseña la parte
-     de arriba y tocarlo abre la imagen completa */
-  .orden-flyer img { height: auto; max-height: 340px; }
+  /* el flyer va completo: es la promo, no una miniatura */
+  .orden-flyer img { height: auto; }
   .orden-body { padding: calc(var(--paso) * 2); }
   .masthead-logo { width: 60px; height: 60px; }
 }

@@ -34,9 +34,12 @@ window.vibraConfig = {
   orden: {
     activa: true,
     titulo: "Orden de camisas y más",
-    flyer: "assets/orden-camisas.jpg",
-    precio: "$32 el combo",
-    pagos: "o 2 pagos de $16",
+    flyer: "assets/orden-camisas-estimado.jpg",
+    // Precio ESTIMADO: la suma en Temu del 27 oct (camisa $14.81 + vaso $18.36
+    // + taza $9.00, envío gratis = $42.17). El final se da al cerrar las reservas.
+    precio: "$42 el combo",
+    pagos: "o 2 pagos de $21",
+    notaPrecio: "Precio estimado según Temu hoy, con envío. El precio final se da cuando cierren las reservas, antes de pagar.",
     incluye: [
       "Camisa dry fit para el sol, con capucha y máscara",
       "Logo al frente (pecho izquierdo) y completo en la espalda",

@@ -419,7 +419,7 @@
 
   function enlaceWhatsAppOrden() {
     var lineas = [ORDEN.titulo || "Orden de camisas"];
-    if (ORDEN.precio) lineas.push(ORDEN.precio + (ORDEN.pagos ? " " + ORDEN.pagos : ""));
+    if (ORDEN.precio) lineas.push(ORDEN.precio + (ORDEN.pagos ? " " + ORDEN.pagos : "") + (ORDEN.notaPrecio ? " (estimado)" : ""));
     (ORDEN.incluye || []).forEach(function (x) { lineas.push("• " + x); });
     lineas.push(textoCierre());
     lineas.push(enlacePagina("orden"));
@@ -497,6 +497,7 @@
     if (ORDEN.flyer) { $("orden-flyer").src = ORDEN.flyer; $("orden-flyer-link").href = ORDEN.flyer; }
     $("orden-precio").textContent = ORDEN.precio || "";
     $("orden-pagos").textContent = ORDEN.pagos || "";
+    if (ORDEN.notaPrecio) { $("orden-nota").textContent = ORDEN.notaPrecio; $("orden-nota").hidden = false; }
     var incluye = $("orden-incluye");
     (ORDEN.incluye || []).forEach(function (x) {
       var li = document.createElement("li");
@@ -507,7 +508,7 @@
     var form = $("orden-form");
     var selTalla = form.querySelector('select[name="talla"]');
     montarColores();
-    opciones(selTalla, ORDEN.tallas || [], "Escoge tu talla");
+    opciones(selTalla, ORDEN.tallas || [], "Escoge tu size");
 
     var guia = $("orden-guia");
     (ORDEN.guiaTallas || []).forEach(function (g) {
@@ -563,12 +564,6 @@
       if (!inputNombre.value) inputNombre.value = nombreGuardado();
       // Con el nombre ya puesto no se enfoca nada: un color enfocado parece escogido.
       if (!inputNombre.value) inputNombre.focus();
-    });
-
-    $("orden-cancelar").addEventListener("click", function () {
-      form.hidden = true;
-      msg.textContent = "";
-      msg.classList.remove("error");
     });
 
     form.addEventListener("submit", function (ev) {

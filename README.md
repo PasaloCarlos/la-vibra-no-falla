@@ -13,7 +13,7 @@ script.js            pinta las salidas, la cuenta regresiva y las confirmaciones
 events.config.js     ← LAS SALIDAS (y la orden de camisas) VIVEN AQUÍ
 apps-script/Code.gs  lo que se pega dentro del Google Sheet
 assets/logo.jpg      el logo
-assets/orden-camisas.jpg  el flyer de la orden
+assets/orden-camisas-estimado.jpg  el flyer de la orden (precio estimado)
 assets/colores/      una foto de la camisa por color (rosa-melocoton.jpg…)
 tests/               pruebas del Apps Script: `node --test`
 ```

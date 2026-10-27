@@ -59,11 +59,13 @@
   <section class="orden" id="orden" aria-labelledby="orden-title" hidden>
     <h2 class="section-title" id="orden-title">Orden de camisas y más</h2>
     <article class="orden-card">
-      <a class="orden-flyer" id="orden-flyer-link" href="assets/orden-camisas.jpg">
-        <img id="orden-flyer" src="assets/orden-camisas.jpg" alt="Flyer de la orden de camisas de Vibra Extrema" loading="lazy" width="1024" height="1536">
+      <a class="orden-flyer" id="orden-flyer-link" href="assets/orden-camisas-estimado.jpg">
+        <img id="orden-flyer" src="assets/orden-camisas-estimado.jpg" alt="Flyer de la orden de camisas de Vibra Extrema" loading="lazy" width="1024" height="1536">
       </a>
       <div class="orden-body">
+        <p class="eyebrow orden-estimado">Precio estimado</p>
         <p class="orden-precio"><strong id="orden-precio"></strong> <span id="orden-pagos"></span></p>
+        <p class="orden-nota" id="orden-nota" hidden></p>
         <ul class="orden-incluye" id="orden-incluye"></ul>
         <p class="orden-cierre" id="orden-cierre"></p>
 
@@ -103,7 +105,6 @@
             </fieldset>
             <div class="rsvp-actions">
               <button class="btn" type="submit" id="orden-enviar">Pedir</button>
-              <button class="btn btn-quiet" type="button" id="orden-cancelar">Dejarlo</button>
             </div>
             <p class="rsvp-msg" id="orden-msg" role="status"></p>
           </form>
