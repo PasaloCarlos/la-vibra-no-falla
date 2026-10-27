@@ -22,6 +22,48 @@ window.vibraConfig = {
   },
 
   // ---------------------------------------------------------------------------
+  // ORDEN DE CAMISAS. Los pedidos van a la pestaña "Ordenes" del mismo Sheet
+  // (usa la misma URL de rsvp). Para quitar la sección: activa: false.
+  //
+  //   cierre   "YYYY-MM-DDTHH:MM" → la página cuenta hasta ahí y a esa hora
+  //            deja de aceptar pedidos. null → "Pronto se decidirá la fecha
+  //            de cierre" y se sigue aceptando.
+  //   colores  y tallas son lo que sale en el formulario. Si un color se agota,
+  //            bórralo de la lista: los pedidos que ya lo tenían no cambian.
+  // ---------------------------------------------------------------------------
+  orden: {
+    activa: true,
+    titulo: "Orden de camisas y más",
+    flyer: "assets/orden-camisas.jpg",
+    precio: "$32 el combo",
+    pagos: "o 2 pagos de $16",
+    incluye: [
+      "Camisa dry fit para el sol, con capucha y máscara",
+      "Logo al frente (pecho izquierdo) y completo en la espalda",
+      "Vaso de 20 onzas con el logo",
+      "Taza de acero con mosquetón y el logo",
+    ],
+    cierre: null,
+    tallas: ["S", "M", "L", "XL", "XXL"],
+    // Tallas de EE.UU., unisex, según el suplidor (pulgadas y pies).
+    guiaTallas: [
+      { talla: "S", pecho: "36–38", cintura: "31–32", estatura: "5'7\"–5'9\"" },
+      { talla: "M", pecho: "38–39", cintura: "32–34", estatura: "5'9\"–5'11\"" },
+      { talla: "L", pecho: "39–41", cintura: "34–36", estatura: "5'11\"–6'1\"" },
+      { talla: "XL", pecho: "41–43", cintura: "36–38", estatura: "6'1\"–6'3\"" },
+      { talla: "XXL", pecho: "43–45", cintura: "38–40", estatura: "6'1\"–6'3\"" },
+    ],
+    colores: [
+      "Azul hielo", "Azul lago", "Azul aciano", "Azul turquesa", "Azul marino",
+      "Verde salvia", "Verde manzana claro", "Verde fluorescente", "Verde pasto",
+      "Verde helecho", "Verde oscuro", "Amarillo brillante", "Amarillo mostaza suave",
+      "Naranja brillante", "Albaricoque suave", "Rosa melocotón", "Rojo", "Borgoña",
+      "Taro púrpura", "Uva morada", "Blanco", "Blanquecino", "Gris glaciar",
+      "Gris oscuro", "Negro",
+    ],
+  },
+
+  // ---------------------------------------------------------------------------
   // SALIDAS. Campos:
   //
   //   id          texto corto y único; NO lo cambies después de publicar,

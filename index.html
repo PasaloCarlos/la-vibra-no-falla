@@ -54,6 +54,66 @@
     <p>En cuanto se cuadre la próxima vuelta aparece aquí.</p>
   </section>
 
+  <!-- La orden de camisas. El script la llena desde vibraConfig.orden y la
+       esconde si no está activa. -->
+  <section class="orden" id="orden" aria-labelledby="orden-title" hidden>
+    <h2 class="section-title" id="orden-title">Orden de camisas y más</h2>
+    <article class="orden-card">
+      <a class="orden-flyer" id="orden-flyer-link" href="assets/orden-camisas.jpg">
+        <img id="orden-flyer" src="assets/orden-camisas.jpg" alt="Flyer de la orden de camisas de Vibra Extrema" loading="lazy" width="1024" height="1536">
+      </a>
+      <div class="orden-body">
+        <p class="orden-precio"><strong id="orden-precio"></strong> <span id="orden-pagos"></span></p>
+        <ul class="orden-incluye" id="orden-incluye"></ul>
+        <p class="orden-cierre" id="orden-cierre"></p>
+
+        <div class="rsvp" id="orden-rsvp" hidden>
+          <div class="rsvp-head">
+            <span class="count" id="orden-count">Nadie ha pedido todavía</span>
+            <button class="btn" type="button" id="orden-pedir">Pedir el mío</button>
+          </div>
+          <ul class="pedidos" id="orden-lista"></ul>
+
+          <form class="rsvp-form" id="orden-form" hidden>
+            <label>
+              <span>Tu nombre</span>
+              <input type="text" name="nombre" maxlength="40" autocomplete="name" required>
+            </label>
+            <label>
+              <span>Color de la camisa</span>
+              <select name="color" required></select>
+            </label>
+            <label>
+              <span>Talla</span>
+              <select name="talla" required></select>
+            </label>
+            <details class="guia">
+              <summary>Guía de tallas</summary>
+              <table>
+                <thead><tr><th>Talla</th><th>Pecho</th><th>Cintura</th><th>Estatura</th></tr></thead>
+                <tbody id="orden-guia"></tbody>
+              </table>
+              <p>Pecho y cintura en pulgadas. Tallas unisex de EE.UU.</p>
+            </details>
+            <fieldset class="pago">
+              <legend>¿Cómo pagas?</legend>
+              <label class="opcion"><input type="radio" name="pago" value="completo" checked> <span id="orden-pago-completo">Completo</span></label>
+              <label class="opcion"><input type="radio" name="pago" value="dos-pagos"> <span id="orden-pago-dos">En 2 pagos</span></label>
+            </fieldset>
+            <div class="rsvp-actions">
+              <button class="btn" type="submit" id="orden-enviar">Pedir</button>
+              <button class="btn btn-quiet" type="button" id="orden-cancelar">Dejarlo</button>
+            </div>
+            <p class="rsvp-msg" id="orden-msg" role="status"></p>
+          </form>
+        </div>
+
+        <p class="rsvp-off" id="orden-off" hidden>Reserva el tuyo en el grupo de WhatsApp.</p>
+        <p class="links"><a class="share" id="orden-share" rel="noopener" hidden>Compartir la orden por WhatsApp</a></p>
+      </div>
+    </article>
+  </section>
+
   <section class="upcoming" id="upcoming" aria-labelledby="upcoming-title" hidden>
     <h2 class="section-title" id="upcoming-title">Lo que viene</h2>
     <div class="cards" id="upcoming-slot"></div>

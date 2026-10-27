@@ -10,9 +10,11 @@ Sheet del grupo a través de un Apps Script.
 index.html           la página
 styles.css           estilos (azul y verde del logo, primero teléfono)
 script.js            pinta las salidas, la cuenta regresiva y las confirmaciones
-events.config.js     ← LAS SALIDAS VIVEN AQUÍ
+events.config.js     ← LAS SALIDAS (y la orden de camisas) VIVEN AQUÍ
 apps-script/Code.gs  lo que se pega dentro del Google Sheet
 assets/logo.jpg      el logo
+assets/orden-camisas.jpg  el flyer de la orden
+tests/               pruebas del Apps Script: `node --test`
 ```
 
 ---
@@ -49,7 +51,31 @@ todo su propio día, así que la de las 7 AM no desaparece a las 8.
 
 ---
 
-## Montar las confirmaciones (una sola vez)
+## La orden de camisas
+
+La sección *Orden de camisas y más* sale del bloque `orden` de `events.config.js`:
+precio, qué incluye, colores, tallas, guía de tallas y la fecha de cierre.
+
+- **Fecha de cierre:** `cierre: null` enseña *Pronto se decidirá la fecha de
+  cierre* y sigue aceptando pedidos. Cuando se decida, pon
+  `cierre: "2026-11-01T20:00"`: la página cuenta hasta ahí y a esa hora deja de
+  aceptar pedidos sola.
+- **Quitar la sección** cuando ya no haga falta: `activa: false`.
+- Cada pedido es **un combo** (camisa + vaso + taza). Quien quiera dos pide dos
+  veces, con el color y la talla de cada uno.
+- Los pedidos van a la pestaña **`Ordenes`** del mismo Sheet:
+  `Fecha | Id | Nombre | Color | Talla | Pago | Pagado`. La columna **Pagado**
+  es tuya para llevar las cuentas: la página nunca la enseña. Pago dice
+  `completo` o `dos-pagos`.
+- La página enseña cuántos combos van y quién pidió qué (nombre, color, talla).
+  Quien pidió puede **quitar** su pedido desde el mismo teléfono; cualquier otro
+  arreglo, en el Sheet. **No cambies la columna Id.**
+- Usa la misma URL de Apps Script que las confirmaciones (`rsvp.url`). Sin URL,
+  la sección se ve igual pero dice *Reserva el tuyo en el grupo de WhatsApp*.
+
+---
+
+## Montar las confirmaciones y la orden (una sola vez)
 
 1. Crea un Google Sheet nuevo. Llámalo, por ejemplo, **Vibra Extrema — confirmaciones**.
 2. Dentro del Sheet: **Extensiones → Apps Script**.
@@ -70,7 +96,8 @@ rsvp: {
 ```
 
 Listo. Cada confirmación es una fila en la pestaña `RSVPs`:
-`Fecha | Salida | Nombre | Acompañantes`.
+`Fecha | Salida | Nombre | Acompañantes`. Los pedidos de camisas van a la
+pestaña `Ordenes` (ver arriba). Las dos pestañas las crea el script solo.
 
 - Borrar una fila a mano en el Sheet la quita de la página.
 - Confirmar dos veces con el mismo nombre **actualiza** la fila, no la duplica.

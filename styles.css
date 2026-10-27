@@ -38,6 +38,9 @@
 }
 
 * { box-sizing: border-box; }
+/* hidden tiene que ganarle a cualquier display: sin esto, .rsvp-form (grid)
+   se enseñaba abierto antes de tocar el botón. */
+[hidden] { display: none !important; }
 
 body {
   margin: 0;
@@ -357,6 +360,137 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .rsvp-msg.error { color: var(--barro); }
 .rsvp-off { margin: calc(var(--paso) * 2) 0 0; font-size: 0.9rem; color: var(--tinta-2); }
 
+/* --- orden de camisas ----------------------------------------------------
+   Misma tarjeta que una salida; en vez del bloque de fecha va el flyer, que
+   ya trae todo el color. Con flyer al lado en pantalla ancha, encima en el
+   teléfono.                                                               */
+
+.orden { margin-bottom: calc(var(--paso) * 5); }
+.orden-card {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: calc(var(--paso) * 2);
+  background: var(--panel);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  overflow: hidden;
+}
+.orden-card.senalada { outline: 2px solid var(--azul); outline-offset: 3px; }
+.orden-flyer { display: block; align-self: start; }
+.orden-flyer img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: top;
+}
+.orden-body {
+  min-width: 0;
+  padding: calc(var(--paso) * 2) calc(var(--paso) * 2) calc(var(--paso) * 2.5) 0;
+}
+.orden-precio { margin: 0; color: var(--tinta-2); }
+.orden-precio strong {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.6rem;
+  letter-spacing: 0.02em;
+  color: var(--hueso);
+  margin-right: 6px;
+}
+.orden-incluye {
+  margin: var(--paso) 0 0;
+  padding-left: 1.1em;
+  font-size: 0.95rem;
+}
+.orden-incluye li { margin-bottom: 2px; }
+.orden-cierre {
+  margin: calc(var(--paso) * 1.5) 0 0;
+  font-family: var(--display);
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--azul-claro);
+}
+
+/* quién pidió qué: una línea por combo */
+.pedidos {
+  list-style: none;
+  margin: calc(var(--paso) * 1.5) 0 0;
+  padding: 0;
+  font-size: 0.92rem;
+}
+.pedidos li {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  column-gap: 10px;
+  min-height: 36px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--linea-suave);
+}
+.pedidos .quien { color: var(--tinta); font-weight: 600; }
+.pedidos .que { color: var(--tinta-2); margin-right: auto; }
+.quitar {
+  font: inherit;
+  font-size: 0.85rem;
+  min-height: 44px;
+  padding: 0 4px;
+  border: 0;
+  background: none;
+  color: var(--barro);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.quitar:disabled { opacity: 0.55; }
+#orden-aviso { margin-top: var(--paso); }
+
+.rsvp-form select {
+  font: inherit;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--linea);
+  background: var(--verde-hondo);
+  color: inherit;
+  max-width: 320px;
+  min-height: 44px;
+}
+.guia summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  color: var(--azul-claro);
+  font-size: 0.9rem;
+}
+.guia table {
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+.guia th, .guia td {
+  text-align: left;
+  padding: 4px 14px 4px 0;
+  border-bottom: 1px solid var(--linea-suave);
+}
+.guia th { color: var(--tinta-2); font-weight: 600; }
+.guia p { margin: 6px 0 0; font-size: 0.8rem; color: var(--tinta-2); }
+.pago {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+.pago legend { font-size: 0.85rem; color: var(--tinta-2); padding: 0; margin-bottom: 4px; }
+.rsvp-form .opcion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+}
+.rsvp-form .opcion span { font-size: 1rem; color: var(--tinta); }
+.rsvp-form .opcion input { width: 20px; height: 20px; accent-color: var(--azul); }
+
 /* --- ya vibramos -------------------------------------------------------- */
 
 .past-list { list-style: none; margin: 0; padding: 0; }
@@ -390,6 +524,11 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   .next .card-when { width: 100%; }
   .next .card-when .day { font-size: 1.7rem; }
   .card-body { padding: calc(var(--paso) * 2); }
+  .orden-card { grid-template-columns: 1fr; gap: 0; }
+  /* el flyer entero mide 1.5 veces el ancho del teléfono: se enseña la parte
+     de arriba y tocarlo abre la imagen completa */
+  .orden-flyer img { height: auto; max-height: 340px; }
+  .orden-body { padding: calc(var(--paso) * 2); }
   .masthead-logo { width: 60px; height: 60px; }
 }
 

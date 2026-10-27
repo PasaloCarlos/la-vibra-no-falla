@@ -36,9 +36,11 @@
   var RSVP_URL = (cfg.rsvp && cfg.rsvp.url ? cfg.rsvp.url : "").trim();
   var MAX_PLUS = cfg.rsvp && typeof cfg.rsvp.maxAcompanantes === "number" ? cfg.rsvp.maxAcompanantes : 3;
   var NOMBRE_KEY = "vibra:nombre";
+  var MIS_ORDENES_KEY = "vibra:mis-ordenes";
 
   var tpl = document.getElementById("tpl-salida");
   var estado = {};   // salidaId -> [{nombre, acompanantes}]
+  var ordenes = [];  // [{id, nombre, color, talla, pago}] en el orden en que llegaron
 
   // --- fechas --------------------------------------------------------------
 
@@ -126,17 +128,20 @@
     return (lista || []).reduce(function (t, r) { return t + 1 + (r.acompanantes || 0); }, 0);
   }
 
-  function cargarRsvps() {
-    if (!RSVP_URL) return Promise.resolve({});
+  /** Confirmaciones y pedidos llegan juntos en el mismo GET. */
+  function cargarDatos() {
+    if (!RSVP_URL) return Promise.resolve({ rsvps: {}, ordenes: [] });
     return fetch(RSVP_URL + (RSVP_URL.indexOf("?") === -1 ? "?" : "&") + "t=" + Date.now(), {
       method: "GET",
       redirect: "follow",
     })
       .then(function (r) { return r.json(); })
-      .then(function (data) { return (data && data.rsvps) || {}; });
+      .then(function (data) {
+        return { rsvps: (data && data.rsvps) || {}, ordenes: (data && data.ordenes) || [] };
+      });
   }
 
-  function enviarRsvp(cuerpo) {
+  function enviar(cuerpo) {
     // text/plain a propósito: así el navegador no manda un preflight que Apps
     // Script no contesta. El script lee e.postData.contents y lo parsea.
     return fetch(RSVP_URL, {
@@ -148,8 +153,12 @@
       .then(function (r) { return r.json(); })
       .then(function (data) {
         if (!data || data.ok !== true) throw new Error((data && data.error) || "respuesta inesperada");
-        return (data.rsvps) || {};
+        return data;
       });
+  }
+
+  function enviarRsvp(cuerpo) {
+    return enviar(cuerpo).then(function (data) { return data.rsvps || {}; });
   }
 
   function nombreGuardado() {
@@ -378,6 +387,242 @@
     refrescar();
   }
 
+  // --- la orden de camisas -------------------------------------------------
+
+  var ORDEN = cfg.orden && cfg.orden.activa ? cfg.orden : null;
+  function $(id) { return document.getElementById(id); }
+
+  /** Los ids de los combos que pidió este teléfono: sólo esos se pueden quitar desde aquí. */
+  function misOrdenes() {
+    try { return JSON.parse(localStorage.getItem(MIS_ORDENES_KEY) || "[]"); } catch (e) { return []; }
+  }
+  function guardarMisOrdenes(ids) {
+    try { localStorage.setItem(MIS_ORDENES_KEY, JSON.stringify(ids)); } catch (e) { /* modo privado */ }
+  }
+
+  /** null = sin fecha todavía (se sigue aceptando). */
+  function cierreOrden() {
+    var p = ORDEN && ORDEN.cierre ? parseFecha(ORDEN.cierre) : null;
+    return p ? p.fecha : null;
+  }
+  function ordenCerrada() {
+    var c = cierreOrden();
+    return !!(c && new Date() >= c);
+  }
+
+  function textoCierre() {
+    var c = cierreOrden();
+    if (!c) return "Pronto se decidirá la fecha de cierre.";
+    if (ordenCerrada()) return "La orden cerró el " + cuandoEnPalabras(c, null, true) + ".";
+    return "Cierra el " + cuandoEnPalabras(c, null, true) + " · " + cuentaRegresiva(c, new Date()).toLowerCase();
+  }
+
+  function enlaceWhatsAppOrden() {
+    var lineas = [ORDEN.titulo || "Orden de camisas"];
+    if (ORDEN.precio) lineas.push(ORDEN.precio + (ORDEN.pagos ? " " + ORDEN.pagos : ""));
+    (ORDEN.incluye || []).forEach(function (x) { lineas.push("• " + x); });
+    lineas.push(textoCierre());
+    lineas.push(enlacePagina("orden"));
+    return "https://wa.me/?text=" + encodeURIComponent(lineas.join("\n"));
+  }
+
+  function opciones(sel, lista, vacio) {
+    var o = document.createElement("option");
+    o.value = "";
+    o.textContent = vacio;
+    sel.appendChild(o);
+    lista.forEach(function (x) {
+      var op = document.createElement("option");
+      op.value = x;
+      op.textContent = x;
+      sel.appendChild(op);
+    });
+  }
+
+  function montarOrden() {
+    var sec = $("orden");
+    if (!ORDEN) { sec.hidden = true; return; }
+
+    if (ORDEN.titulo) $("orden-title").textContent = ORDEN.titulo;
+    if (ORDEN.flyer) { $("orden-flyer").src = ORDEN.flyer; $("orden-flyer-link").href = ORDEN.flyer; }
+    $("orden-precio").textContent = ORDEN.precio || "";
+    $("orden-pagos").textContent = ORDEN.pagos || "";
+    var incluye = $("orden-incluye");
+    (ORDEN.incluye || []).forEach(function (x) {
+      var li = document.createElement("li");
+      li.textContent = x;
+      incluye.appendChild(li);
+    });
+
+    var form = $("orden-form");
+    var selColor = form.querySelector('select[name="color"]');
+    var selTalla = form.querySelector('select[name="talla"]');
+    opciones(selColor, ORDEN.colores || [], "Escoge un color");
+    opciones(selTalla, ORDEN.tallas || [], "Escoge tu talla");
+
+    var guia = $("orden-guia");
+    (ORDEN.guiaTallas || []).forEach(function (g) {
+      var tr = document.createElement("tr");
+      [g.talla, g.pecho, g.cintura, g.estatura].forEach(function (v) {
+        var td = document.createElement("td");
+        td.textContent = v;
+        tr.appendChild(td);
+      });
+      guia.appendChild(tr);
+    });
+    if (!guia.children.length) form.querySelector(".guia").hidden = true;
+
+    // Las dos opciones de pago repiten lo que dice el config: "Completo ($32)" y "2 pagos de $16".
+    if (ORDEN.precio) $("orden-pago-completo").textContent = "Completo (" + ORDEN.precio.replace(/ el combo$/i, "") + ")";
+    if (ORDEN.pagos) $("orden-pago-dos").textContent = ORDEN.pagos.replace(/^o /i, "").replace(/^./, function (c) { return c.toUpperCase(); });
+
+    var compartir = $("orden-share");
+    compartir.href = enlaceWhatsAppOrden();
+    compartir.hidden = false;
+
+    $("orden-cierre").textContent = textoCierre();
+    setInterval(function () {
+      $("orden-cierre").textContent = textoCierre();
+      compartir.href = enlaceWhatsAppOrden();
+      refrescarOrden();
+    }, 60000);
+
+    sec.hidden = false;
+
+    if (!RSVP_URL) {
+      var off = $("orden-off");
+      off.hidden = false;
+      if (cfg.grupo && cfg.grupo.whatsapp) {
+        off.textContent = "";
+        var a = document.createElement("a");
+        a.href = cfg.grupo.whatsapp;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.textContent = "Reserva el tuyo en el grupo";
+        off.appendChild(a);
+      }
+      return;
+    }
+
+    $("orden-rsvp").hidden = false;
+    var msg = $("orden-msg");
+    var inputNombre = form.querySelector('input[name="nombre"]');
+
+    $("orden-pedir").addEventListener("click", function () {
+      form.hidden = false;
+      avisar("");
+      if (!inputNombre.value) inputNombre.value = nombreGuardado();
+      (inputNombre.value ? selColor : inputNombre).focus();
+    });
+
+    $("orden-cancelar").addEventListener("click", function () {
+      form.hidden = true;
+      msg.textContent = "";
+      msg.classList.remove("error");
+    });
+
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var nombre = inputNombre.value.trim();
+      if (!nombre || !selColor.value || !selTalla.value) return;
+      if (ordenCerrada()) { refrescarOrden(); return; }
+      var pago = (form.querySelector('input[name="pago"]:checked') || {}).value || "completo";
+
+      msg.classList.remove("error");
+      msg.textContent = "Mandando…";
+      $("orden-enviar").disabled = true;
+
+      enviar({ accion: "ordenar", nombre: nombre, color: selColor.value, talla: selTalla.value, pago: pago })
+        .then(function (data) {
+          ordenes = data.ordenes || [];
+          guardarNombre(nombre);
+          guardarMisOrdenes(misOrdenes().concat([data.id]));
+          // El nombre se queda: quien pide otro combo para la pareja sólo cambia color y talla.
+          selColor.value = "";
+          selTalla.value = "";
+          form.hidden = true;
+          msg.textContent = "";
+          refrescarOrden();
+          avisar("¡Pedido! Si quieres otro combo, toca «Pedir otro».");
+        })
+        .catch(function (err) {
+          msg.classList.add("error");
+          msg.textContent = "No se pudo guardar: " + err.message + ". Intenta otra vez.";
+        })
+        .then(function () { $("orden-enviar").disabled = false; });
+    });
+  }
+
+  /** Un aviso fuera del formulario, que ya se cerró. "" lo borra. */
+  function avisar(texto, esError) {
+    var a = $("orden-aviso");
+    if (!a) {
+      a = document.createElement("p");
+      a.id = "orden-aviso";
+      a.className = "rsvp-msg";
+      a.setAttribute("role", "status");
+      $("orden-lista").before(a);
+    }
+    a.classList.toggle("error", !!esError);
+    a.textContent = texto;
+  }
+
+  function refrescarOrden() {
+    if (!ORDEN || !RSVP_URL) return;
+    var mios = misOrdenes();
+    var total = ordenes.length;
+    $("orden-count").textContent =
+      total === 0 ? "Nadie ha pedido todavía"
+      : total === 1 ? "1 combo pedido"
+      : total + " combos pedidos";
+
+    var cerrada = ordenCerrada();
+    var pedir = $("orden-pedir");
+    var yaPedi = ordenes.some(function (o) { return mios.indexOf(o.id) !== -1; });
+    pedir.hidden = cerrada;
+    pedir.textContent = yaPedi ? "Pedir otro" : "Pedir el mío";
+    if (cerrada) $("orden-form").hidden = true;
+
+    var lista = $("orden-lista");
+    lista.textContent = "";
+    ordenes.forEach(function (o) {
+      var li = document.createElement("li");
+      var quien = document.createElement("span");
+      quien.className = "quien";
+      quien.textContent = o.nombre;                       // nunca innerHTML
+      var que = document.createElement("span");
+      que.className = "que";
+      que.textContent = o.color + " · " + o.talla;
+      li.appendChild(quien);
+      li.appendChild(que);
+      if (!cerrada && mios.indexOf(o.id) !== -1) li.appendChild(botonQuitar(o));
+      lista.appendChild(li);
+    });
+  }
+
+  function botonQuitar(o) {
+    var quitar = document.createElement("button");
+    quitar.type = "button";
+    quitar.className = "quitar";
+    quitar.textContent = "Quitar";
+    quitar.setAttribute("aria-label", "Quitar mi pedido: " + o.color + ", " + o.talla);
+    quitar.addEventListener("click", function () {
+      quitar.disabled = true;
+      enviar({ accion: "quitar-orden", id: o.id })
+        .then(function (data) {
+          ordenes = data.ordenes || [];
+          guardarMisOrdenes(misOrdenes().filter(function (x) { return x !== o.id; }));
+          refrescarOrden();
+          avisar("Pedido quitado.");
+        })
+        .catch(function (err) {
+          quitar.disabled = false;
+          avisar("No se pudo quitar: " + err.message, true);
+        });
+    });
+    return quitar;
+  }
+
   // --- pintar la página ----------------------------------------------------
 
   function pintarTodo(primeraVez) {
@@ -448,6 +693,7 @@
   }
 
   pintarTodo(true);
+  montarOrden();
   irAlAncla();
 
   /** Un enlace compartido termina en #<id>: lleva a esa tarjeta y la señala. */
@@ -456,14 +702,20 @@
     if (!id) return;
     var tarjeta = document.getElementById(id);
     if (!tarjeta) return;
+    if (id === "orden") tarjeta = tarjeta.querySelector(".orden-card");
     tarjeta.scrollIntoView({ block: "center" });
     tarjeta.classList.add("senalada");
   }
 
   // Las confirmaciones llegan después: la página ya se ve completa sin ellas.
-  cargarRsvps()
-    .then(function (rsvps) { estado = rsvps; pintarTodo(false); })
-    .catch(function () { /* sin lista; los botones siguen sirviendo */ });
+  cargarDatos()
+    .then(function (datos) {
+      estado = datos.rsvps;
+      ordenes = datos.ordenes;
+      pintarTodo(false);
+      refrescarOrden();
+    })
+    .catch(function () { /* sin lista; los botones siguen sirviendo */ refrescarOrden(); });
 
   }   // fin de arrancar()
 })();
