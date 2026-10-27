@@ -6,7 +6,7 @@ window.vibraConfig = {
   grupo: {
     nombre: "Vibra Extrema",
     lema: "La vibra nunca falla",
-    logo: "assets/logo.jpg",
+    logo: "assets/logo-vibra.jpg",
     // Opcional: el enlace de invitación del grupo de WhatsApp. Si lo dejas en
     // null, el botón de WhatsApp no aparece.
     whatsapp: null,
