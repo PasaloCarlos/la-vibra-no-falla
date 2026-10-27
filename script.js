@@ -514,9 +514,12 @@
     });
     if (!guia.children.length) form.querySelector(".guia").hidden = true;
 
-    // Las dos opciones de pago repiten lo que dice el config: "Completo ($32)" y "2 pagos de $16".
-    if (ORDEN.precio) $("orden-pago-completo").textContent = "Completo (" + ORDEN.precio.replace(/ el combo$/i, "") + ")";
-    if (ORDEN.pagos) $("orden-pago-dos").textContent = ORDEN.pagos.replace(/^o /i, "").replace(/^./, function (c) { return c.toUpperCase(); });
+    // Las dos opciones de pago repiten lo que dice el config: "Completo ($42 estimado)" y
+    // "2 pagos de $21 estimado". El "estimado" sale mientras haya notaPrecio en el config:
+    // al dar el precio final se borra notaPrecio y la palabra se va sola.
+    var est = ORDEN.notaPrecio ? " estimado" : "";
+    if (ORDEN.precio) $("orden-pago-completo").textContent = "Completo (" + ORDEN.precio.replace(/ el combo$/i, "") + est + ")";
+    if (ORDEN.pagos) $("orden-pago-dos").textContent = ORDEN.pagos.replace(/^o /i, "").replace(/^./, function (c) { return c.toUpperCase(); }) + est;
 
     $("orden-cierre").textContent = textoCierre();
     setInterval(function () {
