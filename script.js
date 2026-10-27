@@ -417,14 +417,6 @@
     return "Cierra el " + cuandoEnPalabras(c, null, true) + " · " + cuentaRegresiva(c, new Date()).toLowerCase();
   }
 
-  function enlaceWhatsAppOrden() {
-    var lineas = [ORDEN.titulo || "Orden de camisas"];
-    if (ORDEN.precio) lineas.push(ORDEN.precio + (ORDEN.pagos ? " " + ORDEN.pagos : "") + (ORDEN.notaPrecio ? " (estimado)" : ""));
-    (ORDEN.incluye || []).forEach(function (x) { lineas.push("• " + x); });
-    lineas.push(textoCierre());
-    lineas.push(enlacePagina("orden"));
-    return "https://wa.me/?text=" + encodeURIComponent(lineas.join("\n"));
-  }
 
   function opciones(sel, lista, vacio) {
     var o = document.createElement("option");
@@ -526,14 +518,9 @@
     if (ORDEN.precio) $("orden-pago-completo").textContent = "Completo (" + ORDEN.precio.replace(/ el combo$/i, "") + ")";
     if (ORDEN.pagos) $("orden-pago-dos").textContent = ORDEN.pagos.replace(/^o /i, "").replace(/^./, function (c) { return c.toUpperCase(); });
 
-    var compartir = $("orden-share");
-    compartir.href = enlaceWhatsAppOrden();
-    compartir.hidden = false;
-
     $("orden-cierre").textContent = textoCierre();
     setInterval(function () {
       $("orden-cierre").textContent = textoCierre();
-      compartir.href = enlaceWhatsAppOrden();
       refrescarOrden();
     }, 60000);
 
