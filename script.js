@@ -619,7 +619,7 @@
     var pedir = $("orden-pedir");
     var yaPedi = ordenes.some(function (o) { return mios.indexOf(o.id) !== -1; });
     pedir.hidden = cerrada;
-    pedir.textContent = yaPedi ? "Pedir otro" : "Pedir el mío";
+    pedir.textContent = yaPedi ? "Pedir otro" : "Pedir";
     if (cerrada) $("orden-form").hidden = true;
 
     var lista = $("orden-lista");
