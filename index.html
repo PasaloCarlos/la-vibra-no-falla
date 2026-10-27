@@ -79,10 +79,11 @@
               <span>Tu nombre</span>
               <input type="text" name="nombre" maxlength="40" autocomplete="name" required>
             </label>
-            <label>
-              <span>Color de la camisa</span>
-              <select name="color" required></select>
-            </label>
+            <!-- Una foto por color, como en la tienda: se toca la camisa que se quiere. -->
+            <fieldset class="colores">
+              <legend>Color de la camisa: <strong id="orden-color-elegido">toca uno</strong></legend>
+              <div class="colores-grid" id="orden-colores"></div>
+            </fieldset>
             <label>
               <span>Talla</span>
               <select name="talla" required></select>

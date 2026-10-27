@@ -439,6 +439,56 @@
     });
   }
 
+  /** "Rosa melocotón" → "rosa-melocoton": el nombre del archivo de su foto. */
+  function slug(texto) {
+    return String(texto).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+  }
+
+  /** Un radio por color, cada uno con la foto de la camisa en ese color. */
+  function montarColores() {
+    var grid = $("orden-colores");
+    var carpeta = ORDEN.fotosColores || "";
+    (ORDEN.colores || []).forEach(function (nombre) {
+      var label = document.createElement("label");
+      label.className = "color";
+      var radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "color";
+      // Sin required: el globo del navegador saldría sobre un radio escondido.
+      // El submit avisa en palabras si falta el color.
+      radio.value = nombre;
+      radio.addEventListener("change", function () {
+        $("orden-color-elegido").textContent = nombre;
+        var m = $("orden-msg");
+        if (m.classList.contains("error")) { m.textContent = ""; m.classList.remove("error"); }
+      });
+      label.appendChild(radio);
+      if (carpeta) {
+        var img = document.createElement("img");
+        img.src = carpeta + slug(nombre) + ".jpg";
+        img.alt = "";
+        img.loading = "lazy";
+        img.width = 160;
+        img.height = 240;
+        label.appendChild(img);
+      }
+      var texto = document.createElement("span");
+      texto.textContent = nombre;
+      label.appendChild(texto);
+      grid.appendChild(label);
+    });
+  }
+  function colorElegido() {
+    var r = $("orden-form").querySelector('input[name="color"]:checked');
+    return r ? r.value : "";
+  }
+  function limpiarColor() {
+    var r = $("orden-form").querySelector('input[name="color"]:checked');
+    if (r) r.checked = false;
+    $("orden-color-elegido").textContent = "toca uno";
+  }
+
   function montarOrden() {
     var sec = $("orden");
     if (!ORDEN) { sec.hidden = true; return; }
@@ -455,9 +505,8 @@
     });
 
     var form = $("orden-form");
-    var selColor = form.querySelector('select[name="color"]');
     var selTalla = form.querySelector('select[name="talla"]');
-    opciones(selColor, ORDEN.colores || [], "Escoge un color");
+    montarColores();
     opciones(selTalla, ORDEN.tallas || [], "Escoge tu talla");
 
     var guia = $("orden-guia");
@@ -512,7 +561,8 @@
       form.hidden = false;
       avisar("");
       if (!inputNombre.value) inputNombre.value = nombreGuardado();
-      (inputNombre.value ? selColor : inputNombre).focus();
+      // Con el nombre ya puesto no se enfoca nada: un color enfocado parece escogido.
+      if (!inputNombre.value) inputNombre.focus();
     });
 
     $("orden-cancelar").addEventListener("click", function () {
@@ -524,7 +574,14 @@
     form.addEventListener("submit", function (ev) {
       ev.preventDefault();
       var nombre = inputNombre.value.trim();
-      if (!nombre || !selColor.value || !selTalla.value) return;
+      var color = colorElegido();
+      if (!nombre || !selTalla.value) return;
+      if (!color) {
+        msg.classList.add("error");
+        msg.textContent = "Escoge el color de la camisa.";
+        $("orden-colores").scrollIntoView({ block: "center" });
+        return;
+      }
       if (ordenCerrada()) { refrescarOrden(); return; }
       var pago = (form.querySelector('input[name="pago"]:checked') || {}).value || "completo";
 
@@ -532,13 +589,13 @@
       msg.textContent = "Mandando…";
       $("orden-enviar").disabled = true;
 
-      enviar({ accion: "ordenar", nombre: nombre, color: selColor.value, talla: selTalla.value, pago: pago })
+      enviar({ accion: "ordenar", nombre: nombre, color: color, talla: selTalla.value, pago: pago })
         .then(function (data) {
           ordenes = data.ordenes || [];
           guardarNombre(nombre);
           guardarMisOrdenes(misOrdenes().concat([data.id]));
           // El nombre se queda: quien pide otro combo para la pareja sólo cambia color y talla.
-          selColor.value = "";
+          limpiarColor();
           selTalla.value = "";
           form.hidden = true;
           msg.textContent = "";

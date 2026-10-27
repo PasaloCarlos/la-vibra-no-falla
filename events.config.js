@@ -53,6 +53,10 @@ window.vibraConfig = {
       { talla: "XL", pecho: "41–43", cintura: "36–38", estatura: "6'1\"–6'3\"" },
       { talla: "XXL", pecho: "43–45", cintura: "38–40", estatura: "6'1\"–6'3\"" },
     ],
+    // Cada color enseña su foto: assets/colores/<nombre en minúsculas, sin
+    // acentos, con guiones>.jpg ("Rosa melocotón" → rosa-melocoton.jpg).
+    // Un color nuevo necesita su foto ahí; sin foto sale sólo el nombre.
+    fotosColores: "assets/colores/",
     colores: [
       "Azul hielo", "Azul lago", "Azul aciano", "Azul turquesa", "Azul marino",
       "Verde salvia", "Verde manzana claro", "Verde fluorescente", "Verde pasto",

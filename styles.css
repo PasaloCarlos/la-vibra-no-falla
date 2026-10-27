@@ -454,6 +454,50 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   max-width: 320px;
   min-height: 44px;
 }
+/* colores: una foto por color, se toca la camisa que se quiere */
+.colores { border: 0; margin: 0; padding: 0; min-width: 0; }
+.colores legend { font-size: 0.85rem; color: var(--tinta-2); padding: 0; margin-bottom: 6px; }
+.colores legend strong { color: var(--tinta); font-weight: 600; }
+.colores-grid {
+  display: grid;
+  /* 60px: caben 4 por fila en un teléfono de 360 (la cuadrícula mide ~277) */
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: 6px;
+}
+.color {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  text-align: center;
+}
+.color input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.color img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 6px;
+  background: #fff;
+}
+.color { min-width: 0; }
+/* "fluorescente" no cabe en 60px: que parta la palabra antes que ensanchar el cuadro */
+.color span { font-size: 0.72rem; line-height: 1.2; color: var(--tinta-2); overflow-wrap: anywhere; hyphens: auto; }
+.color:hover { background: rgba(240, 246, 238, 0.06); }
+.color:has(input:checked) { border-color: var(--azul); background: rgba(47, 151, 230, 0.14); }
+.color:has(input:checked) span { color: var(--tinta); font-weight: 600; }
+.color:has(input:focus-visible) { outline: 3px solid var(--azul); outline-offset: 2px; }
+
 .guia summary {
   cursor: pointer;
   min-height: 44px;
