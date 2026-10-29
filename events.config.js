@@ -84,6 +84,7 @@ window.vibraConfig = {
   //               sólo viaja dentro del mensaje de "Compartir por WhatsApp"
   //   punto       dónde y a qué hora se encuentran (o null)
   //   descripcion una o dos líneas de qué es la vuelta
+  //   foto        opcional: el flyer, en assets/salidas/ (sale completo en la tarjeta)
   //   llevar      lista de cosas; [] si no hay nada que traer
   //   costo       número (25 → "$25", 0 → "Gratis") o texto ("$25 por noche")
   //   dificultad  "suave" | "media" | "fuerte"  (o null para no mostrarla)
@@ -143,6 +144,7 @@ window.vibraConfig = {
       punto: null,                           // ← dónde y a qué hora se encuentran
       descripcion:
         "3 tarimas con música en vivo: La Sonora Ponceña, Elvis Crespo, Andrés Jiménez, Danny Rivera, Sergio Vargas, Maelo Ruiz, Hermes Croatto, Giselle y más.",
+      foto: "assets/salidas/navidad-criolla-caguas-2026.jpg",
       llevar: [],
       costo: null,                           // ← el post del municipio no dice precio
       dificultad: null,

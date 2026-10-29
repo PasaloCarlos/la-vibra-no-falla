@@ -206,6 +206,20 @@
     var desc = campo(nodo, "descripcion");
     if (salida.descripcion) { desc.textContent = salida.descripcion; } else { desc.remove(); }
 
+    // El flyer de la salida, completo. Se crea aquí y no en el <template> para
+    // que aparezca aunque el visitante tenga el HTML viejo en caché.
+    if (salida.foto) {
+      var foto = document.createElement("a");
+      foto.className = "foto";
+      foto.href = salida.foto;
+      var img = document.createElement("img");
+      img.src = salida.foto;
+      img.alt = "Flyer: " + (salida.titulo || "salida");
+      img.loading = "lazy";
+      foto.appendChild(img);
+      (desc.parentNode ? desc : nodo.querySelector(".meta") || campo(nodo, "titulo")).after(foto);
+    }
+
     if (salida.punto) {
       var punto = campo(nodo, "punto");
       punto.textContent = salida.punto;
