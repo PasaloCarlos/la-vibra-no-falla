@@ -18,7 +18,7 @@ window.vibraConfig = {
     // cada salida muestra "Confirmaciones por WhatsApp" en vez del botón Voy.
     url: "https://script.google.com/macros/s/AKfycbyI4Qzmrg05sICqaHjl0kdhGbwfwaVm3elssnqkhF3KAcl1em2lN_Wdy-cpV3WTf_gyQw/exec",
     // Cuántos acompañantes puede traer una persona (0 desactiva el campo).
-    maxAcompanantes: 3,
+    maxAcompanantes: 0,
   },
 
   // ---------------------------------------------------------------------------
