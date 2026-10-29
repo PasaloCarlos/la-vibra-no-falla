@@ -134,5 +134,19 @@ window.vibraConfig = {
       dificultad: null,
       cupo: null,
     },
+    {
+      id: "navidad-criolla-caguas-2026-11-27",
+      titulo: "Encendido de la Navidad Criolla en Caguas",
+      inicio: "2026-11-27T17:00",
+      lugar: "Caguas",
+      mapa: null,                            // ← pin, sólo para el mensaje de WhatsApp
+      punto: null,                           // ← dónde y a qué hora se encuentran
+      descripcion:
+        "3 tarimas con música en vivo: La Sonora Ponceña, Elvis Crespo, Andrés Jiménez, Danny Rivera, Sergio Vargas, Maelo Ruiz, Hermes Croatto, Giselle y más.",
+      llevar: [],
+      costo: null,                           // ← el post del municipio no dice precio
+      dificultad: null,
+      cupo: null,
+    },
   ],
 };
