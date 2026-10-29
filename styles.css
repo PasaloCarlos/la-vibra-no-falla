@@ -562,6 +562,24 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   font-size: 0.9rem;
 }
 .past-list .que { color: var(--tinta); }
+.past-list .pasada { min-width: 0; flex: 1; }
+
+/* videos de una salida: casi siempre verticales, del celular */
+.videos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--paso);
+  margin: calc(var(--paso) * 1.5) 0 0;
+}
+.videos video {
+  display: block;
+  width: 220px;
+  max-width: 100%;
+  max-height: 420px;
+  background: #000;
+  border-radius: calc(var(--radio) * 0.6);
+  border: 1px solid var(--linea);
+}
 
 /* --- teléfono ----------------------------------------------------------- */
 

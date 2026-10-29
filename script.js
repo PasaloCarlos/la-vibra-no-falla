@@ -171,6 +171,29 @@
     return String(a || "").trim().toLocaleLowerCase("es") === String(b || "").trim().toLocaleLowerCase("es");
   }
 
+  // Videos de una salida: cada uno es la ruta del .mp4 o { src, poster }.
+  // preload="none" para que nada se baje hasta que alguien le dé play, y
+  // playsinline para que en iPhone no salte a pantalla completa.
+  function pintarVideos(salida) {
+    var lista = (salida.videos || []).filter(Boolean);
+    if (!lista.length) return null;
+    var caja = document.createElement("div");
+    caja.className = "videos";
+    lista.forEach(function (v) {
+      if (typeof v === "string") v = { src: v };
+      var video = document.createElement("video");
+      video.controls = true;
+      video.preload = "none";
+      video.setAttribute("playsinline", "");
+      // Sin poster explícito, se busca el .jpg con el mismo nombre del video.
+      video.poster = v.poster || v.src.replace(/\.mp4$/i, ".jpg");
+      video.src = v.src;
+      video.setAttribute("aria-label", "Video: " + (salida.titulo || "salida"));
+      caja.appendChild(video);
+    });
+    return caja;
+  }
+
   // --- pintar una salida ---------------------------------------------------
 
   function campo(nodo, nombre) { return nodo.querySelector('[data-f="' + nombre + '"]'); }
@@ -219,6 +242,8 @@
       foto.appendChild(img);
       (desc.parentNode ? desc : nodo.querySelector(".meta") || campo(nodo, "titulo")).after(foto);
     }
+    var videos = pintarVideos(salida);
+    if (videos) campo(nodo, "tags").before(videos);
 
     if (salida.punto) {
       var punto = campo(nodo, "punto");
@@ -735,7 +760,16 @@
       que.className = "que";
       que.textContent = x.s.titulo || "Salida";
       li.appendChild(fecha);
-      li.appendChild(que);
+      var videosPasada = pintarVideos(x.s);
+      if (videosPasada) {
+        var cuerpo = document.createElement("div");
+        cuerpo.className = "pasada";
+        cuerpo.appendChild(que);
+        cuerpo.appendChild(videosPasada);
+        li.appendChild(cuerpo);
+      } else {
+        li.appendChild(que);
+      }
       slotPast.appendChild(li);
     });
     secPast.hidden = pasadas.length === 0;

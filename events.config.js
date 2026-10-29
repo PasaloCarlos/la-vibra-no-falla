@@ -85,6 +85,8 @@ window.vibraConfig = {
   //   punto       dónde y a qué hora se encuentran (o null)
   //   descripcion una o dos líneas de qué es la vuelta
   //   foto        opcional: el flyer, en assets/salidas/ (sale completo en la tarjeta)
+  //   videos      opcional: lista de .mp4 en assets/videos/, cortos (≤ ~20 MB c/u).
+  //               La portada es el .jpg con el mismo nombre, al lado del video.
   //   llevar      lista de cosas; [] si no hay nada que traer
   //   costo       número (25 → "$25", 0 → "Gratis") o texto ("$25 por noche")
   //   dificultad  "suave" | "media" | "fuerte"  (o null para no mostrarla)
@@ -132,6 +134,7 @@ window.vibraConfig = {
         "Se paga el mismo día. Cerca de la fecha se hace una compra para dividirla entre todos.",
       llevar: [],
       costo: "$25 por noche",
+      videos: ["assets/videos/camping-el-yerta-1.mp4"],
       dificultad: null,
       cupo: null,
     },
