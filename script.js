@@ -360,11 +360,14 @@
     return a;
   }
 
-  // En Apple el .ics siempre funciona: un solo botón. En lo demás no se sabe
-  // qué calendario usa la persona, así que el botón abre dos opciones.
+  // En Apple y Android el .ics va directo: un solo botón, y el teléfono lo
+  // abre con el calendario que tenga. En computadoras no se sabe cuál usa la
+  // persona, así que el botón abre dos opciones (Google Calendar u otro).
+  var ES_ANDROID = /Android/.test(navigator.userAgent);
+
   function botonCalendario(salida, fecha, fin, conHora) {
     var r = rangoSalida(fecha, fin, conHora);
-    if (ES_APPLE) return [enlaceIcs(salida, r, "Añadir al calendario")];
+    if (ES_APPLE || ES_ANDROID) return [enlaceIcs(salida, r, "Añadir al calendario")];
 
     var boton = document.createElement("button");
     boton.type = "button";
