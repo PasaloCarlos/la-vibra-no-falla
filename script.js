@@ -638,8 +638,8 @@
     if (salida.descripcion) { desc.textContent = salida.descripcion; } else { desc.remove(); }
 
     // El flyer de la salida, completo. Se crea aquí y no en el <template> para
-    // que aparezca aunque el visitante tenga el HTML viejo en caché. Va al
-    // final de la tarjeta (ver abajo).
+    // que aparezca aunque el visitante tenga el HTML viejo en caché. Va justo
+    // debajo de la descripción: el flyer es parte de lo que hay que saber.
     var foto = null;
     if (salida.foto) {
       foto = document.createElement("a");
@@ -650,6 +650,7 @@
       img.alt = "Flyer: " + (salida.titulo || "salida");
       img.loading = "lazy";
       foto.appendChild(img);
+      (desc.parentNode ? desc : nodo.querySelector(".meta") || campo(nodo, "titulo")).after(foto);
     }
     var recuerdos = pintarRecuerdos(salida);
 
@@ -742,11 +743,10 @@
       }
     }
 
-    // El orden de la tarjeta: lo que hay que saber, después Voy (lo que se
-    // viene a hacer), después los atajos chiquitos, y el flyer o los
-    // recuerdos al final, para que no empujen Voy hasta abajo.
+    // El orden de la tarjeta: lo que hay que saber (con el flyer), después
+    // Voy, después los atajos chiquitos, y los recuerdos al final.
     var cuerpo = nodo.querySelector(".card-body");
-    [campo(nodo, "rsvp"), campo(nodo, "rsvpoff"), nodo.querySelector(".links"), foto, recuerdos]
+    [campo(nodo, "rsvp"), campo(nodo, "rsvpoff"), nodo.querySelector(".links"), recuerdos]
       .forEach(function (el) { if (el) cuerpo.appendChild(el); });
 
     return nodo;
