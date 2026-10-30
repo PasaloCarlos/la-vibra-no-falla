@@ -80,8 +80,11 @@ window.vibraConfig = {
   //               sabe (la página escribe "Hora por confirmar")
   //   fin         último día, sólo para salidas de varios días; si no, omítelo
   //   lugar       nombre del sitio
-  //   mapa        pin de Google Maps (o null). Lo abre el botón "Google Maps" y
-  //               viaja en el mensaje de WhatsApp. Waze busca por el lugar.
+  //   mapa        pin de Google Maps (o null). En Google Maps: toca el sitio →
+  //               Compartir → Copiar enlace, y pégalo aquí entre comillas
+  //               ("https://maps.app.goo.gl/..."). El botón "Google Maps" abre
+  //               ese pin exacto y viaja en el mensaje de WhatsApp. Sin pin, el
+  //               botón busca el lugar por nombre.
   //   coords      opcional: [lat, lon] para el clima. Si no está, se busca el
   //               lugar por nombre; ponlo si el clima no sale o sale de otro pueblo
   //   punto       dónde y a qué hora se encuentran (o null)

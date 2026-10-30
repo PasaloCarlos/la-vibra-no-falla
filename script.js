@@ -395,27 +395,17 @@
     ]).map(doblar).join("\r\n");
   }
 
-  // Waze y Google Maps. Si la salida trae su pin (mapa), Google Maps usa ese;
-  // Waze no entiende pines de Google, así que busca por el nombre del sitio.
+  // Google Maps: el pin de la salida (mapa) si lo tiene; si no, busca el lugar
+  // por nombre. Sin pin ni lugar, no hay botón.
   function botonesMapa(salida) {
     var q = lugarConPais(salida);
     if (!q && !salida.mapa) return [];
-    var botones = [];
-    if (q) {
-      var waze = document.createElement("a");
-      waze.className = "share";
-      waze.textContent = "Waze";
-      waze.href = "https://waze.com/ul?q=" + encodeURIComponent(q) + "&navigate=yes";
-      waze.rel = "noopener";
-      botones.push(waze);
-    }
     var maps = document.createElement("a");
     maps.className = "share";
     maps.textContent = "Google Maps";
     maps.href = salida.mapa || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
     maps.rel = "noopener";
-    botones.push(maps);
-    return botones;
+    return [maps];
   }
 
   // El clima sale cuando falta una semana o menos (antes, el pronóstico no
