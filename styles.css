@@ -834,6 +834,9 @@ button.share[aria-expanded="true"] { background: rgba(240, 246, 238, 0.08); }
   height: 320px;
   width: auto;
   max-width: 100%;
+  /* Hasta que llega la portada, el video no sabe su tamaño: que reserve el
+     de un video vertical en vez de los 300×150 del navegador. */
+  aspect-ratio: auto 9 / 16;
   background: #000;
   border-radius: var(--radio-media);
   border: var(--borde-media);

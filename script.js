@@ -183,6 +183,18 @@
   // Videos de una salida: cada uno es la ruta del .mp4 o { src, poster }.
   // preload="none" para que nada se baje hasta que alguien le dé play, y
   // playsinline para que en iPhone no salte a pantalla completa.
+  // Las portadas también pesan (una salida puede traer 20 videos): cada una
+  // se pide cuando su video está por entrar en pantalla, no al abrir la página.
+  var portadas = "IntersectionObserver" in window
+    ? new IntersectionObserver(function (entradas) {
+        entradas.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          en.target.poster = en.target.getAttribute("data-poster");
+          portadas.unobserve(en.target);
+        });
+      }, { rootMargin: "400px" })
+    : null;
+
   function pintarVideos(salida) {
     var lista = (salida.videos || []).filter(Boolean);
     if (!lista.length) return null;
@@ -195,7 +207,13 @@
       video.preload = "none";
       video.setAttribute("playsinline", "");
       // Sin poster explícito, se busca el .jpg con el mismo nombre del video.
-      video.poster = v.poster || v.src.replace(/\.mp4$/i, ".jpg");
+      var poster = v.poster || v.src.replace(/\.mp4$/i, ".jpg");
+      if (portadas) {
+        video.setAttribute("data-poster", poster);
+        portadas.observe(video);
+      } else {
+        video.poster = poster;
+      }
       video.src = v.src;
       video.setAttribute("aria-label", "Video: " + (salida.titulo || "salida"));
       caja.appendChild(video);
