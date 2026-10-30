@@ -650,13 +650,15 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   scroll-snap-type: x mandatory;
   padding-bottom: 4px;
 }
+/* Todos con la misma altura y el ancho que pida su portada, para que un
+   video horizontal no salga chiquito al lado de los verticales. */
 .videos video {
   flex: none;
   scroll-snap-align: start;
   display: block;
-  width: 180px;
+  height: 320px;
+  width: auto;
   max-width: 100%;
-  max-height: 340px;
   background: #000;
   border-radius: calc(var(--radio) * 0.6);
   border: 1px solid var(--linea);
@@ -667,7 +669,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 @media (max-width: 460px) {
   /* Con videos o fotos, la fecha va arriba para dejarles el ancho completo. */
   .past-list li:has(.pasada) { flex-direction: column; gap: 4px; }
-  .videos video { width: 150px; max-height: 280px; }
+  .videos video { height: 260px; }
   .card { flex-direction: column; }
   .card-when {
     width: 100%;

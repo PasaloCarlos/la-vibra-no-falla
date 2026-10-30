@@ -130,6 +130,14 @@ window.vibraConfig = {
       mapa: null,                            // ← pin, sólo para el mensaje de WhatsApp
       punto: null,
       descripcion: "De 2 PM en adelante.",
+      videos: [
+        "assets/videos/cumple-olga-80-1.mp4",
+        "assets/videos/cumple-olga-80-2.mp4",
+        "assets/videos/cumple-olga-80-3.mp4",
+        "assets/videos/cumple-olga-80-4.mp4",
+        "assets/videos/cumple-olga-80-5.mp4",
+      ],
+      fotos: ["assets/fotos/cumple-olga-80-1.jpg"],
       llevar: ["Instrumentos"],
       costo: null,
       dificultad: null,
