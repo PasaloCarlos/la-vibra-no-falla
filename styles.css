@@ -25,7 +25,7 @@
   --panel: #1b4225;
   --hueso: #eef3ea;
   --tinta: #f0f6ee;
-  --tinta-2: #b3cdb7;
+  --tinta-2: #c9dccb;      /* más claro que antes: se lee afuera, al sol */
   --linea: rgba(240, 246, 238, 0.18);
   --linea-suave: rgba(240, 246, 238, 0.10);
 
@@ -214,11 +214,10 @@ main > section { scroll-margin-top: 72px; }
 }
 .card-when .dow,
 .card-when .month {
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-size: 0.78rem;
+  font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  opacity: 0.88;
 }
 .card-when .day {
   font-family: var(--display);
@@ -244,7 +243,7 @@ main > section { scroll-margin-top: 72px; }
 }
 .meta {
   margin: 6px 0 0;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--tinta-2);
 }
 .meta .dot { margin: 0 6px; }
@@ -259,15 +258,15 @@ main > section { scroll-margin-top: 72px; }
 }
 .punto {
   margin: var(--paso) 0 0;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--tinta-2);
 }
 .links {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: calc(var(--paso) * 2);
-  margin: calc(var(--paso) * 1.5) 0 0;
+  gap: 2px;
+  margin: var(--paso) 0 0 -10px;
 }
 /* 44px de alto mínimo: es lo que piden Android y iOS para algo que se toca
    con el dedo. Con 34 el botón existía pero costaba acertarle. */
@@ -276,17 +275,20 @@ main > section { scroll-margin-top: 72px; }
   align-items: center;
   min-height: 44px;
 }
+/* Calendario, Google Maps y Compartir: atajos de texto, no botones. Voy es
+   lo que se viene a hacer y no debe competir con ellos. Conservan 44px de
+   alto para el dedo; el margen negativo alinea el texto del primero con el
+   resto de la tarjeta. */
 .share {
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 999px;
-  border: 1px solid var(--linea);
-  color: var(--tinta-2);
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  color: var(--azul-claro);
 }
-.share:hover { background: rgba(240, 246, 238, 0.08); color: var(--tinta); }
-.links { gap: var(--paso); }
+.share:hover { background: rgba(240, 246, 238, 0.08); text-decoration: underline; text-underline-offset: 3px; }
 /* "Añadir al calendario" es un <button> fuera de Apple: que se vea igual. */
 button.share {
   min-height: 44px;
@@ -294,13 +296,16 @@ button.share {
   font-family: inherit;
   cursor: pointer;
 }
-button.share[aria-expanded="true"] { background: rgba(240, 246, 238, 0.08); color: var(--tinta); }
+button.share[aria-expanded="true"] { background: rgba(240, 246, 238, 0.08); }
 /* Las dos opciones ocupan su propia fila, debajo del botón que las abrió. */
 .cal-opciones {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--paso);
+  gap: 2px;
   flex-basis: 100%;
+  padding-left: 12px;
+  border-left: 1px solid var(--linea);
+  margin-left: 10px;
 }
 
 /* el pronóstico, cuando falta una semana o menos */
@@ -333,7 +338,7 @@ button.share[aria-expanded="true"] { background: rgba(240, 246, 238, 0.08); colo
   padding: 0;
 }
 .tags li {
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -349,7 +354,7 @@ button.share[aria-expanded="true"] { background: rgba(240, 246, 238, 0.08); colo
 .llevar {
   margin: calc(var(--paso) * 1.5) 0 0;
   padding-left: 1.1em;
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--tinta-2);
 }
 .llevar li { margin-bottom: 2px; }
@@ -388,7 +393,7 @@ button.share[aria-expanded="true"] { background: rgba(240, 246, 238, 0.08); colo
   gap: var(--paso);
 }
 .count {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--tinta-2);
   margin-right: auto;
   font-variant-numeric: tabular-nums;
@@ -406,6 +411,13 @@ button.share[aria-expanded="true"] { background: rgba(240, 246, 238, 0.08); colo
   cursor: pointer;
 }
 .btn:hover { background: var(--azul-claro); }
+/* Voy y Pedir: el botón que importa en la tarjeta, más grande que todo lo demás. */
+.rsvp-head .btn:not(.btn-quiet) {
+  min-height: 48px;
+  padding: 10px 30px;
+  font-size: 1.05rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
 .btn:disabled { opacity: 0.55; cursor: default; }
 .btn-quiet {
   background: transparent;
@@ -422,7 +434,7 @@ button.share[aria-expanded="true"] { background: rgba(240, 246, 238, 0.08); colo
   padding: 0;
 }
 .who li {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   padding: 3px 10px;
   border-radius: 999px;
   background: rgba(240, 246, 238, 0.12);
@@ -439,7 +451,7 @@ button.share[aria-expanded="true"] { background: rgba(240, 246, 238, 0.08); colo
   margin-top: calc(var(--paso) * 2);
 }
 .rsvp-form label { display: grid; gap: 4px; }
-.rsvp-form span { font-size: 0.85rem; color: var(--tinta-2); }
+.rsvp-form span { font-size: 0.9rem; color: var(--tinta-2); }
 .rsvp-form input {
   font: inherit;
   padding: 9px 12px;
@@ -452,7 +464,7 @@ button.share[aria-expanded="true"] { background: rgba(240, 246, 238, 0.08); colo
 .rsvp-actions { display: flex; gap: var(--paso); flex-wrap: wrap; }
 .rsvp-msg { margin: 0; font-size: 0.9rem; color: var(--tinta-2); min-height: 1.2em; }
 .rsvp-msg.error { color: var(--barro); }
-.rsvp-off { margin: calc(var(--paso) * 2) 0 0; font-size: 0.9rem; color: var(--tinta-2); }
+.rsvp-off { margin: calc(var(--paso) * 2) 0 0; font-size: 0.95rem; color: var(--tinta-2); }
 
 /* --- orden de camisas ----------------------------------------------------
    Misma tarjeta que una salida; en vez del bloque de fecha va el flyer, que
@@ -496,7 +508,7 @@ button.share[aria-expanded="true"] { background: rgba(240, 246, 238, 0.08); colo
 .orden-incluye {
   margin: var(--paso) 0 0;
   padding-left: 1.1em;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 .orden-incluye li { margin-bottom: 2px; }
 .orden-cierre {
@@ -691,7 +703,7 @@ button.share[aria-expanded="true"] { background: rgba(240, 246, 238, 0.08); colo
 .sello-dia.rango { font-size: 1.15rem; padding-block: 4px 3px; }
 .sello-mes {
   margin-top: 3px;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -703,7 +715,7 @@ button.share[aria-expanded="true"] { background: rgba(240, 246, 238, 0.08); colo
   text-transform: uppercase;
   color: var(--hueso);
 }
-.cuantos { margin: 4px 0 0; font-size: 0.9rem; color: var(--tinta-2); }
+.cuantos { margin: 4px 0 0; font-size: 0.95rem; color: var(--tinta-2); }
 .solo-lector {
   position: absolute;
   width: 1px;

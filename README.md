@@ -15,7 +15,12 @@ apps-script/Code.gs  lo que se pega dentro del Google Sheet
 assets/logo-vibra.jpg el logo
 assets/orden-camisas-estimado.jpg  el flyer de la orden (precio estimado)
 assets/colores/      una foto de la camisa por color (rosa-melocoton.jpg…)
-tests/               pruebas del Apps Script: `node --test`
+assets/salidas/      flyers de las salidas (campo foto)
+assets/videos/       videos de las salidas + su portada .jpg del mismo nombre
+assets/fotos/        fotos de las salidas + su miniatura -mini.jpg
+s/<id>.html          una página por salida, sólo para la vista previa de WhatsApp (GENERADA)
+tools/paginas-salidas.js  genera s/ desde events.config.js
+tests/               pruebas: `node --test`
 ```
 
 ---
@@ -40,8 +45,17 @@ Edita **`events.config.js`** y añade un objeto al arreglo `salidas`:
 }
 ```
 
+Después corre **`node tools/paginas-salidas.js`**. Crea `s/<id>.html`, la página
+que comparte el botón "Compartir": WhatsApp no corre JavaScript, así que para
+que la vista previa del enlace enseñe el flyer y la fecha de esa salida (y no
+el logo de siempre) cada salida necesita su propia página con sus etiquetas og:.
+Al abrirla, lleva a la tarjeta en la página principal. `node --test` falla si
+se te olvida.
+
 Guarda, haz commit y empuja. GitHub Pages republica solo en un par de minutos.
-Se puede hacer desde el celular con el editor web de GitHub.
+Desde el editor web de GitHub en el celular se puede cambiar la config, pero
+ahí no se puede correr el script: sin él, "Compartir" de una salida NUEVA
+lleva a una página que no existe.
 
 **El `id` no se cambia nunca.** Es la llave con la que el Sheet guarda quién va;
 si lo cambias, las confirmaciones de esa salida quedan huérfanas.

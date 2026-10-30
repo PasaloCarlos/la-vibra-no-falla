@@ -41,6 +41,12 @@
   var tpl = document.getElementById("tpl-salida");
   var estado = {};   // salidaId -> [{nombre, acompanantes}]
   var ordenes = [];  // [{id, nombre, color, talla, pago}] en el orden en que llegaron
+  // Mientras el Sheet no contesta, los contadores dicen "Cargando…": decir
+  // "Nadie confirmado todavía" antes de saberlo hace creer que nadie va.
+  var carga = RSVP_URL ? "cargando" : "lista";   // "cargando" | "lista" | "error"
+  function conteoPendiente() {
+    return carga === "cargando" ? "Cargando…" : carga === "error" ? "No se pudo cargar la lista" : null;
+  }
 
   // --- fechas --------------------------------------------------------------
 
@@ -104,8 +110,11 @@
   }
 
   /** Dónde vive esta página, para que el enlace sirva igual en local y en Pages. */
-  function enlacePagina(salidaId) {
-    return location.origin + location.pathname + "#" + salidaId;
+  // Lo que se comparte es s/<id>.html: lleva a la misma tarjeta, pero WhatsApp
+  // enseña el flyer y la fecha de la salida en vez del logo (ver
+  // tools/paginas-salidas.js).
+  function enlaceCompartir(salidaId) {
+    return location.origin + location.pathname.replace(/[^/]*$/, "") + "s/" + salidaId + ".html";
   }
 
   /** El mensaje que WhatsApp abre escrito. wa.me sin número deja elegir el chat. */
@@ -118,7 +127,7 @@
     if (costo) lineas.push(costo);
     if (salida.punto) lineas.push(salida.punto);
     if (salida.mapa) lineas.push("Mapa: " + salida.mapa);
-    lineas.push(enlacePagina(salida.id));
+    lineas.push(enlaceCompartir(salida.id));
     return "https://wa.me/?text=" + encodeURIComponent(lineas.join("\n"));
   }
 
@@ -367,12 +376,12 @@
 
   function botonCalendario(salida, fecha, fin, conHora) {
     var r = rangoSalida(fecha, fin, conHora);
-    if (ES_APPLE || ES_ANDROID) return [enlaceIcs(salida, r, "Añadir al calendario")];
+    if (ES_APPLE || ES_ANDROID) return [enlaceIcs(salida, r, "Calendario")];
 
     var boton = document.createElement("button");
     boton.type = "button";
     boton.className = "share";
-    boton.textContent = "Añadir al calendario";
+    boton.textContent = "Calendario";
     boton.setAttribute("aria-expanded", "false");
     var opciones = document.createElement("span");
     opciones.className = "cal-opciones";
@@ -434,7 +443,7 @@
     if (!q && !salida.mapa) return [];
     var maps = document.createElement("a");
     maps.className = "share";
-    maps.textContent = "Google Maps";
+    maps.textContent = "Mapa";
     maps.href = salida.mapa || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
     maps.rel = "noopener";
     return [maps];
@@ -629,9 +638,11 @@
     if (salida.descripcion) { desc.textContent = salida.descripcion; } else { desc.remove(); }
 
     // El flyer de la salida, completo. Se crea aquí y no en el <template> para
-    // que aparezca aunque el visitante tenga el HTML viejo en caché.
+    // que aparezca aunque el visitante tenga el HTML viejo en caché. Va al
+    // final de la tarjeta (ver abajo).
+    var foto = null;
     if (salida.foto) {
-      var foto = document.createElement("a");
+      foto = document.createElement("a");
       foto.className = "foto";
       foto.href = salida.foto;
       var img = document.createElement("img");
@@ -639,10 +650,8 @@
       img.alt = "Flyer: " + (salida.titulo || "salida");
       img.loading = "lazy";
       foto.appendChild(img);
-      (desc.parentNode ? desc : nodo.querySelector(".meta") || campo(nodo, "titulo")).after(foto);
     }
     var recuerdos = pintarRecuerdos(salida);
-    if (recuerdos) campo(nodo, "tags").before(recuerdos);
 
     if (salida.punto) {
       var punto = campo(nodo, "punto");
@@ -693,6 +702,9 @@
     }
 
     nodo.id = salida.id;   // para que el enlace compartido caiga en esta tarjeta
+    // pintarTodo vuelve a pintar las tarjetas cuando llegan las confirmaciones;
+    // sin esto, la señal de la tarjeta compartida se perdía a los dos segundos.
+    if (location.hash === "#" + salida.id) nodo.classList.add("senalada");
     // El botón se crea aquí si el HTML en caché del visitante todavía no lo
     // trae, así que el JS nuevo basta para que aparezca: no hay combinación de
     // versiones que deje un enlace sin destino.
@@ -705,6 +717,7 @@
       nodo.querySelector(".links").appendChild(compartir);
     }
     compartir.href = enlaceWhatsApp(salida, fecha, fin, conHora);
+    compartir.textContent = "Compartir";
     compartir.hidden = false;
 
     // Calendario y cómo llegar van antes de compartir: son para uno mismo.
@@ -728,6 +741,13 @@
         off.appendChild(a);
       }
     }
+
+    // El orden de la tarjeta: lo que hay que saber, después Voy (lo que se
+    // viene a hacer), después los atajos chiquitos, y el flyer o los
+    // recuerdos al final, para que no empujen Voy hasta abajo.
+    var cuerpo = nodo.querySelector(".card-body");
+    [campo(nodo, "rsvp"), campo(nodo, "rsvpoff"), nodo.querySelector(".links"), foto, recuerdos]
+      .forEach(function (el) { if (el) cuerpo.appendChild(el); });
 
     return nodo;
   }
@@ -753,10 +773,10 @@
       var total = personas(lista);
       var cupoLleno = salida.cupo && total >= salida.cupo;
 
-      campo(nodo, "count").textContent =
-        total === 0 ? "Nadie confirmado todavía"
+      campo(nodo, "count").textContent = conteoPendiente() ||
+        (total === 0 ? "Nadie confirmado todavía"
         : total === 1 ? "1 confirmado"
-        : total + " confirmados" + (salida.cupo ? " de " + salida.cupo : "");
+        : total + " confirmados" + (salida.cupo ? " de " + salida.cupo : ""));
 
       var who = campo(nodo, "who");
       who.textContent = "";
@@ -802,7 +822,7 @@
 
       enviarRsvp({ accion: "voy", salida: salida.id, nombre: nombre, acompanantes: acompanantes })
         .then(function (rsvps) {
-          estado = rsvps;
+          estado = rsvps; carga = "lista";
           guardarNombre(nombre);
           form.hidden = true;
           msg.textContent = "";
@@ -820,7 +840,7 @@
       if (!yo) return;
       btnNo.disabled = true;
       enviarRsvp({ accion: "novoy", salida: salida.id, nombre: yo })
-        .then(function (rsvps) { estado = rsvps; pintarTodo(false); })
+        .then(function (rsvps) { estado = rsvps; carga = "lista"; pintarTodo(false); })
         .catch(function (err) {
           msg.classList.add("error");
           msg.textContent = "No se pudo quitar: " + err.message;
@@ -1020,7 +1040,7 @@
 
       enviar({ accion: "ordenar", nombre: nombre, color: color, talla: selTalla.value, pago: pago })
         .then(function (data) {
-          ordenes = data.ordenes || [];
+          ordenes = data.ordenes || []; carga = "lista";
           guardarNombre(nombre);
           guardarMisOrdenes(misOrdenes().concat([data.id]));
           // El nombre se queda: quien pide otro combo para la pareja sólo cambia color y talla.
@@ -1057,10 +1077,10 @@
     if (!ORDEN || !RSVP_URL) return;
     var mios = misOrdenes();
     var total = ordenes.length;
-    $("orden-count").textContent =
-      total === 0 ? "Nadie ha pedido todavía"
+    $("orden-count").textContent = conteoPendiente() ||
+      (total === 0 ? "Nadie ha pedido todavía"
       : total === 1 ? "1 combo pedido"
-      : total + " combos pedidos";
+      : total + " combos pedidos");
 
     var cerrada = ordenCerrada();
     var pedir = $("orden-pedir");
@@ -1096,7 +1116,7 @@
       quitar.disabled = true;
       enviar({ accion: "quitar-orden", id: o.id })
         .then(function (data) {
-          ordenes = data.ordenes || [];
+          ordenes = data.ordenes || []; carga = "lista";
           guardarMisOrdenes(misOrdenes().filter(function (x) { return x !== o.id; }));
           refrescarOrden();
           avisar("Pedido quitado.");
@@ -1247,10 +1267,17 @@
     .then(function (datos) {
       estado = datos.rsvps;
       ordenes = datos.ordenes;
+      carga = "lista";
       pintarTodo(false);
       refrescarOrden();
     })
-    .catch(function () { /* sin lista; los botones siguen sirviendo */ refrescarOrden(); });
+    .catch(function () {
+      // Sin lista, pero los botones siguen sirviendo: al confirmar llega la
+      // lista nueva con la respuesta.
+      carga = "error";
+      pintarTodo(false);
+      refrescarOrden();
+    });
 
   }   // fin de arrancar()
 })();

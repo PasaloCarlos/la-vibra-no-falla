@@ -82,7 +82,7 @@ window.vibraConfig = {
   //   lugar       nombre del sitio
   //   mapa        pin de Google Maps (o null). En Google Maps: toca el sitio →
   //               Compartir → Copiar enlace, y pégalo aquí entre comillas
-  //               ("https://maps.app.goo.gl/..."). El botón "Google Maps" abre
+  //               ("https://maps.app.goo.gl/..."). El botón "Mapa" abre
   //               ese pin exacto y viaja en el mensaje de WhatsApp. Sin pin, el
   //               botón busca el lugar por nombre.
   //   coords      opcional: [lat, lon] para el clima. Si no está, se busca el
