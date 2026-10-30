@@ -194,6 +194,106 @@
     return caja;
   }
 
+  // Fotos de una salida: miniaturas que abren la galería. La miniatura es el
+  // mismo archivo con "-mini" antes del .jpg; la grande sólo se baja al abrirla.
+  var MAX_MINIS = 8;
+  function mini(src) { return src.replace(/(\.\w+)$/, "-mini$1"); }
+
+  function pintarFotos(salida) {
+    var lista = (salida.fotos || []).filter(Boolean);
+    if (!lista.length) return null;
+    var caja = document.createElement("div");
+    caja.className = "fotos";
+    lista.slice(0, MAX_MINIS).forEach(function (src, i) {
+      var a = document.createElement("a");
+      a.href = src;
+      a.className = "mini";
+      var img = document.createElement("img");
+      img.src = mini(src);
+      img.alt = "Foto " + (i + 1) + " de " + (salida.titulo || "la salida");
+      img.loading = "lazy";
+      a.appendChild(img);
+      // La última miniatura visible cuenta las que quedan escondidas.
+      var resto = lista.length - MAX_MINIS;
+      if (i === MAX_MINIS - 1 && resto > 0) {
+        var mas = document.createElement("span");
+        mas.className = "mas";
+        mas.textContent = "+" + resto;
+        a.appendChild(mas);
+      }
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        abrirGaleria(lista, i, salida.titulo);
+      });
+      caja.appendChild(a);
+    });
+    return caja;
+  }
+
+  // Una sola galería para toda la página, creada la primera vez que se usa.
+  var galeria = null;
+  function abrirGaleria(lista, inicio, titulo) {
+    if (!galeria) galeria = crearGaleria();
+    galeria.lista = lista;
+    galeria.titulo = titulo || "";
+    galeria.mostrar(inicio);
+    if (galeria.dlg.showModal) galeria.dlg.showModal(); else galeria.dlg.setAttribute("open", "");
+  }
+
+  function crearGaleria() {
+    var dlg = document.createElement("dialog");
+    dlg.className = "galeria";
+    dlg.innerHTML =
+      '<img alt="">' +
+      '<button type="button" class="g-cerrar" aria-label="Cerrar">✕</button>' +
+      '<button type="button" class="g-ant" aria-label="Foto anterior">‹</button>' +
+      '<button type="button" class="g-sig" aria-label="Foto siguiente">›</button>' +
+      '<p class="g-cuenta"></p>';
+    document.body.appendChild(dlg);
+    var img = dlg.querySelector("img");
+    var g = { dlg: dlg, lista: [], i: 0, titulo: "" };
+
+    g.mostrar = function (i) {
+      var n = g.lista.length;
+      g.i = (i + n) % n;
+      img.src = g.lista[g.i];
+      img.alt = "Foto " + (g.i + 1) + " de " + g.titulo;
+      dlg.querySelector(".g-cuenta").textContent = (g.i + 1) + " / " + n;
+      dlg.querySelector(".g-ant").hidden = dlg.querySelector(".g-sig").hidden = n < 2;
+    };
+    function cerrar() { if (dlg.close) dlg.close(); else dlg.removeAttribute("open"); }
+
+    dlg.querySelector(".g-cerrar").addEventListener("click", cerrar);
+    dlg.querySelector(".g-ant").addEventListener("click", function () { g.mostrar(g.i - 1); });
+    dlg.querySelector(".g-sig").addEventListener("click", function () { g.mostrar(g.i + 1); });
+    // Tocar fuera de la foto cierra (el clic cae en el propio <dialog>).
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) cerrar(); });
+    dlg.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowLeft") g.mostrar(g.i - 1);
+      if (e.key === "ArrowRight") g.mostrar(g.i + 1);
+    });
+    // Deslizar con el dedo pasa de foto.
+    var x0 = null;
+    dlg.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+    dlg.addEventListener("touchend", function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      x0 = null;
+      if (Math.abs(dx) > 40) g.mostrar(g.i + (dx < 0 ? 1 : -1));
+    });
+    return g;
+  }
+
+  // Videos primero y fotos debajo: lo que una salida trae de recuerdo.
+  function pintarRecuerdos(salida) {
+    var partes = [pintarVideos(salida), pintarFotos(salida)].filter(Boolean);
+    if (!partes.length) return null;
+    var caja = document.createElement("div");
+    caja.className = "recuerdos";
+    partes.forEach(function (p) { caja.appendChild(p); });
+    return caja;
+  }
+
   // --- pintar una salida ---------------------------------------------------
 
   function campo(nodo, nombre) { return nodo.querySelector('[data-f="' + nombre + '"]'); }
@@ -242,8 +342,8 @@
       foto.appendChild(img);
       (desc.parentNode ? desc : nodo.querySelector(".meta") || campo(nodo, "titulo")).after(foto);
     }
-    var videos = pintarVideos(salida);
-    if (videos) campo(nodo, "tags").before(videos);
+    var recuerdos = pintarRecuerdos(salida);
+    if (recuerdos) campo(nodo, "tags").before(recuerdos);
 
     if (salida.punto) {
       var punto = campo(nodo, "punto");
@@ -760,12 +860,12 @@
       que.className = "que";
       que.textContent = x.s.titulo || "Salida";
       li.appendChild(fecha);
-      var videosPasada = pintarVideos(x.s);
-      if (videosPasada) {
+      var recuerdosPasada = pintarRecuerdos(x.s);
+      if (recuerdosPasada) {
         var cuerpo = document.createElement("div");
         cuerpo.className = "pasada";
         cuerpo.appendChild(que);
-        cuerpo.appendChild(videosPasada);
+        cuerpo.appendChild(recuerdosPasada);
         li.appendChild(cuerpo);
       } else {
         li.appendChild(que);

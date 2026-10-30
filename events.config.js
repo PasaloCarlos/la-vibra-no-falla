@@ -87,6 +87,9 @@ window.vibraConfig = {
   //   foto        opcional: el flyer, en assets/salidas/ (sale completo en la tarjeta)
   //   videos      opcional: lista de .mp4 en assets/videos/, cortos (≤ ~20 MB c/u).
   //               La portada es el .jpg con el mismo nombre, al lado del video.
+  //   fotos       opcional: lista de .jpg en assets/fotos/. Cada una necesita su
+  //               miniatura al lado con "-mini" (foto-1.jpg → foto-1-mini.jpg).
+  //               Salen debajo de los videos y abren una galería al tocarlas.
   //   llevar      lista de cosas; [] si no hay nada que traer
   //   costo       número (25 → "$25", 0 → "Gratis") o texto ("$25 por noche")
   //   dificultad  "suave" | "media" | "fuerte"  (o null para no mostrarla)
@@ -104,6 +107,16 @@ window.vibraConfig = {
       mapa: null,                            // ← pin, sólo para el mensaje de WhatsApp
       punto: null,                           // ← dónde y a qué hora se encuentran
       descripcion: "",
+      videos: [
+        "assets/videos/tito-rojas-2026-1.mp4",
+        "assets/videos/tito-rojas-2026-2.mp4",
+        "assets/videos/tito-rojas-2026-3.mp4",
+      ],
+      fotos: [
+        "assets/fotos/tito-rojas-2026-1.jpg",
+        "assets/fotos/tito-rojas-2026-2.jpg",
+        "assets/fotos/tito-rojas-2026-3.jpg",
+      ],
       llevar: [],
       costo: null,                           // ← ponlo cuando se sepa
       dificultad: null,
