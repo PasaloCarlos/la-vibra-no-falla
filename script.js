@@ -936,7 +936,64 @@
 
   pintarTodo(true);
   montarOrden();
+  montarAtajos();
   irAlAncla();
+
+  /** La barra de atajos: un botón por sección que se está enseñando. Se crea
+   *  aquí y no en el HTML para que sólo salgan las secciones que existen hoy
+   *  (sin orden activa no hay "Camisas") y para que el HTML viejo en caché no
+   *  enseñe una barra sin código detrás. */
+  function montarAtajos() {
+    var secciones = [
+      ["next", "Próxima"],
+      ["orden", "Camisas"],
+      ["upcoming", "Lo que viene"],
+      ["past", "Recuerdos"],
+    ].filter(function (x) {
+      var el = document.getElementById(x[0]);
+      return el && !el.hidden;
+    });
+    if (secciones.length < 2) return;   // una sola sección no necesita atajos
+
+    var nav = document.createElement("nav");
+    nav.className = "atajos";
+    nav.setAttribute("aria-label", "Secciones de la página");
+    var fila = document.createElement("div");
+    fila.className = "atajos-fila";
+    nav.appendChild(fila);
+
+    var suave = !(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+    var enlaces = {};
+    secciones.forEach(function (x) {
+      var a = document.createElement("a");
+      a.href = "#" + x[0];
+      a.textContent = x[1];
+      // Sin cambiar el #: si no, al recargar irAlAncla señalaría la sección.
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        document.getElementById(x[0]).scrollIntoView({ behavior: suave ? "smooth" : "auto", block: "start" });
+      });
+      enlaces[x[0]] = a;
+      fila.appendChild(a);
+    });
+    document.querySelector("main").before(nav);
+
+    // Marca la sección que ocupa el centro de la pantalla.
+    if (!("IntersectionObserver" in window)) return;
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        Object.keys(enlaces).forEach(function (id) {
+          if (id === en.target.id) enlaces[id].setAttribute("aria-current", "true");
+          else enlaces[id].removeAttribute("aria-current");
+        });
+        // En el celular la fila se desliza: que el atajo marcado quede a la vista.
+        var a = enlaces[en.target.id];
+        fila.scrollTo({ left: a.offsetLeft - (fila.clientWidth - a.offsetWidth) / 2, behavior: suave ? "smooth" : "auto" });
+      });
+    }, { rootMargin: "-45% 0px -50% 0px" });
+    secciones.forEach(function (x) { obs.observe(document.getElementById(x[0])); });
+  }
 
   /** Un enlace compartido termina en #<id>: lleva a esa tarjeta y la señala. */
   function irAlAncla() {
