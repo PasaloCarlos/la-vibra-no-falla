@@ -33,6 +33,14 @@
   --texto: "Barlow", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --radio: 14px;
+  /* Fotos, flyers y videos DENTRO de una tarjeta: una sola esquina, un solo
+     borde y una sola separación del texto. Lo que va de borde a borde (el
+     flyer de las camisas, la tira de videos de un recuerdo) toma la esquina
+     de la tarjeta y no lleva nada de esto. El logo es marca: sigue redondo. */
+  --radio-media: 10px;
+  --borde-media: 1px solid var(--linea);
+  --sobre-media: calc(var(--paso) * 2);   /* del texto a la imagen */
+  --entre-media: var(--paso);             /* de un bloque de imágenes al otro */
   --paso: 8px;
   --ancho: 680px;
 }
@@ -241,13 +249,13 @@ main > section { scroll-margin-top: 72px; }
 }
 .meta .dot { margin: 0 6px; }
 .desc { margin: calc(var(--paso) * 1.5) 0 0; }
-.foto { display: block; margin: calc(var(--paso) * 1.5) 0 0; max-width: 420px; }
+.foto { display: block; margin: var(--sobre-media) 0 0; max-width: 420px; }
 .foto img {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: calc(var(--radio) * 0.6);
-  border: 1px solid var(--linea);
+  border-radius: var(--radio-media);
+  border: var(--borde-media);
 }
 .punto {
   margin: var(--paso) 0 0;
@@ -674,7 +682,7 @@ main > section { scroll-margin-top: 72px; }
 .recuerdo .videos {
   scrollbar-width: thin;
   scrollbar-color: var(--linea) transparent;
-  margin-top: calc(var(--paso) * 2);
+  margin-top: var(--sobre-media);
   padding-inline: calc(var(--paso) * 2);
   scroll-padding-inline: calc(var(--paso) * 2);
 }
@@ -690,15 +698,16 @@ main > section { scroll-margin-top: 72px; }
   grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
   gap: 6px;
   max-width: 460px;
-  margin: calc(var(--paso) * 1.5) 0 0;
+  margin: var(--sobre-media) 0 0;
 }
+.videos + .fotos { margin-top: var(--entre-media); }
 .mini {
   position: relative;
   display: block;
   aspect-ratio: 1;
   overflow: hidden;
-  border-radius: calc(var(--radio) * 0.5);
-  border: 1px solid var(--linea);
+  border-radius: var(--radio-media);
+  border: var(--borde-media);
 }
 .mini img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .mini:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
@@ -731,6 +740,7 @@ main > section { scroll-margin-top: 72px; }
   margin: auto;
   max-width: calc(100vw - 32px);
   max-height: calc(100dvh - 96px);
+  border-radius: var(--radio-media);
 }
 .galeria button {
   position: absolute;
@@ -765,7 +775,7 @@ main > section { scroll-margin-top: 72px; }
 .videos {
   display: flex;
   gap: var(--paso);
-  margin: calc(var(--paso) * 1.5) 0 0;
+  margin: var(--sobre-media) 0 0;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding-bottom: 4px;
@@ -780,8 +790,8 @@ main > section { scroll-margin-top: 72px; }
   width: auto;
   max-width: 100%;
   background: #000;
-  border-radius: calc(var(--radio) * 0.6);
-  border: 1px solid var(--linea);
+  border-radius: var(--radio-media);
+  border: var(--borde-media);
 }
 
 /* --- teléfono ----------------------------------------------------------- */
