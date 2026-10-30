@@ -332,27 +332,56 @@
   // Windows) casi siempre usan Google Calendar.
   var ES_APPLE = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
 
-  function botonCalendario(salida, fecha, fin, conHora) {
-    var r = rangoSalida(fecha, fin, conHora);
+  // El .ics lo abre el Calendario de Apple, el de Samsung, Outlook y casi
+  // cualquier otro.
+  function enlaceIcs(salida, r, texto) {
     var a = document.createElement("a");
     a.className = "share";
-    a.textContent = "Añadir al calendario";
-    if (ES_APPLE) {
-      a.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics(salida, r));
-      a.download = salida.id + ".ics";
-    } else {
-      var fechas = r.todoElDia
-        ? diaCompacto(r.desde) + "/" + diaCompacto(r.hasta)
-        : horaCompacta(r.desde) + "/" + horaCompacta(r.hasta);
-      a.href = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
-        "&text=" + encodeURIComponent(salida.titulo || "Salida") +
-        "&dates=" + fechas +
-        "&ctz=America/Puerto_Rico" +
-        "&details=" + encodeURIComponent(textoDetalles(salida)) +
-        "&location=" + encodeURIComponent(lugarConPais(salida));
-      a.rel = "noopener";
-    }
+    a.textContent = texto;
+    a.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics(salida, r));
+    a.download = salida.id + ".ics";
     return a;
+  }
+
+  function enlaceGoogle(salida, r) {
+    var fechas = r.todoElDia
+      ? diaCompacto(r.desde) + "/" + diaCompacto(r.hasta)
+      : horaCompacta(r.desde) + "/" + horaCompacta(r.hasta);
+    var a = document.createElement("a");
+    a.className = "share";
+    a.textContent = "Google Calendar";
+    a.href = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+      "&text=" + encodeURIComponent(salida.titulo || "Salida") +
+      "&dates=" + fechas +
+      "&ctz=America/Puerto_Rico" +
+      "&details=" + encodeURIComponent(textoDetalles(salida)) +
+      "&location=" + encodeURIComponent(lugarConPais(salida));
+    a.rel = "noopener";
+    return a;
+  }
+
+  // En Apple el .ics siempre funciona: un solo botón. En lo demás no se sabe
+  // qué calendario usa la persona, así que el botón abre dos opciones.
+  function botonCalendario(salida, fecha, fin, conHora) {
+    var r = rangoSalida(fecha, fin, conHora);
+    if (ES_APPLE) return [enlaceIcs(salida, r, "Añadir al calendario")];
+
+    var boton = document.createElement("button");
+    boton.type = "button";
+    boton.className = "share";
+    boton.textContent = "Añadir al calendario";
+    boton.setAttribute("aria-expanded", "false");
+    var opciones = document.createElement("span");
+    opciones.className = "cal-opciones";
+    opciones.hidden = true;
+    opciones.appendChild(enlaceGoogle(salida, r));
+    opciones.appendChild(enlaceIcs(salida, r, "Otro calendario"));
+    boton.addEventListener("click", function () {
+      var abrir = opciones.hidden;
+      opciones.hidden = !abrir;
+      boton.setAttribute("aria-expanded", String(abrir));
+    });
+    return [boton, opciones];
   }
 
   function escIcs(t) {
@@ -676,7 +705,7 @@
     compartir.hidden = false;
 
     // Calendario y cómo llegar van antes de compartir: son para uno mismo.
-    var antes = [botonCalendario(salida, fecha, fin, conHora)].concat(botonesMapa(salida));
+    var antes = botonCalendario(salida, fecha, fin, conHora).concat(botonesMapa(salida));
     antes.forEach(function (a) { compartir.before(a); });
 
     montarClima(nodo, salida, fecha, fin);
