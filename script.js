@@ -294,6 +294,214 @@
     return caja;
   }
 
+  // --- calendario, cómo llegar y clima ---------------------------------------
+
+  var PAGINA = "https://pasalocarlos.github.io/la-vibra-no-falla/";
+  var HORAS_POR_DEFECTO = 3;   // la config no dice cuándo termina una salida
+
+  function dos(n) { return (n < 10 ? "0" : "") + n; }
+  function diaCompacto(d) { return d.getFullYear() + dos(d.getMonth() + 1) + dos(d.getDate()); }
+  function horaCompacta(d) { return diaCompacto(d) + "T" + dos(d.getHours()) + dos(d.getMinutes()) + "00"; }
+  function masDias(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n, d.getHours(), d.getMinutes()); }
+  function masHoras(d, n) { return new Date(d.getTime() + n * 3600000); }
+
+  // La config está en hora de Puerto Rico (UTC−4 todo el año, sin cambio de
+  // hora). Para el .ics se pasa a UTC a mano, para que sea correcto aunque
+  // quien lo baje tenga el teléfono en otra zona.
+  function utcCompacta(d) {
+    var u = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours() + 4, d.getMinutes()));
+    return u.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  }
+
+  function lugarConPais(salida) {
+    var lugar = String(salida.lugar || "").trim();
+    return lugar ? lugar + ", Puerto Rico" : "";
+  }
+
+  // Todo el día si no hay hora o si dura varios días; si no, 3 horas.
+  function rangoSalida(fecha, fin, conHora) {
+    if (fin || !conHora) return { todoElDia: true, desde: fecha, hasta: masDias(fin || fecha, 1) };
+    return { todoElDia: false, desde: fecha, hasta: masHoras(fecha, HORAS_POR_DEFECTO) };
+  }
+
+  function textoDetalles(salida) {
+    return [salida.descripcion, salida.punto, PAGINA + "#" + salida.id].filter(Boolean).join("\n\n");
+  }
+
+  // iPhone, iPad y Mac abren el .ics en su Calendario; los demás (Android,
+  // Windows) casi siempre usan Google Calendar.
+  var ES_APPLE = /iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent);
+
+  function botonCalendario(salida, fecha, fin, conHora) {
+    var r = rangoSalida(fecha, fin, conHora);
+    var a = document.createElement("a");
+    a.className = "share";
+    a.textContent = "Añadir al calendario";
+    if (ES_APPLE) {
+      a.href = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics(salida, r));
+      a.download = salida.id + ".ics";
+    } else {
+      var fechas = r.todoElDia
+        ? diaCompacto(r.desde) + "/" + diaCompacto(r.hasta)
+        : horaCompacta(r.desde) + "/" + horaCompacta(r.hasta);
+      a.href = "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+        "&text=" + encodeURIComponent(salida.titulo || "Salida") +
+        "&dates=" + fechas +
+        "&ctz=America/Puerto_Rico" +
+        "&details=" + encodeURIComponent(textoDetalles(salida)) +
+        "&location=" + encodeURIComponent(lugarConPais(salida));
+      a.rel = "noopener";
+    }
+    return a;
+  }
+
+  function escIcs(t) {
+    return String(t || "").replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
+  }
+  // Las líneas de un .ics no deben pasar de 75 bytes: se doblan con un espacio.
+  function doblar(linea) {
+    var out = [];
+    while (linea.length > 60) { out.push(linea.slice(0, 60)); linea = " " + linea.slice(60); }
+    out.push(linea);
+    return out.join("\r\n");
+  }
+
+  function ics(salida, r) {
+    var cuando = r.todoElDia
+      ? ["DTSTART;VALUE=DATE:" + diaCompacto(r.desde), "DTEND;VALUE=DATE:" + diaCompacto(r.hasta)]
+      : ["DTSTART:" + utcCompacta(r.desde), "DTEND:" + utcCompacta(r.hasta)];
+    return [
+      "BEGIN:VCALENDAR",
+      "VERSION:2.0",
+      "PRODID:-//Vibra Extrema//La vibra no falla//ES",
+      "CALSCALE:GREGORIAN",
+      "METHOD:PUBLISH",
+      "BEGIN:VEVENT",
+      "UID:" + salida.id + "@pasalocarlos.github.io",
+      "DTSTAMP:" + new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, ""),
+    ].concat(cuando, [
+      "SUMMARY:" + escIcs(salida.titulo || "Salida"),
+      "LOCATION:" + escIcs(lugarConPais(salida)),
+      "DESCRIPTION:" + escIcs(textoDetalles(salida)),
+      "URL:" + PAGINA + "#" + salida.id,
+      // Un recordatorio el día antes, que es cuando se cuadra quién lleva qué.
+      "BEGIN:VALARM",
+      "TRIGGER:-P1D",
+      "ACTION:DISPLAY",
+      "DESCRIPTION:" + escIcs("Mañana: " + (salida.titulo || "salida")),
+      "END:VALARM",
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ]).map(doblar).join("\r\n");
+  }
+
+  // Waze y Google Maps. Si la salida trae su pin (mapa), Google Maps usa ese;
+  // Waze no entiende pines de Google, así que busca por el nombre del sitio.
+  function botonesMapa(salida) {
+    var q = lugarConPais(salida);
+    if (!q && !salida.mapa) return [];
+    var botones = [];
+    if (q) {
+      var waze = document.createElement("a");
+      waze.className = "share";
+      waze.textContent = "Waze";
+      waze.href = "https://waze.com/ul?q=" + encodeURIComponent(q) + "&navigate=yes";
+      waze.rel = "noopener";
+      botones.push(waze);
+    }
+    var maps = document.createElement("a");
+    maps.className = "share";
+    maps.textContent = "Google Maps";
+    maps.href = salida.mapa || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(q);
+    maps.rel = "noopener";
+    botones.push(maps);
+    return botones;
+  }
+
+  // El clima sale cuando falta una semana o menos (antes, el pronóstico no
+  // sirve de mucho). Open-Meteo es gratis y no pide cuenta. Si una salida no
+  // trae coords: [lat, lon], se busca el sitio por nombre, de lo más
+  // específico a lo menos ("El Yerta, Villalba" → "El Yerta", luego "Villalba").
+  var DIAS_CLIMA = 7;
+  var climaCache = {};   // salidaId → promesa; pintarTodo corre dos veces
+
+  var CIELO = [
+    [[0], "Despejado"], [[1, 2], "Parcialmente nublado"], [[3], "Nublado"],
+    [[45, 48], "Neblina"], [[51, 53, 55, 56, 57], "Llovizna"],
+    [[61, 63, 65, 66, 67], "Lluvia"], [[80, 81, 82], "Aguaceros"], [[95, 96, 99], "Tormenta"],
+  ];
+  function cielo(codigo) {
+    for (var i = 0; i < CIELO.length; i++) if (CIELO[i][0].indexOf(codigo) !== -1) return CIELO[i][1];
+    return "";
+  }
+
+  function buscarCoords(salida) {
+    if (salida.coords && salida.coords.length === 2) return Promise.resolve(salida.coords);
+    var partes = String(salida.lugar || "").split(",").map(function (p) { return p.trim(); }).filter(Boolean);
+    function probar(i) {
+      if (i >= partes.length) return Promise.reject(new Error("sin coords"));
+      return fetch("https://geocoding-api.open-meteo.com/v1/search?count=1&language=es&countryCode=PR&name=" +
+          encodeURIComponent(partes[i]))
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          var p = d.results && d.results[0];
+          return p ? [p.latitude, p.longitude] : probar(i + 1);
+        });
+    }
+    return probar(0);
+  }
+
+  function pedirClima(salida, fecha, fin) {
+    var hasta = fin || fecha;
+    return buscarCoords(salida).then(function (c) {
+      return fetch("https://api.open-meteo.com/v1/forecast?latitude=" + c[0] + "&longitude=" + c[1] +
+          "&daily=weather_code,temperature_2m_max,precipitation_probability_max" +
+          "&temperature_unit=fahrenheit&timezone=America%2FPuerto_Rico" +
+          "&start_date=" + isoDia(fecha) + "&end_date=" + isoDia(hasta))
+        .then(function (r) { return r.json(); });
+    });
+  }
+  function isoDia(d) { return d.getFullYear() + "-" + dos(d.getMonth() + 1) + "-" + dos(d.getDate()); }
+
+  function montarClima(nodo, salida, fecha, fin) {
+    var hoy = new Date();
+    var dias = (new Date(fecha.getFullYear(), fecha.getMonth(), fecha.getDate()) -
+      new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate())) / 86400000;
+    if (dias > DIAS_CLIMA) return;
+    if (!salida.coords && !salida.lugar) return;
+
+    var p = document.createElement("p");
+    p.className = "clima";
+    p.hidden = true;
+    campo(nodo, "countdown").after(p);
+
+    if (!climaCache[salida.id]) climaCache[salida.id] = pedirClima(salida, fecha, fin);
+    climaCache[salida.id].then(function (d) {
+      var t = d.daily;
+      if (!t || !t.time || !t.time.length) return;
+      // Un día: "31° · 40% lluvia · Aguaceros". Varios: una línea por día.
+      var lineas = t.time.slice(0, 4).map(function (dia, i) {
+        var f = parseFecha(dia).fecha;
+        var partes = [];
+        if (t.temperature_2m_max[i] != null) partes.push(Math.round(t.temperature_2m_max[i]) + "°F");
+        if (t.precipitation_probability_max[i] != null) partes.push(t.precipitation_probability_max[i] + "% lluvia");
+        var c = cielo(t.weather_code[i]);
+        if (c) partes.push(c);
+        return (t.time.length > 1 ? DIAS[f.getDay()] + " " + f.getDate() + ": " : "") + partes.join(" · ");
+      });
+      p.textContent = "";
+      var titulo = document.createElement("strong");
+      titulo.textContent = "Clima";
+      p.appendChild(titulo);
+      lineas.forEach(function (l) {
+        var s = document.createElement("span");
+        s.textContent = l;
+        p.appendChild(s);
+      });
+      p.hidden = false;
+    }).catch(function () { /* sin clima: la tarjeta sirve igual */ });
+  }
+
   // --- ya vibramos ---------------------------------------------------------
 
   // Una salida pasada sin videos ni fotos: una línea, fecha y nombre.
@@ -476,6 +684,12 @@
     }
     compartir.href = enlaceWhatsApp(salida, fecha, fin, conHora);
     compartir.hidden = false;
+
+    // Calendario y cómo llegar van antes de compartir: son para uno mismo.
+    var antes = [botonCalendario(salida, fecha, fin, conHora)].concat(botonesMapa(salida));
+    antes.forEach(function (a) { compartir.before(a); });
+
+    montarClima(nodo, salida, fecha, fin);
 
     if (RSVP_URL) {
       montarRsvp(nodo, salida);

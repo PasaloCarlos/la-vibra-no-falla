@@ -286,6 +286,24 @@ main > section { scroll-margin-top: 72px; }
   color: var(--tinta-2);
 }
 .share:hover { background: rgba(240, 246, 238, 0.08); color: var(--tinta); }
+.links { gap: var(--paso); }
+
+/* el pronóstico, cuando falta una semana o menos */
+.clima {
+  display: grid;
+  gap: 2px;
+  margin: var(--paso) 0 0;
+  font-size: 0.95rem;
+  color: var(--tinta-2);
+  font-variant-numeric: tabular-nums;
+}
+.clima strong {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--azul-claro);
+}
 
 /* la tarjeta a la que apunta un enlace compartido */
 .card.senalada { outline: 2px solid var(--azul); outline-offset: 3px; }

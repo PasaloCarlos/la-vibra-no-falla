@@ -82,6 +82,8 @@ window.vibraConfig = {
   //   lugar       nombre del sitio
   //   mapa        pin de Google Maps (o null). Ya no se enseña en la página:
   //               sólo viaja dentro del mensaje de "Compartir por WhatsApp"
+  //   coords      opcional: [lat, lon] para el clima. Si no está, se busca el
+  //               lugar por nombre; ponlo si el clima no sale o sale de otro pueblo
   //   punto       dónde y a qué hora se encuentran (o null)
   //   descripcion una o dos líneas de qué es la vuelta
   //   foto        opcional: el flyer, en assets/salidas/ (sale completo en la tarjeta)
