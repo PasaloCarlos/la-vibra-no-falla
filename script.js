@@ -294,6 +294,75 @@
     return caja;
   }
 
+  // --- ya vibramos ---------------------------------------------------------
+
+  // Una salida pasada sin videos ni fotos: una línea, fecha y nombre.
+  function pintarPasada(x) {
+    var li = document.createElement("li");
+    var fecha = document.createElement("span");
+    fecha.className = "fecha";
+    fecha.textContent = x.f.getDate() + " " + MESES[x.f.getMonth()] + " " + x.f.getFullYear();
+    var que = document.createElement("span");
+    que.className = "que";
+    que.textContent = x.s.titulo || "Salida";
+    li.appendChild(fecha);
+    li.appendChild(que);
+    return li;
+  }
+
+  // Una salida pasada con recuerdos: tarjeta. El bloque de fecha repite el de
+  // las próximas salidas, pero en línea y sin relleno: lo que viene va lleno,
+  // lo que ya pasó, delineado.
+  function pintarRecuerdo(x, recuerdos) {
+    var s = x.s;
+    var li = document.createElement("li");
+    li.className = "recuerdo";
+
+    var cabeza = document.createElement("div");
+    cabeza.className = "recuerdo-cabeza";
+
+    var sello = document.createElement("p");
+    sello.className = "sello";
+    var fin = s.fin ? (parseFecha(s.fin) || {}).fecha : null;
+    var mismoMes = fin && fin.getMonth() === x.f.getMonth() && fin.getDate() !== x.f.getDate();
+    var dia = document.createElement("span");
+    dia.className = "sello-dia" + (mismoMes ? " rango" : "");
+    dia.textContent = mismoMes ? x.f.getDate() + "–" + fin.getDate() : x.f.getDate();
+    var mes = document.createElement("span");
+    mes.className = "sello-mes";
+    mes.textContent = MESES[x.f.getMonth()];
+    dia.setAttribute("aria-hidden", "true");
+    mes.setAttribute("aria-hidden", "true");
+    // El sello se ve; el lector de pantalla lee la fecha completa.
+    var leida = document.createElement("span");
+    leida.className = "solo-lector";
+    leida.textContent = x.f.getDate() + (mismoMes ? " al " + fin.getDate() : "") +
+      " de " + MESES[x.f.getMonth()] + " de " + x.f.getFullYear();
+    sello.appendChild(dia);
+    sello.appendChild(mes);
+    sello.appendChild(leida);
+
+    var texto = document.createElement("div");
+    texto.className = "recuerdo-texto";
+    var h3 = document.createElement("h3");
+    h3.textContent = s.titulo || "Salida";
+    var cuantos = document.createElement("p");
+    cuantos.className = "cuantos";
+    cuantos.textContent = contar((s.videos || []).filter(Boolean).length, "video", "videos")
+      .concat(contar((s.fotos || []).filter(Boolean).length, "foto", "fotos"))
+      .join(" · ");
+    texto.appendChild(h3);
+    texto.appendChild(cuantos);
+
+    cabeza.appendChild(sello);
+    cabeza.appendChild(texto);
+    li.appendChild(cabeza);
+    li.appendChild(recuerdos);
+    return li;
+  }
+
+  function contar(n, uno, varios) { return n ? [n + " " + (n === 1 ? uno : varios)] : []; }
+
   // --- pintar una salida ---------------------------------------------------
 
   function campo(nodo, nombre) { return nodo.querySelector('[data-f="' + nombre + '"]'); }
@@ -852,25 +921,8 @@
     secUp.hidden = proximas.length < 2;
 
     pasadas.forEach(function (x) {
-      var li = document.createElement("li");
-      var fecha = document.createElement("span");
-      fecha.className = "fecha";
-      fecha.textContent = x.f.getDate() + " " + MESES[x.f.getMonth()] + " " + x.f.getFullYear();
-      var que = document.createElement("span");
-      que.className = "que";
-      que.textContent = x.s.titulo || "Salida";
-      li.appendChild(fecha);
-      var recuerdosPasada = pintarRecuerdos(x.s);
-      if (recuerdosPasada) {
-        var cuerpo = document.createElement("div");
-        cuerpo.className = "pasada";
-        cuerpo.appendChild(que);
-        cuerpo.appendChild(recuerdosPasada);
-        li.appendChild(cuerpo);
-      } else {
-        li.appendChild(que);
-      }
-      slotPast.appendChild(li);
+      var recuerdos = pintarRecuerdos(x.s);
+      slotPast.appendChild(recuerdos ? pintarRecuerdo(x, recuerdos) : pintarPasada(x));
     });
     secPast.hidden = pasadas.length === 0;
 

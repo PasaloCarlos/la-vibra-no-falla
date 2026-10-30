@@ -562,7 +562,82 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   font-size: 0.9rem;
 }
 .past-list .que { color: var(--tinta); }
-.past-list .pasada { min-width: 0; flex: 1; }
+
+/* Una salida pasada con videos o fotos es una tarjeta de recuerdos. Los
+   recuerdos van de borde a borde; el texto lleva el margen de la tarjeta. */
+.past-list { display: grid; gap: calc(var(--paso) * 2); }
+.past-list li.recuerdo {
+  display: block;
+  padding: calc(var(--paso) * 2) 0;
+  background: var(--panel);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+  color: var(--tinta);
+  overflow: hidden;
+}
+.past-list li.recuerdo + li:not(.recuerdo) { margin-top: var(--paso); }
+.recuerdo-cabeza {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--paso) * 2);
+  padding-inline: calc(var(--paso) * 2);
+}
+/* El sello: el bloque de fecha de las próximas, delineado en vez de lleno. */
+.sello {
+  flex: none;
+  width: 64px;
+  margin: 0;
+  padding: 6px 0 7px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1.5px solid var(--hueso);
+  border-radius: 10px;
+  color: var(--hueso);
+  line-height: 1;
+}
+.sello-dia {
+  font-family: var(--display);
+  font-size: 1.75rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.sello-dia.rango { font-size: 1.15rem; padding-block: 4px 3px; }
+.sello-mes {
+  margin-top: 3px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.recuerdo-texto { min-width: 0; }
+.recuerdo h3 {
+  font-size: 1.3rem;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--hueso);
+}
+.cuantos { margin: 4px 0 0; font-size: 0.9rem; color: var(--tinta-2); }
+.solo-lector {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.recuerdo .videos {
+  scrollbar-width: thin;
+  scrollbar-color: var(--linea) transparent;
+  margin-top: calc(var(--paso) * 2);
+  padding-inline: calc(var(--paso) * 2);
+  scroll-padding-inline: calc(var(--paso) * 2);
+}
+.recuerdo .fotos {
+  max-width: none;
+  margin-inline: calc(var(--paso) * 2);
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+}
 
 /* fotos de una salida: miniaturas cuadradas que abren la galería */
 .fotos {
@@ -667,9 +742,8 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 /* --- teléfono ----------------------------------------------------------- */
 
 @media (max-width: 460px) {
-  /* Con videos o fotos, la fecha va arriba para dejarles el ancho completo. */
-  .past-list li:has(.pasada) { flex-direction: column; gap: 4px; }
   .videos video { height: 260px; }
+  .recuerdo .fotos { grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); }
   .card { flex-direction: column; }
   .card-when {
     width: 100%;
