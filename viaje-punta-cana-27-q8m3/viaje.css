@@ -1,0 +1,159 @@
+/* Punta Cana 2027 — encima de ../styles.css, con sus mismas piezas.
+   El viaje usa la tarjeta de la próxima salida (bloque de fecha azul).
+   En la lista de hoteles el bloque hueso lleva el PRECIO en vez de la fecha:
+   es la llave de escaneo, igual que la fecha en una salida. El recomendado es
+   el único precio en azul, por la misma regla que la próxima salida. */
+
+.masthead-nombre {
+  margin: 0;
+  font-family: var(--display);
+  font-size: clamp(1.9rem, 8vw, 2.6rem);
+  line-height: 0.95;
+  text-transform: uppercase;
+  color: var(--hueso);
+}
+
+/* --- el viaje ------------------------------------------------------------ */
+
+.viaje-hero h1 {
+  font-size: clamp(1.6rem, 6.5vw, 2.2rem);
+  line-height: 1.02;
+  text-transform: uppercase;
+  color: var(--hueso);
+}
+.viaje-hero .card-when .month,
+.viaje-hero .card-when .dow { white-space: nowrap; }
+.incluye {
+  margin: var(--paso) 0 0;
+  padding-left: 1.2em;
+}
+.incluye li + li { margin-top: 2px; }
+
+.viaje-sec { margin-bottom: calc(var(--paso) * 5); }
+.intro {
+  margin: calc(var(--paso) * -1) 0 calc(var(--paso) * 2);
+  color: var(--tinta-2);
+}
+
+/* --- la recomendación ---------------------------------------------------- */
+
+.reco {
+  display: flex;
+  background: var(--panel);
+  border: 2px solid var(--azul);
+  border-radius: var(--radio);
+  overflow: hidden;
+}
+.reco-precio {
+  flex: none;
+  width: 120px;
+  padding: calc(var(--paso) * 2) var(--paso);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--azul);
+  color: #06253d;
+  text-align: center;
+}
+.reco-precio .monto {
+  font-family: var(--display);
+  font-size: 2.2rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.reco-precio .por { font-size: 0.85rem; font-weight: 600; margin-top: 4px; }
+.reco-body {
+  min-width: 0;
+  padding: calc(var(--paso) * 2) calc(var(--paso) * 2.5) calc(var(--paso) * 2.5);
+}
+.reco-body h3 {
+  font-size: clamp(1.5rem, 6vw, 2rem);
+  text-transform: uppercase;
+  line-height: 1.02;
+  color: var(--hueso);
+}
+.reco-body > p { margin: calc(var(--paso) * 1.5) 0 0; }
+.reco-body > .meta { margin-top: 6px; }
+.pros {
+  margin: var(--paso) 0 0;
+  padding-left: 1.2em;
+}
+.pros li + li { margin-top: 6px; }
+.ojo, .plan-b { color: var(--tinta-2); }
+.ojo strong, .plan-b strong { color: var(--tinta); }
+.plan-b {
+  padding-top: calc(var(--paso) * 1.5);
+  border-top: 1px solid var(--linea-suave);
+}
+
+/* --- los hoteles ----------------------------------------------------------- */
+
+.hotel .card-when { width: 96px; }
+.hotel .card-when .day.precio {
+  font-size: 1.6rem;
+  letter-spacing: -0.01em;
+}
+.hotel-reco { border: 2px solid var(--azul); }
+.hotel-reco .card-when { background: var(--azul); color: #06253d; }
+.hotel .desc { color: var(--tinta-2); }
+.nota {
+  margin: calc(var(--paso) * 2) 0 0;
+  font-size: 0.95rem;
+  color: var(--tinta-2);
+}
+
+/* --- listas de pasos y de preguntas -------------------------------------- */
+
+.lista {
+  margin: 0;
+  padding: calc(var(--paso) * 2) calc(var(--paso) * 2) calc(var(--paso) * 2) calc(var(--paso) * 4.5);
+  background: var(--panel);
+  border: 1px solid var(--linea);
+  border-radius: var(--radio);
+}
+.lista li + li { margin-top: var(--paso); }
+
+/* --- contacto -------------------------------------------------------------- */
+
+.contacto-nombre {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+.contacto-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--paso);
+  margin: calc(var(--paso) * 2) 0 0;
+}
+.contacto-acciones .btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.aviso {
+  margin: 0;
+  padding-top: calc(var(--paso) * 2);
+  border-top: 1px solid var(--linea);
+  font-size: 0.9rem;
+  color: var(--tinta-2);
+}
+
+/* mismo corte que styles.css: ahí la tarjeta pasa a una columna */
+@media (max-width: 460px) {
+  .reco { flex-direction: column; }
+  .reco-precio {
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: baseline;
+    gap: 8px;
+    padding: 10px 16px;
+  }
+  .reco-precio .monto { font-size: 1.8rem; }
+  .reco-body { padding: calc(var(--paso) * 2); }
+  .hotel .card-when { width: 100%; }
+  .hotel .card-when .day.precio { font-size: 1.4rem; }
+}
