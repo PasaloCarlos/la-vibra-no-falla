@@ -7,8 +7,8 @@
   "use strict";
 
   var POR_QUE = {
-    panas: "Sólo adultos y ambiente de fiesta.",
-    parejas: "Sólo adultos y en la playa. Si quieren más calma, el Riu Palace.",
+    panas: "Piscina de fiesta, shows todas las noches y los mejores reviews.",
+    parejas: "Los mejores reviews, y tiene una sección sólo para adultos.",
     familia: "Muy buenos reviews, parque acuático y club para niños."
   };
   var SELLO = { 1: "Recomendado", 2: "Plan B" };

@@ -412,3 +412,13 @@
   .final { grid-template-columns: 1fr; }
   .final-vs { text-align: center; line-height: 1; }
 }
+.final-reco { border: 2px solid var(--azul); box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28); }
+.final-sello {
+  align-self: flex-start;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--azul);
+  color: #06253d;
+  font-size: 0.82rem;
+  font-weight: 700;
+}

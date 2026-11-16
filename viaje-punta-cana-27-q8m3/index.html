@@ -83,6 +83,17 @@
     <h2 class="section-title" id="final-titulo">Recomendación final</h2>
     <p class="final-intro">Al final queda entre dos.</p>
     <div class="final">
+      <a class="final-op final-reco" href="#faro">
+        <img src="fotos/faro.jpg" alt="" width="960" height="640" loading="lazy">
+        <span class="final-body">
+          <span class="final-sello">Recomendado</span>
+          <span class="final-nombre">Ocean El Faro</span>
+          <span class="final-precio"><strong>$1,129</strong> por persona</span>
+          <span class="final-si">Más kid friendly, y con los mejores reviews.</span>
+          <span class="final-nums">4.7 en Google · 8.4 en Expedia</span>
+        </span>
+      </a>
+      <p class="final-vs" aria-hidden="true">vs</p>
       <a class="final-op" href="#chic">
         <img src="fotos/chic.jpg" alt="" width="960" height="640" loading="lazy">
         <span class="final-body">
@@ -92,21 +103,11 @@
           <span class="final-nums">4.1 en Google · 7.6 en Expedia</span>
         </span>
       </a>
-      <p class="final-vs" aria-hidden="true">vs</p>
-      <a class="final-op" href="#faro">
-        <img src="fotos/faro.jpg" alt="" width="960" height="640" loading="lazy">
-        <span class="final-body">
-          <span class="final-nombre">Ocean El Faro</span>
-          <span class="final-precio"><strong>$1,129</strong> por persona</span>
-          <span class="final-si">Más kid friendly, y con los mejores reviews.</span>
-          <span class="final-nums">4.7 en Google · 8.4 en Expedia</span>
-        </span>
-      </a>
     </div>
   </section>
 
   <!-- ¿Quién va? Reordena los hoteles. Sin JavaScript se ven en el orden
-       del grupo de panas, que es como vienen escritos. -->
+       en que vienen escritos (el viejo orden de panas, con el Chic primero). -->
   <section class="viaje-sec" aria-labelledby="hoteles-titulo">
     <h2 class="section-title" id="hoteles-titulo">¿Quién va?</h2>
     <div class="quien" role="group" aria-label="Quién va al viaje">
@@ -114,12 +115,12 @@
       <button type="button" class="quien-btn" data-quien="parejas" aria-pressed="false">Parejas</button>
       <button type="button" class="quien-btn" data-quien="familia" aria-pressed="false">Con niños pequeños</button>
     </div>
-    <p class="quien-por-que" id="por-que" aria-live="polite">Sólo adultos y ambiente de fiesta.</p>
+    <p class="quien-por-que" id="por-que" aria-live="polite">Piscina de fiesta, shows todas las noches y los mejores reviews.</p>
 
     <div class="hoteles" id="hoteles">
       <!-- data-panas / data-parejas / data-familia = el lugar en cada lista.
            data-familia="no" = no acepta menores. -->
-      <article class="hotel" id="chic" data-panas="1" data-parejas="1" data-familia="no">
+      <article class="hotel" id="chic" data-panas="2" data-parejas="2" data-familia="no">
         <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Chic by Royalton, desliza para ver más">
           <img src="fotos/chic2.jpg" alt="Piscina del Chic by Royalton frente al mar" width="960" height="640">
           <img src="fotos/chic.jpg" alt="Terraza con tumbonas del Chic by Royalton" width="960" height="640" loading="lazy">
@@ -139,7 +140,7 @@
         </div>
       </article>
 
-      <article class="hotel" id="riu" data-panas="2" data-parejas="2" data-familia="3">
+      <article class="hotel" id="riu" data-panas="3" data-parejas="3" data-familia="3">
         <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Riu Palace Punta Cana, desliza para ver más">
           <img src="fotos/riu.jpg" alt="Piscina del Riu Palace Punta Cana" width="960" height="640" loading="lazy">
           <img src="fotos/riu2.jpg" alt="Tumbonas dentro de la piscina del Riu Palace Punta Cana" width="960" height="640" loading="lazy">
@@ -158,7 +159,7 @@
         </div>
       </article>
 
-      <article class="hotel" id="lopesan" data-panas="3" data-parejas="4" data-familia="2">
+      <article class="hotel" id="lopesan" data-panas="4" data-parejas="5" data-familia="2">
         <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Lopesan Splash Cove, desliza para ver más">
           <img src="fotos/lopesan.jpg" alt="Piscina y bohíos del Lopesan Splash Cove" width="960" height="640" loading="lazy">
           <img src="fotos/lopesan2.jpg" alt="Club de playa del Lopesan Splash Cove" width="960" height="640" loading="lazy">
@@ -177,7 +178,7 @@
         </div>
       </article>
 
-      <article class="hotel" id="faro" data-panas="4" data-parejas="5" data-familia="1">
+      <article class="hotel" id="faro" data-panas="1" data-parejas="1" data-familia="1">
         <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Ocean El Faro, desliza para ver más">
           <img src="fotos/faro.jpg" alt="Vista aérea del Ocean El Faro y su playa" width="960" height="640" loading="lazy">
           <img src="fotos/faro2.jpg" alt="Parque acuático del Ocean El Faro" width="960" height="640" loading="lazy">
@@ -196,7 +197,7 @@
         </div>
       </article>
 
-      <article class="hotel" id="serenade" data-panas="5" data-parejas="3" data-familia="4">
+      <article class="hotel" id="serenade" data-panas="5" data-parejas="4" data-familia="4">
         <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Serenade Punta Cana, desliza para ver más">
           <img src="fotos/serenade2.jpg" alt="Piscina infinita del Serenade Punta Cana" width="960" height="640" loading="lazy">
           <img src="fotos/serenade.jpg" alt="Piscina frente al mar del Serenade Punta Cana" width="960" height="640" loading="lazy">
