@@ -9,7 +9,7 @@
   var POR_QUE = {
     panas: "Sólo adultos y ambiente de fiesta: el Chic es el que más pega.",
     parejas: "Sólo adultos y en la playa. Si quieren más calma, el Riu Palace.",
-    familia: "La mejor nota de la lista, con parque acuático y club para nenes. El Chic no acepta menores."
+    familia: "Muy buenas notas, parque acuático y club para nenes. El Chic no acepta menores."
   };
   var SELLO = { 1: "Recomendado para ustedes", 2: "Plan B" };
 
@@ -49,6 +49,49 @@
 
   botones.forEach(function (b) {
     b.addEventListener("click", function () { aplicar(b.dataset.quien, true); });
+  });
+
+  // Fotos: flechas ‹ › y contador «1 / 2». Deslizar con el dedo sigue igual.
+  document.querySelectorAll(".hotel-fotos").forEach(function (tira) {
+    var fotos = tira.querySelectorAll("img");
+    if (fotos.length < 2) return;
+    var caja = document.createElement("div");
+    caja.className = "hotel-media";
+    tira.parentNode.insertBefore(caja, tira);
+    caja.appendChild(tira);
+
+    function boton(clase, signo, etiqueta) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "foto-btn " + clase;
+      b.textContent = signo;
+      b.setAttribute("aria-label", etiqueta);
+      caja.appendChild(b);
+      return b;
+    }
+    var ant = boton("ant", "‹", "Foto anterior");
+    var sig = boton("sig", "›", "Foto siguiente");
+    var n = document.createElement("p");
+    n.className = "foto-n";
+    n.setAttribute("aria-hidden", "true");
+    caja.appendChild(n);
+
+    function actual() { return Math.round(tira.scrollLeft / tira.clientWidth); }
+    function pintar() {
+      var i = actual();
+      n.textContent = (i + 1) + " / " + fotos.length;
+      ant.hidden = i === 0;
+      sig.hidden = i >= fotos.length - 1;
+    }
+    function ir(d) {
+      var i = Math.max(0, Math.min(fotos.length - 1, actual() + d));
+      fotos[i].loading = "eager";   // la siguiente puede estar sin cargar
+      tira.scrollTo({ left: i * tira.clientWidth });
+    }
+    ant.addEventListener("click", function () { ir(-1); });
+    sig.addEventListener("click", function () { ir(1); });
+    tira.addEventListener("scroll", pintar, { passive: true });
+    pintar();
   });
   aplicar(location.hash.slice(1), false);
 })();

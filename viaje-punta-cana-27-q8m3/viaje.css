@@ -101,17 +101,39 @@
   display: block;
 }
 .hotel-fotos:focus-visible { outline: 3px solid var(--azul); outline-offset: -3px; }
-.hotel::after {
-  content: "2 fotos, desliza";
+/* Flechas y contador: los pone viaje.js. Con el dedo se desliza igual;
+   las flechas son para la computadora y para que se vea que hay más fotos. */
+.hotel-media { position: relative; }
+.foto-btn {
   position: absolute;
-  top: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(6, 37, 61, 0.7);
+  color: #fff;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.foto-btn:hover { background: rgba(6, 37, 61, 0.9); }
+.foto-btn:focus-visible { outline: 3px solid var(--azul-claro); outline-offset: 2px; }
+.foto-btn.ant { left: 10px; }
+.foto-btn.sig { right: 10px; }
+.foto-n {
+  position: absolute;
   right: 12px;
-  padding: 2px 8px;
+  bottom: 12px;
+  margin: 0;
+  padding: 2px 9px;
   border-radius: 999px;
   background: rgba(6, 37, 61, 0.7);
   color: #fff;
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
   pointer-events: none;
 }
 
@@ -320,6 +342,9 @@
 .hotel .nota-google b { color: var(--c-tinta); }
 .hotel .barra { background: rgba(20, 51, 28, 0.12); }
 .hotel .barra::before { background: #2f7d3b; }
+/* Expedia califica de 1 a 10; aquí todos pasan de 7, así que la barra va de 6 a 10 */
+.nota-expedia { margin-top: 4px; }
+.nota-expedia .barra::before { width: calc((var(--e) - 6) / 4 * 100%); background: #1764a3; }
 .hotel .tags li { color: var(--c-tinta-2); border-color: var(--c-linea); }
 .hotel .tags li.t-adultos { color: var(--c-azul); border-color: color-mix(in srgb, var(--c-azul) 45%, transparent); }
 .hotel .pro svg { color: #2f7d3b; }
