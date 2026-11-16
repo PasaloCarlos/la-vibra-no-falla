@@ -106,85 +106,17 @@
     </div>
   </section>
 
-  <!-- ¿Quién va? Reordena los hoteles. Sin JavaScript se ven en el orden
-       en que vienen escritos (un orden viejo; el JavaScript los acomoda). -->
   <section class="viaje-sec" aria-labelledby="hoteles-titulo">
-    <h2 class="section-title" id="hoteles-titulo">¿Quién va?</h2>
-    <div class="quien" role="group" aria-label="Quién va al viaje">
-      <button type="button" class="quien-btn" data-quien="panas" aria-pressed="true">Panas</button>
-      <button type="button" class="quien-btn" data-quien="parejas" aria-pressed="false">Parejas</button>
-      <button type="button" class="quien-btn" data-quien="familia" aria-pressed="false">Con niños pequeños</button>
-    </div>
-    <p class="quien-por-que" id="por-que" aria-live="polite">Piscina de fiesta, shows todas las noches y los mejores reviews.</p>
+    <h2 class="section-title" id="hoteles-titulo">Los hoteles</h2>
 
     <div class="hoteles" id="hoteles">
-      <!-- data-panas / data-parejas / data-familia = el lugar en cada lista.
-           data-familia="no" = no acepta menores. -->
-      <article class="hotel" id="chic" data-panas="3" data-parejas="3" data-familia="no">
-        <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Chic by Royalton, desliza para ver más">
-          <img src="fotos/chic2.jpg" alt="Piscina del Chic by Royalton frente al mar" width="960" height="640">
-          <img src="fotos/chic.jpg" alt="Terraza con tumbonas del Chic by Royalton" width="960" height="640" loading="lazy">
-        </div>
-        <p class="hotel-precio"><strong>$1,079</strong> por persona</p>
-        <p class="hotel-sello" hidden></p>
-        <div class="hotel-body">
-          <h3>Chic by Royalton</h3>
-          <p class="meta">Uvero Alto</p>
-          <p class="nota-google" aria-label="4.1 de 5 en Google, 4,614 opiniones"><span class="barra" style="--n:4.1"></span><b>4.1</b> de 5 en Google <span>(4,614)</span></p>
-          <p class="nota-google nota-expedia" aria-label="7.6 de 10 en Expedia, 1,199 opiniones"><span class="barra" style="--e:7.6"></span><b>7.6</b> de 10 en Expedia <span>(1,199)</span></p>
-          <ul class="tags"><li class="t-adultos">Sólo adultos</li><li>Discoteca</li><li>Casino</li><li>Swim-up bar</li></ul>
-          <p class="pro"><svg aria-hidden="true"><use href="#i-mas"/></svg>Ambiente de fiesta y es sólo para adultos.</p>
-          <p class="contra"><svg aria-hidden="true"><use href="#i-ojo"/></svg>Sus reviews están entre los más bajos, y es un hotel pequeño.</p>
-          <p class="no-nenes">No acepta menores de edad.</p>
-          <p class="ver-fotos"><a href="https://www.marriott.com/en-us/hotels/pujrc-royalton-chic-punta-cana-an-autograph-collection-all-inclusive-resort-and-casino-adults-only/photos/" rel="noreferrer">Fotos oficiales</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Royalton+CHIC+Punta+Cana" rel="noreferrer">Fotos de huéspedes en Google Maps</a><a href="https://www.youtube.com/results?search_query=Royalton+CHIC+Punta+Cana+tour" rel="noreferrer">Videos en YouTube</a></p>
-        </div>
-      </article>
-
-      <article class="hotel" id="riu" data-panas="2" data-parejas="2" data-familia="2">
-        <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Riu Palace Punta Cana, desliza para ver más">
-          <img src="fotos/riu.jpg" alt="Piscina del Riu Palace Punta Cana" width="960" height="640" loading="lazy">
-          <img src="fotos/riu2.jpg" alt="Tumbonas dentro de la piscina del Riu Palace Punta Cana" width="960" height="640" loading="lazy">
-        </div>
-        <p class="hotel-precio"><strong>$1,179</strong> por persona</p>
-        <p class="hotel-sello" hidden></p>
-        <div class="hotel-body">
-          <h3>Riu Palace Punta Cana</h3>
-          <p class="meta">Arena Gorda</p>
-          <p class="nota-google" aria-label="4.4 de 5 en Google, 8,315 opiniones"><span class="barra" style="--n:4.4"></span><b>4.4</b> de 5 en Google <span>(8,315)</span></p>
-          <p class="nota-google nota-expedia" aria-label="8.4 de 10 en Expedia, 2,462 opiniones"><span class="barra" style="--e:8.4"></span><b>8.4</b> de 10 en Expedia <span>(2,462)</span></p>
-          <ul class="tags"><li>Parque acuático</li><li>Discoteca</li><li>Club para niños</li></ul>
-          <p class="pro"><svg aria-hidden="true"><use href="#i-mas"/></svg>Playa bien bonita y todo el complejo Riu a la mano.</p>
-          <p class="contra"><svg aria-hidden="true"><use href="#i-ojo"/></svg>Cuesta $100 más que el Chic y el edificio es más viejo.</p>
-          <p class="ver-fotos"><a href="https://www.riu.com/es/hotel/republica-dominicana/punta-cana/hotel-riu-palace-punta-cana/" rel="noreferrer">Fotos oficiales</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Hotel+Riu+Palace+Punta+Cana" rel="noreferrer">Fotos de huéspedes en Google Maps</a><a href="https://www.youtube.com/results?search_query=Riu+Palace+Punta+Cana+tour" rel="noreferrer">Videos en YouTube</a></p>
-        </div>
-      </article>
-
-      <article class="hotel" id="lopesan" data-panas="4" data-parejas="5" data-familia="3">
-        <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Lopesan Splash Cove, desliza para ver más">
-          <img src="fotos/lopesan.jpg" alt="Piscina y bohíos del Lopesan Splash Cove" width="960" height="640" loading="lazy">
-          <img src="fotos/lopesan2.jpg" alt="Club de playa del Lopesan Splash Cove" width="960" height="640" loading="lazy">
-        </div>
-        <p class="hotel-precio"><strong>$1,399</strong> por persona</p>
-        <p class="hotel-sello" hidden></p>
-        <div class="hotel-body">
-          <h3>Lopesan Splash Cove</h3>
-          <p class="meta">Bávaro</p>
-          <p class="nota-google" aria-label="4.7 de 5 en Google, 216 opiniones"><span class="barra" style="--n:4.7"></span><b>4.7</b> de 5 en Google <span>(216)</span></p>
-          <p class="nota-google nota-expedia" aria-label="9.0 de 10 en Expedia, 79 opiniones"><span class="barra" style="--e:9.0"></span><b>9.0</b> de 10 en Expedia <span>(79)</span></p>
-          <ul class="tags"><li>Nuevo, 2026</li><li>Parques acuáticos</li><li>Piscina de olas</li><li>Casino</li></ul>
-          <p class="pro"><svg aria-hidden="true"><use href="#i-mas"/></svg>Nuevo, con todo el complejo Lopesan Costa Bávaro.</p>
-          <p class="contra"><svg aria-hidden="true"><use href="#i-ojo"/></svg>El más caro por $220 o más, y con pocas opiniones todavía.</p>
-          <p class="ver-fotos"><a href="https://www.lopesan.com/es/hoteles/republica-dominicana/punta-cana/playa-bavaro/splash-cove" rel="noreferrer">Fotos oficiales</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Lopesan+Splash+Cove+Resort+Spa+%26+Casino" rel="noreferrer">Fotos de huéspedes en Google Maps</a><a href="https://www.youtube.com/results?search_query=Lopesan+Splash+Cove+Punta+Cana+tour" rel="noreferrer">Videos en YouTube</a></p>
-        </div>
-      </article>
-
-      <article class="hotel" id="faro" data-panas="1" data-parejas="1" data-familia="1">
+      <article class="hotel es-reco" id="faro">
         <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Ocean El Faro, desliza para ver más">
           <img src="fotos/faro.jpg" alt="Vista aérea del Ocean El Faro y su playa" width="960" height="640" loading="lazy">
           <img src="fotos/faro2.jpg" alt="Parque acuático del Ocean El Faro" width="960" height="640" loading="lazy">
         </div>
         <p class="hotel-precio"><strong>$1,129</strong> por persona</p>
-        <p class="hotel-sello" hidden></p>
+        <p class="hotel-sello">Recomendado</p>
         <div class="hotel-body">
           <h3>Ocean El Faro</h3>
           <p class="meta">Uvero Alto</p>
@@ -196,14 +128,64 @@
           <p class="ver-fotos"><a href="https://www.h10hotels.com/es/hoteles-punta-cana/ocean-el-faro/galeria" rel="noreferrer">Fotos oficiales</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Ocean+El+Faro+Resort+Punta+Cana" rel="noreferrer">Fotos de huéspedes en Google Maps</a><a href="https://www.youtube.com/results?search_query=Ocean+El+Faro+Punta+Cana+tour" rel="noreferrer">Videos en YouTube</a></p>
         </div>
       </article>
-
-      <article class="hotel" id="serenade" data-panas="5" data-parejas="4" data-familia="4">
+      <article class="hotel es-b" id="riu">
+        <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Riu Palace Punta Cana, desliza para ver más">
+          <img src="fotos/riu.jpg" alt="Piscina del Riu Palace Punta Cana" width="960" height="640" loading="lazy">
+          <img src="fotos/riu2.jpg" alt="Tumbonas dentro de la piscina del Riu Palace Punta Cana" width="960" height="640" loading="lazy">
+        </div>
+        <p class="hotel-precio"><strong>$1,179</strong> por persona</p>
+        <p class="hotel-sello">Plan B</p>
+        <div class="hotel-body">
+          <h3>Riu Palace Punta Cana</h3>
+          <p class="meta">Arena Gorda</p>
+          <p class="nota-google" aria-label="4.4 de 5 en Google, 8,315 opiniones"><span class="barra" style="--n:4.4"></span><b>4.4</b> de 5 en Google <span>(8,315)</span></p>
+          <p class="nota-google nota-expedia" aria-label="8.4 de 10 en Expedia, 2,462 opiniones"><span class="barra" style="--e:8.4"></span><b>8.4</b> de 10 en Expedia <span>(2,462)</span></p>
+          <ul class="tags"><li>Parque acuático</li><li>Discoteca</li><li>Club para niños</li></ul>
+          <p class="pro"><svg aria-hidden="true"><use href="#i-mas"/></svg>Playa bien bonita y todo el complejo Riu a la mano.</p>
+          <p class="contra"><svg aria-hidden="true"><use href="#i-ojo"/></svg>Cuesta $100 más que el Chic y el edificio es más viejo.</p>
+          <p class="ver-fotos"><a href="https://www.riu.com/es/hotel/republica-dominicana/punta-cana/hotel-riu-palace-punta-cana/" rel="noreferrer">Fotos oficiales</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Hotel+Riu+Palace+Punta+Cana" rel="noreferrer">Fotos de huéspedes en Google Maps</a><a href="https://www.youtube.com/results?search_query=Riu+Palace+Punta+Cana+tour" rel="noreferrer">Videos en YouTube</a></p>
+        </div>
+      </article>
+      <article class="hotel" id="chic">
+        <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Chic by Royalton, desliza para ver más">
+          <img src="fotos/chic2.jpg" alt="Piscina del Chic by Royalton frente al mar" width="960" height="640">
+          <img src="fotos/chic.jpg" alt="Terraza con tumbonas del Chic by Royalton" width="960" height="640" loading="lazy">
+        </div>
+        <p class="hotel-precio"><strong>$1,079</strong> por persona</p>
+        <div class="hotel-body">
+          <h3>Chic by Royalton</h3>
+          <p class="meta">Uvero Alto</p>
+          <p class="nota-google" aria-label="4.1 de 5 en Google, 4,614 opiniones"><span class="barra" style="--n:4.1"></span><b>4.1</b> de 5 en Google <span>(4,614)</span></p>
+          <p class="nota-google nota-expedia" aria-label="7.6 de 10 en Expedia, 1,199 opiniones"><span class="barra" style="--e:7.6"></span><b>7.6</b> de 10 en Expedia <span>(1,199)</span></p>
+          <ul class="tags"><li class="t-adultos">Sólo adultos</li><li>Discoteca</li><li>Casino</li><li>Swim-up bar</li></ul>
+          <p class="pro"><svg aria-hidden="true"><use href="#i-mas"/></svg>Ambiente de fiesta y es sólo para adultos.</p>
+          <p class="contra"><svg aria-hidden="true"><use href="#i-ojo"/></svg>Sus reviews están entre los más bajos, y es un hotel pequeño.</p>
+          <p class="ver-fotos"><a href="https://www.marriott.com/en-us/hotels/pujrc-royalton-chic-punta-cana-an-autograph-collection-all-inclusive-resort-and-casino-adults-only/photos/" rel="noreferrer">Fotos oficiales</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Royalton+CHIC+Punta+Cana" rel="noreferrer">Fotos de huéspedes en Google Maps</a><a href="https://www.youtube.com/results?search_query=Royalton+CHIC+Punta+Cana+tour" rel="noreferrer">Videos en YouTube</a></p>
+        </div>
+      </article>
+      <article class="hotel" id="lopesan">
+        <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Lopesan Splash Cove, desliza para ver más">
+          <img src="fotos/lopesan.jpg" alt="Piscina y bohíos del Lopesan Splash Cove" width="960" height="640" loading="lazy">
+          <img src="fotos/lopesan2.jpg" alt="Club de playa del Lopesan Splash Cove" width="960" height="640" loading="lazy">
+        </div>
+        <p class="hotel-precio"><strong>$1,399</strong> por persona</p>
+        <div class="hotel-body">
+          <h3>Lopesan Splash Cove</h3>
+          <p class="meta">Bávaro</p>
+          <p class="nota-google" aria-label="4.7 de 5 en Google, 216 opiniones"><span class="barra" style="--n:4.7"></span><b>4.7</b> de 5 en Google <span>(216)</span></p>
+          <p class="nota-google nota-expedia" aria-label="9.0 de 10 en Expedia, 79 opiniones"><span class="barra" style="--e:9.0"></span><b>9.0</b> de 10 en Expedia <span>(79)</span></p>
+          <ul class="tags"><li>Nuevo, 2026</li><li>Parques acuáticos</li><li>Piscina de olas</li><li>Casino</li></ul>
+          <p class="pro"><svg aria-hidden="true"><use href="#i-mas"/></svg>Nuevo, con todo el complejo Lopesan Costa Bávaro.</p>
+          <p class="contra"><svg aria-hidden="true"><use href="#i-ojo"/></svg>El más caro por $220 o más, y con pocas opiniones todavía.</p>
+          <p class="ver-fotos"><a href="https://www.lopesan.com/es/hoteles/republica-dominicana/punta-cana/playa-bavaro/splash-cove" rel="noreferrer">Fotos oficiales</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Lopesan+Splash+Cove+Resort+Spa+%26+Casino" rel="noreferrer">Fotos de huéspedes en Google Maps</a><a href="https://www.youtube.com/results?search_query=Lopesan+Splash+Cove+Punta+Cana+tour" rel="noreferrer">Videos en YouTube</a></p>
+        </div>
+      </article>
+      <article class="hotel" id="serenade">
         <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Serenade Punta Cana, desliza para ver más">
           <img src="fotos/serenade2.jpg" alt="Piscina infinita del Serenade Punta Cana" width="960" height="640" loading="lazy">
           <img src="fotos/serenade.jpg" alt="Piscina frente al mar del Serenade Punta Cana" width="960" height="640" loading="lazy">
         </div>
         <p class="hotel-precio"><strong>$1,089</strong> por persona</p>
-        <p class="hotel-sello" hidden></p>
         <div class="hotel-body">
           <h3>Serenade Punta Cana</h3>
           <p class="meta">Cabeza de Toro</p>
@@ -215,14 +197,12 @@
           <p class="ver-fotos"><a href="https://www.serenadepuntacana.com/gallery.html" rel="noreferrer">Fotos oficiales</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Serenade+Punta+Cana+Beach+%26+Spa+Resort" rel="noreferrer">Fotos de huéspedes en Google Maps</a><a href="https://www.youtube.com/results?search_query=Serenade+Punta+Cana+Beach+Spa+Resort+tour" rel="noreferrer">Videos en YouTube</a></p>
         </div>
       </article>
-
-      <article class="hotel" id="splash" data-panas="6" data-parejas="6" data-familia="5">
+      <article class="hotel" id="splash">
         <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Royalton Splash, desliza para ver más">
           <img src="fotos/splash2.jpg" alt="Piscina del Royalton Splash" width="960" height="640" loading="lazy">
           <img src="fotos/splash.jpg" alt="Toboganes del parque acuático del Royalton Splash" width="960" height="640" loading="lazy">
         </div>
         <p class="hotel-precio"><strong>$1,049</strong> por persona</p>
-        <p class="hotel-sello" hidden></p>
         <div class="hotel-body">
           <h3>Royalton Splash</h3>
           <p class="meta">Bávaro</p>
@@ -234,14 +214,12 @@
           <p class="ver-fotos"><a href="https://www.marriott.com/en-us/hotels/pujrs-royalton-splash-punta-cana-an-autograph-collection-all-inclusive-resort-and-casino/photos/" rel="noreferrer">Fotos oficiales</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Royalton+Splash+Punta+Cana" rel="noreferrer">Fotos de huéspedes en Google Maps</a><a href="https://www.youtube.com/results?search_query=Royalton+Splash+Punta+Cana+tour" rel="noreferrer">Videos en YouTube</a></p>
         </div>
       </article>
-
-      <article class="hotel" id="caribe" data-panas="7" data-parejas="7" data-familia="6">
+      <article class="hotel" id="caribe">
         <div class="hotel-fotos" tabindex="0" aria-label="Fotos del Serenade Caribe Club, desliza para ver más">
           <img src="fotos/caribe.jpg" alt="Lazy river del Serenade Caribe Club" width="960" height="640" loading="lazy">
           <img src="fotos/caribe2.jpg" alt="Habitación con salida a la piscina del Serenade Caribe Club" width="960" height="640" loading="lazy">
         </div>
         <p class="hotel-precio"><strong>$1,149</strong> por persona</p>
-        <p class="hotel-sello" hidden></p>
         <div class="hotel-body">
           <h3>Serenade Caribe Club</h3>
           <p class="meta">Cabeza de Toro, al lado del Serenade Punta Cana</p>

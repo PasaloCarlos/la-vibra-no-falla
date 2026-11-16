@@ -1,57 +1,8 @@
-/* «¿Quién va?»: reordena los hoteles para ese grupo y sella el primero
-   («Recomendado») y el segundo («Plan B»). El orden de cada
-   hotel vive en el HTML (data-panas, data-parejas, data-familia); aquí sólo
-   se aplica. data-familia="no" = no acepta menores: va al final, apagado.
-   La elección queda en el enlace (#familia) para poder compartirla. */
+/* Fotos de cada hotel: flechas ‹ › y contador «1 / 2». Deslizar con el dedo sigue igual.
+   El orden de los hoteles y los sellos «Recomendado» y «Plan B» van escritos en el HTML. */
 (function () {
   "use strict";
 
-  var POR_QUE = {
-    panas: "Piscina de fiesta, shows todas las noches y los mejores reviews.",
-    parejas: "Los mejores reviews, y tiene una sección sólo para adultos.",
-    familia: "Muy buenos reviews, parque acuático y club para niños."
-  };
-  var SELLO = { 1: "Recomendado", 2: "Plan B" };
-
-  var botones = document.querySelectorAll(".quien-btn");
-  var hoteles = document.querySelectorAll(".hotel");
-  var porQue = document.getElementById("por-que");
-
-  function aplicar(quien, mover) {
-    if (!POR_QUE[quien]) quien = "panas";
-    botones.forEach(function (b) {
-      b.setAttribute("aria-pressed", String(b.dataset.quien === quien));
-    });
-    porQue.textContent = POR_QUE[quien];
-
-    var lista = Array.prototype.slice.call(hoteles).map(function (h) {
-      var lugar = h.dataset[quien];
-      return { h: h, n: lugar === "no" ? 99 : Number(lugar) };
-    });
-    lista.sort(function (a, b) { return a.n - b.n; });
-
-    var caja = document.getElementById("hoteles");
-    lista.forEach(function (x) {
-      caja.appendChild(x.h);          // el orden del DOM = el orden de lectura
-      var sello = x.h.querySelector(".hotel-sello");
-      var texto = SELLO[x.n];
-      sello.hidden = !texto;
-      sello.textContent = texto || "";
-      x.h.classList.toggle("es-reco", x.n === 1);
-      x.h.classList.toggle("es-b", x.n === 2);
-      x.h.classList.toggle("no-aplica", x.n === 99);
-    });
-
-    if (mover) {
-      try { history.replaceState(null, "", "#" + quien); } catch (e) { /* file:// y similares */ }
-    }
-  }
-
-  botones.forEach(function (b) {
-    b.addEventListener("click", function () { aplicar(b.dataset.quien, true); });
-  });
-
-  // Fotos: flechas ‹ › y contador «1 / 2». Deslizar con el dedo sigue igual.
   document.querySelectorAll(".hotel-fotos").forEach(function (tira) {
     var fotos = tira.querySelectorAll("img");
     if (fotos.length < 2) return;
@@ -93,5 +44,4 @@
     tira.addEventListener("scroll", pintar, { passive: true });
     pintar();
   });
-  aplicar(location.hash.slice(1), false);
 })();

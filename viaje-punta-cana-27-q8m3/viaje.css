@@ -36,37 +36,6 @@
 
 .viaje-sec { margin-bottom: calc(var(--paso) * 5); }
 
-/* --- ¿quién va? -------------------------------------------------------------- */
-
-.quien {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--paso);
-}
-.quien-btn {
-  font-family: var(--texto);
-  font-size: 1rem;
-  font-weight: 600;
-  min-height: 44px;
-  padding: 8px 18px;
-  border-radius: 999px;
-  border: 1px solid var(--linea);
-  background: transparent;
-  color: var(--tinta);
-  cursor: pointer;
-}
-.quien-btn:hover { background: rgba(240, 246, 238, 0.08); }
-.quien-btn[aria-pressed="true"] {
-  background: var(--azul);
-  border-color: var(--azul);
-  color: #06253d;
-}
-.quien-btn:focus-visible { outline: 3px solid var(--azul-claro); outline-offset: 2px; }
-.quien-por-que {
-  margin: calc(var(--paso) * 1.5) 0 calc(var(--paso) * 2.5);
-  color: var(--tinta-2);
-}
-
 /* --- los hoteles ----------------------------------------------------------- */
 
 .hoteles { display: grid; gap: calc(var(--paso) * 3); }
@@ -245,9 +214,6 @@
   font-weight: 600;
 }
 
-.no-nenes { display: none; margin: var(--paso) 0 0; font-weight: 700; color: var(--barro); }
-.no-aplica { opacity: 0.55; }
-.no-aplica .no-nenes { display: block; }
 
 .nota {
   margin: calc(var(--paso) * 2) 0 0;
@@ -289,10 +255,8 @@
 .hotel .contra svg { color: #c0641c; }
 .hotel .contra { color: var(--c-tinta-2); }
 .hotel .ver-fotos a { color: var(--c-azul); }
-.hotel .no-nenes { color: #b4561a; }
 .hotel-precio { background: var(--verde-hondo); color: var(--hueso); }
 .es-b .hotel-sello { color: var(--c-azul); border-bottom-color: var(--c-linea); }
-.no-aplica { opacity: 0.6; }
 
 /* --- recomendación final: Chic contra El Faro ------------------------------
    Dos tarjetas claras, iguales de peso, con un «vs» en medio. Cada una lleva
