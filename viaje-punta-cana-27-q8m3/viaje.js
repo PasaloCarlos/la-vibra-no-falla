@@ -9,7 +9,7 @@
   var POR_QUE = {
     panas: "Sólo adultos y ambiente de fiesta: el Chic es el que más pega.",
     parejas: "Sólo adultos y en la playa. Si quieren más calma, el Riu Palace.",
-    familia: "Muy buenas notas, parque acuático y club para niños. El Chic no acepta menores."
+    familia: "Muy buenos reviews, parque acuático y club para niños. El Chic no acepta menores."
   };
   var SELLO = { 1: "Recomendado", 2: "Plan B" };
 
