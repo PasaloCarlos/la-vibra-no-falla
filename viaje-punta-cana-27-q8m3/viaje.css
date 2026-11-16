@@ -298,3 +298,37 @@
 @media (prefers-reduced-motion: no-preference) {
   .hotel-fotos { scroll-behavior: smooth; }
 }
+
+/* --- tarjetas claras ---------------------------------------------------------
+   Las tarjetas de hotel y las dos listas van en hueso, no en el verde del
+   fondo: sobre verde, un panel verde no se despega (Carlos, 2026-11-16).
+   Todo lo de adentro pasa a tinta verde oscura; el azul sigue siendo el del
+   recomendado. */
+.hotel, .pasos, .falta {
+  --c-fondo: #f4f7f1;
+  --c-tinta: #14331c;
+  --c-tinta-2: #4a6450;
+  --c-linea: rgba(20, 51, 28, 0.16);
+  --c-azul: #1764a3;
+  background: var(--c-fondo);
+  border-color: var(--c-linea);
+  color: var(--c-tinta);
+}
+.hotel-body h3 { color: var(--c-tinta); }
+.hotel .meta,
+.hotel .nota-google { color: var(--c-tinta-2); }
+.hotel .nota-google b { color: var(--c-tinta); }
+.hotel .barra { background: rgba(20, 51, 28, 0.12); }
+.hotel .barra::before { background: #2f7d3b; }
+.hotel .tags li { color: var(--c-tinta-2); border-color: var(--c-linea); }
+.hotel .tags li.t-adultos { color: var(--c-azul); border-color: color-mix(in srgb, var(--c-azul) 45%, transparent); }
+.hotel .pro svg { color: #2f7d3b; }
+.hotel .contra svg { color: #c0641c; }
+.hotel .contra { color: var(--c-tinta-2); }
+.hotel .ver-fotos { color: var(--c-azul); }
+.hotel .no-nenes { color: #b4561a; }
+.hotel-precio { background: var(--verde-hondo); color: var(--hueso); }
+.es-b .hotel-sello { color: var(--c-azul); border-bottom-color: var(--c-linea); }
+.pasos li::before { border-color: var(--c-azul); }
+.falta li::before { background: rgba(192, 100, 28, 0.14); color: #c0641c; }
+.no-aplica { opacity: 0.6; }
