@@ -238,8 +238,10 @@
 .contra { color: var(--tinta-2); }
 
 .ver-fotos {
-  display: inline-block;
-  margin-top: calc(var(--paso) * 1.5);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px calc(var(--paso) * 2.5);
+  margin: calc(var(--paso) * 1.5) 0 0;
   font-weight: 600;
 }
 
@@ -350,7 +352,7 @@
 .hotel .pro svg { color: #2f7d3b; }
 .hotel .contra svg { color: #c0641c; }
 .hotel .contra { color: var(--c-tinta-2); }
-.hotel .ver-fotos { color: var(--c-azul); }
+.hotel .ver-fotos a { color: var(--c-azul); }
 .hotel .no-nenes { color: #b4561a; }
 .hotel-precio { background: var(--verde-hondo); color: var(--hueso); }
 .es-b .hotel-sello { color: var(--c-azul); border-bottom-color: var(--c-linea); }
