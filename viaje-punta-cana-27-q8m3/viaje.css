@@ -255,80 +255,16 @@
   color: var(--tinta-2);
 }
 
-/* --- para reservar y lo que falta ---------------------------------------- */
-
-.pasos, .falta {
-  margin: 0;
-  padding: calc(var(--paso) * 2);
-  list-style: none;
-  background: var(--panel);
-  border: 1px solid var(--linea);
-  border-radius: var(--radio);
-}
-.pasos li, .falta li {
-  position: relative;
-  padding-left: 30px;
-}
-.pasos li + li, .falta li + li { margin-top: calc(var(--paso) * 1.25); }
-.pasos li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 3px;
-  width: 18px;
-  height: 18px;
-  border: 2px solid var(--azul-claro);
-  border-radius: 5px;
-}
-.falta li::before {
-  content: "?";
-  position: absolute;
-  left: 0;
-  top: 1px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: rgba(224, 145, 79, 0.18);
-  color: var(--barro);
-  font-weight: 700;
-  font-size: 0.8rem;
-  line-height: 20px;
-  text-align: center;
-}
-
-/* --- contacto -------------------------------------------------------------- */
-
-.contacto-nombre { margin: 0; font-size: 1.15rem; font-weight: 600; }
-.contacto-acciones {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--paso);
-  margin: calc(var(--paso) * 2) 0 0;
-}
-.contacto-acciones .btn {
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-}
-
-.aviso {
-  margin: 0;
-  padding-top: calc(var(--paso) * 2);
-  border-top: 1px solid var(--linea);
-  font-size: 0.9rem;
-  color: var(--tinta-2);
-}
-
 @media (prefers-reduced-motion: no-preference) {
   .hotel-fotos { scroll-behavior: smooth; }
 }
 
 /* --- tarjetas claras ---------------------------------------------------------
-   Las tarjetas de hotel y las dos listas van en hueso, no en el verde del
+   Las tarjetas de hotel van en hueso, no en el verde del
    fondo: sobre verde, un panel verde no se despega (Carlos, 2026-11-16).
    Todo lo de adentro pasa a tinta verde oscura; el azul sigue siendo el del
    recomendado. */
-.hotel, .pasos, .falta {
+.hotel {
   --c-fondo: #f4f7f1;
   --c-tinta: #14331c;
   --c-tinta-2: #4a6450;
@@ -356,8 +292,6 @@
 .hotel .no-nenes { color: #b4561a; }
 .hotel-precio { background: var(--verde-hondo); color: var(--hueso); }
 .es-b .hotel-sello { color: var(--c-azul); border-bottom-color: var(--c-linea); }
-.pasos li::before { border-color: var(--c-azul); }
-.falta li::before { background: rgba(192, 100, 28, 0.14); color: #c0641c; }
 .no-aplica { opacity: 0.6; }
 
 /* --- recomendación final: Chic contra El Faro ------------------------------
