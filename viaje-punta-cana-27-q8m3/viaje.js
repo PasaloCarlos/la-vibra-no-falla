@@ -1,5 +1,5 @@
 /* «¿Quién va?»: reordena los hoteles para ese grupo y sella el primero
-   («Recomendado para ustedes») y el segundo («Plan B»). El orden de cada
+   («Recomendado») y el segundo («Plan B»). El orden de cada
    hotel vive en el HTML (data-panas, data-parejas, data-familia); aquí sólo
    se aplica. data-familia="no" = no acepta menores: va al final, apagado.
    La elección queda en el enlace (#familia) para poder compartirla. */
@@ -11,7 +11,7 @@
     parejas: "Sólo adultos y en la playa. Si quieren más calma, el Riu Palace.",
     familia: "Muy buenas notas, parque acuático y club para nenes. El Chic no acepta menores."
   };
-  var SELLO = { 1: "Recomendado para ustedes", 2: "Plan B" };
+  var SELLO = { 1: "Recomendado", 2: "Plan B" };
 
   var botones = document.querySelectorAll(".quien-btn");
   var hoteles = document.querySelectorAll(".hotel");
