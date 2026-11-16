@@ -359,3 +359,56 @@
 .pasos li::before { border-color: var(--c-azul); }
 .falta li::before { background: rgba(192, 100, 28, 0.14); color: #c0641c; }
 .no-aplica { opacity: 0.6; }
+
+/* --- recomendación final: Chic contra El Faro ------------------------------
+   Dos tarjetas claras, iguales de peso, con un «vs» en medio. Cada una lleva
+   a su tarjeta completa más abajo. */
+.final-intro { margin: 0 0 calc(var(--paso) * 2); color: var(--tinta-2); }
+.final {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: var(--paso);
+}
+.final-op {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  overflow: hidden;
+  border-radius: var(--radio);
+  background: #f4f7f1;
+  border: 1px solid rgba(20, 51, 28, 0.16);
+  color: #14331c;
+  text-decoration: none;
+}
+.final-op:hover { box-shadow: 0 10px 26px rgba(0, 0, 0, 0.28); }
+.final-op:focus-visible { outline: 3px solid var(--azul-claro); outline-offset: 3px; }
+.final-op img { display: block; width: 100%; height: auto; flex: none; aspect-ratio: 3 / 2; object-fit: cover; }
+.final-body { display: flex; flex-direction: column; gap: 6px; padding: calc(var(--paso) * 1.5); }
+.final-nombre {
+  font-family: var(--display);
+  font-size: clamp(1.2rem, 5vw, 1.6rem);
+  line-height: 1;
+  text-transform: uppercase;
+}
+.final-precio { font-weight: 600; color: #4a6450; }
+.final-precio strong {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.5rem;
+  color: #14331c;
+  font-variant-numeric: tabular-nums;
+}
+.final-si { font-weight: 600; }
+.final-nums { font-size: 0.9rem; color: #4a6450; font-variant-numeric: tabular-nums; }
+.final-vs {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 1.6rem;
+  color: var(--azul-claro);
+  text-transform: uppercase;
+}
+@media (max-width: 460px) {
+  .final { grid-template-columns: 1fr; }
+  .final-vs { text-align: center; line-height: 1; }
+}
