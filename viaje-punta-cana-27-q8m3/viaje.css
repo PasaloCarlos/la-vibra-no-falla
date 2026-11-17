@@ -422,3 +422,60 @@
   font-size: 0.92rem;
 }
 .noche-resena b { color: var(--c-azul); }
+
+/* --- El Faro por tu cuenta: dos barras (agencia contra por tu cuenta) y el
+   desglose al lado. La barra mide el precio; la de la agencia es el 100%. */
+.cuenta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: calc(var(--paso) * 2) calc(var(--paso) * 3);
+  padding: calc(var(--paso) * 2);
+  border-radius: var(--radio);
+  background: #f4f7f1;
+  color: #14331c;
+}
+.cuenta-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--paso);
+  margin: 0;
+  font-weight: 600;
+}
+.cuenta-fila + .cuenta-barra { margin-bottom: calc(var(--paso) * 1.5); }
+.cuenta-fila strong {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1.9rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.cuenta-barra {
+  display: block;
+  height: 12px;
+  margin-top: 6px;
+  border-radius: 999px;
+  background: rgba(20, 51, 28, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+.cuenta-barra::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--w);
+  border-radius: inherit;
+  background: #4a6450;
+}
+.cuenta-barra.es-cuenta::before { background: var(--azul); }
+.cuenta-ahorro {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: rgba(47, 151, 230, 0.14);
+}
+.cuenta-ahorro strong { color: #1764a3; }
+.cuenta-partes { margin: 0; padding: 0; list-style: none; font-size: 0.95rem; }
+.cuenta-partes li { padding: 7px 0; }
+.cuenta-partes li + li { border-top: 1px solid rgba(20, 51, 28, 0.16); }
+.cuenta-partes b { display: block; font-size: 0.85rem; color: #4a6450; }
