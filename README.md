@@ -20,6 +20,7 @@ assets/videos/       videos de las salidas + su portada .jpg del mismo nombre
 assets/fotos/        fotos de las salidas + su miniatura -mini.jpg
 s/<id>.html          una página por salida, sólo para la vista previa de WhatsApp (GENERADA)
 tools/paginas-salidas.js  genera s/ desde events.config.js
+tools/sellos.js      pone «?v=<sello>» a cada CSS y JS que piden las páginas
 tests/               pruebas: `node --test`
 ```
 
@@ -51,6 +52,11 @@ que la vista previa del enlace enseñe el flyer y la fecha de esa salida (y no
 el logo de siempre) cada salida necesita su propia página con sus etiquetas og:.
 Al abrirla, lleva a la tarjeta en la página principal. `node --test` falla si
 se te olvida.
+
+Si tocas un `.css` o un `.js`, corre **`node tools/sellos.js`** antes de subir.
+GitHub Pages deja cada archivo diez minutos en el navegador; el sello cambia la
+dirección cuando cambia el archivo, para que nadie tenga que hacer Ctrl+F5.
+`node --test` también falla si se te olvida.
 
 Guarda, haz commit y empuja. GitHub Pages republica solo en un par de minutos.
 Desde el editor web de GitHub en el celular se puede cambiar la config, pero
