@@ -320,3 +320,67 @@
   font-size: 0.82rem;
   font-weight: 700;
 }
+
+/* --- facilidades: plegadas dentro de cada tarjeta ---------------------------
+   Cerradas, la tarjeta queda igual; abiertas, una lista por grupo. Las
+   marcas (cuesta extra, con reserva, sólo adultos) salen de la página oficial. */
+.facil {
+  margin: calc(var(--paso) * 1.5) 0 0;
+  border-top: 1px solid var(--c-linea);
+  padding-top: var(--paso);
+}
+.facil summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--c-azul);
+  list-style: none;
+}
+.facil summary::-webkit-details-marker { display: none; }
+.facil summary::before {
+  content: "+";
+  display: inline-grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  font-size: 1rem;
+  line-height: 1;
+}
+.facil[open] summary::before { content: "−"; }
+.facil summary:focus-visible { outline: 3px solid var(--c-azul); outline-offset: 2px; border-radius: 6px; }
+.facil-cuerpo {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: calc(var(--paso) * 1.5) calc(var(--paso) * 2.5);
+  margin-top: var(--paso);
+}
+.facil-grupo h4 {
+  margin: 0 0 6px;
+  font-family: var(--texto);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--c-tinta-2);
+}
+.facil-grupo ul { margin: 0; padding: 0; list-style: none; font-size: 0.95rem; }
+.facil-grupo li { padding: 3px 0; }
+.facil-grupo li + li { border-top: 1px solid var(--c-linea); }
+.f-badge {
+  display: inline-block;
+  margin-left: 4px;
+  padding: 0 7px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  white-space: nowrap;
+  vertical-align: 1px;
+}
+.f-extra { background: rgba(192, 100, 28, 0.14); color: #a5520f; }
+.f-res { background: rgba(23, 100, 163, 0.12); color: var(--c-azul); }
+.f-adultos { background: rgba(23, 100, 163, 0.12); color: var(--c-azul); }
+.f-comp { background: rgba(20, 51, 28, 0.08); color: var(--c-tinta-2); }
